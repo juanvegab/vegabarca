@@ -84,11 +84,13 @@ $gray:        #ebebeb;
 $dark-gray:   #404040;
 $blue:        #4695d1;
 
-$default-text-color:        $dark-gray;
-$secondary-text-color:      $white;
-$default-title-color:       $dark-gray;
-$default-subtitle-color:    $blue;
-$info-section-border-color: $light-gray;
+$default-text-color:              $dark-gray;
+$secondary-text-color:            $white;
+$default-title-color:             $dark-gray;
+$default-subtitle-color:          $blue;
+$info-section-border-color:       $light-gray;
+$percentage-circle-color:         $blue;
+$percentage-circle-color-active:  $blue;
 $footer-background-color:         $blue;
 
 // bower:scss
@@ -169,6 +171,18 @@ h3, h4 {
     padding-bottom: $default-vertical-gutter;
     margin-bottom: $default-vertical-gutter;
   }
+}
+
+.rounded-percent {
+  $circle-width-height: 50px;
+  $circle-border-width: 6px;
+  border: 6px solid $percentage-circle-color;
+  border-radius: 50%;
+  width: $circle-width-height;
+  height: $circle-width-height;
+  text-align: center;
+  line-height: 40px;
+  display: inline-block;
 }
 
 .footer {
