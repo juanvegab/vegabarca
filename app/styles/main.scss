@@ -189,15 +189,82 @@ h3, h4 {
 }
 
 .rounded-percent {
-  $circle-width-height: 50px;
+  $circle-width-size: 55px;
   $circle-border-width: 6px;
-  border: 6px solid $percentage-circle-color;
+  position: absolute;
+  border: $circle-border-width solid $percentage-circle-color;
   border-radius: 50%;
-  width: $circle-width-height;
-  height: $circle-width-height;
+  width: $circle-width-size;
+  height: $circle-width-size;
   text-align: center;
-  line-height: 40px;
+  line-height: 1;
+  font-size: $font-size-regular;
+  padding: ($circle-width-size - $font-size-regular - ($circle-border-width*2))/2 0;
   display: inline-block;
+  bottom: 50%;
+  transform: translateY(100%);
+  &:before,
+  &:after {
+    content: '';
+    display: block;
+    border-radius: 0% 100% 0% 0% / 0% 100% 0% 0%;
+    border: $circle-border-width solid $percentage-circle-color-active;
+    border-width: $circle-border-width $circle-border-width 0 0;
+    width: $circle-width-size/2;
+    height: $circle-width-size/2;
+    position: absolute;
+    top: -$circle-border-width;
+    right: -$circle-border-width;
+    transform-origin: 0 50%;
+  }
+  &:after {
+    right: -$circle-border-width;
+  }
+  &.percent-40 {
+    &:after {
+      transform: rotateZ(54deg);
+      transform-origin: left bottom;
+    }
+  }
+  &.percent-50,
+  &.percent-60,
+  &.percent-75,
+  &.percent-80,
+  &.percent-95,
+  &.percent-100 {
+    &:before,
+    &:after {
+      border-radius: 0% 100% 100% 0% / 0% 50% 50% 0%;
+      border: $circle-border-width solid $percentage-circle-color-active;
+      border-width: $circle-border-width $circle-border-width $circle-border-width 0;
+      height: $circle-width-size;
+    }
+  }
+  &.percent-60 {
+    &:after {
+      transform: rotateZ(36deg);
+    }
+  }
+  &.percent-75 {
+    &:after {
+      transform: rotateZ(90deg);
+    }
+  }
+  &.percent-80 {
+    &:after {
+      transform: rotateZ(108deg);
+    }
+  }
+  &.percent-95 {
+    &:after {
+      transform: rotateZ(162deg);
+    }
+  }
+  &.percent-100 {
+    &:after {
+      transform: rotateZ(180deg);
+    }
+  }
 }
 
 .footer {
