@@ -83,15 +83,20 @@ $light-gray:  #a9a9a9;
 $gray:        #ebebeb;
 $dark-gray:   #404040;
 $blue:        #4695d1;
+$light-blue:  #edf7ff;
 
 $default-text-color:              $dark-gray;
 $secondary-text-color:            $white;
 $default-title-color:             $dark-gray;
 $default-subtitle-color:          $blue;
 $info-section-border-color:       $light-gray;
-$percentage-circle-color:         $blue;
+$percentage-circle-color:         $light-gray;
 $percentage-circle-color-active:  $blue;
+$header-background-color:         $light-blue;
 $footer-background-color:         $blue;
+
+$blocks-color-background:         $white;
+$border-color-background:         $light-blue;
 
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
@@ -101,6 +106,14 @@ html, body {
   font-size: $font-size-regular;
   font-family: $font-family-regular;
   color: $default-text-color;
+}
+
+body {
+  background:
+  linear-gradient(135deg, $blocks-color-background 22px, $border-color-background 22px, $border-color-background 24px, transparent 24px, transparent 67px, $border-color-background 67px, $border-color-background 69px, transparent 69px),
+  linear-gradient(225deg, $blocks-color-background 22px, $border-color-background 22px, $border-color-background 24px, transparent 24px, transparent 67px, $border-color-background 67px, $border-color-background 69px, transparent 69px)0 64px;
+  background-color: $blocks-color-background;
+  background-size: 64px 128px
 }
 
 p {
@@ -132,8 +145,10 @@ h3, h4 {
 }
 
 .header {
-  margin-top: $default-vertical-gutter*2;
+  padding-top: $default-vertical-gutter*2;
+  padding-bottom: $default-vertical-gutter*1.5;
   margin-bottom: $default-vertical-gutter*3;
+  background-color: $header-background-color;
   h1 {
     font-size: $font-size-large*2;
   }
