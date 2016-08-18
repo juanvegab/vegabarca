@@ -1,4 +1,10 @@
-$icon-font-path: '../fonts/';
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "bower_components/include-media/dist/_include-media.scss";
+// endbower
+
+$icon-font-path:    '../fonts/';
+$icon-image-path:   '../images/';
 
 // Bebas Neue
 @font-face {
@@ -48,12 +54,15 @@ $icon-font-path: '../fonts/';
     src: font-url('#{$icon-font-path}SourceSansPro/SourceSansPro-Bold.ttf') format('ttf');
 }
 
-
-
 // variables
 
 // size and spacing
-$container-lg-max-width: 1200px;
+$large-breakpoint:        1200px;
+$medium-breakpoint:       992px;
+$small-breakpoint:        768px;
+$xsmall-breakpoint:       320px;
+$container-md-max-width:  $medium-breakpoint;
+$container-lg-max-width:  $large-breakpoint;
 
 // FONTS
 
@@ -63,6 +72,8 @@ $font-family-regular:           'SourceSansPro-Regular';
 $font-family-bold:              'SourceSansPro-Bold';
 $font-family-titles-regular:    'SourceSansPro-Bold';
 $font-family-titles-bold:       'SourceSansPro-Bold';
+
+// Sizes and Spacing 
 
 // size
 $font-size-extra-small:   12px;
@@ -98,12 +109,18 @@ $footer-background-color:         $blue;
 $blocks-color-background:         $white;
 $border-color-background:         $light-blue;
 
-// bower:scss
-@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+// icons names
+$path-icon-pencil:       $icon-image-path+'icon-pencil.png';
+$path-icon-files:        $icon-image-path+'icon-files.png';
+$path-icon-layers:       $icon-image-path+'icon-layers.png';
+$path-icon-bulb:         $icon-image-path+'icon-bulb.png';
+
+// BreakPoints
+$breakpoints: (xsmall: $xsmall-breakpoint, small: $small-breakpoint, medium: $medium-breakpoint, large: $large-breakpoint);
+
 
 html, body {
-  font-size: $font-size-regular;
+  font-size: $font-size-large;
   font-family: $font-family-regular;
   color: $default-text-color;
 }
@@ -118,8 +135,11 @@ body {
 
 p {
   margin: 0;
-  font-size: $font-size-regular;
   text-transform: initial;
+}
+
+address {
+  font-size: $font-size-regular;
 }
 
 a {
@@ -144,6 +164,10 @@ h3, h4 {
   text-transform: capitalize;
 }
 
+.site-wrapper {
+  margin: 0 auto;
+}
+
 .header {
   padding-top: $default-vertical-gutter*2;
   padding-bottom: $default-vertical-gutter*1.5;
@@ -165,44 +189,48 @@ h3, h4 {
   .section-title {
     font-size: $font-size-extra-large;
     color: $default-title-color;
-    margin-bottom: $default-vertical-gutter/2;
+    margin-bottom: $default-vertical-gutter*2;
+    padding: $default-vertical-gutter/2 0;
   }
   
   .info-title {
     font-family: $font-family-titles-bold;
-    font-size: $font-size-regular;
+    font-size: $font-size-large;
     margin-bottom: $default-vertical-gutter/2;
   }
   
   .info-subtitle {
     font-family: $font-family-titles-bold;
-    font-size: $font-size-regular;
+    font-size: $font-size-large;
     color: $default-subtitle-color;
     margin-bottom: $default-vertical-gutter/2;
   }
 
   &.bottom-bordered {
-    border-bottom: 1px solid $info-section-border-color;
-    padding-bottom: $default-vertical-gutter;
+    padding-top: $default-vertical-gutter;
+    margin-top: $default-vertical-gutter;
     margin-bottom: $default-vertical-gutter;
   }
 }
 
+.skill-set {
+  text-align: center;
+}
+
 .rounded-percent {
-  $circle-width-size: 55px;
-  $circle-border-width: 6px;
-  position: absolute;
+  $circle-width-size: 110px;
+  $circle-border-width: 8px;
+  position: relative;
   border: $circle-border-width solid $percentage-circle-color;
   border-radius: 50%;
   width: $circle-width-size;
   height: $circle-width-size;
   text-align: center;
   line-height: 1;
-  font-size: $font-size-regular;
-  padding: ($circle-width-size - $font-size-regular - ($circle-border-width*2))/2 0;
-  display: inline-block;
-  bottom: 50%;
-  transform: translateY(100%);
+  font-size: $font-size-extra-large;
+  padding: $font-size-extra-large 0;
+  display: block;
+  margin: 0 auto $default-vertical-gutter*2;
   &:before,
   &:after {
     content: '';
@@ -267,13 +295,36 @@ h3, h4 {
   }
 }
 
+.icon {
+  $icon-size: 55px;
+  display: block;
+  width: $icon-size;
+  height: $icon-size;
+  margin: 0 auto;
+  background-position: center center;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-image: url($path-icon-pencil);
+  max-width: 100%;
+  &.icon-pencil {
+    background-image: url($path-icon-pencil);
+  }
+  &.icon-files {
+    background-image: url($path-icon-files);
+  }
+  &.icon-layers {
+    background-image: url($path-icon-layers);
+  }
+  &.icon-bulb {
+    background-image: url($path-icon-bulb);
+  }
+}
+
 .footer {
-  color: white;
+  color: $secondary-text-color;
   background-color: $footer-background-color;
   padding: $default-vertical-gutter*1.5 0;
-  address {
-    margin: 0;
-  }
+
   a {
     color: $secondary-text-color;
     &:hover,
@@ -285,9 +336,97 @@ h3, h4 {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+
+@include media(">=small") {
+
+  html, body {
+    font-size: $font-size-regular;
+  }
+
   .site-wrapper {
-    max-width: 1200px;
+    max-width: $container-md-max-width;
+  }
+
+  .skill-set {
+    text-align: left;
+    padding-left: 0;
+    .info-section {
+      margin-left: 0;
+    }
+  }
+
+  .info-section {
+    
+    .section-title {
+      padding: $default-vertical-gutter/2 0;
+      margin-bottom: $default-vertical-gutter/2;
+    }
+
+    .info-title {
+      font-size: $font-size-regular;
+    }
+
+    .info-subtitle {
+      font-size: $font-size-regular;
+    }
+
+    &.bottom-bordered {
+      border-top: 1px solid $info-section-border-color;
+    }
+
+    &.bottom-bordered:last-child {
+      border-bottom: 1px solid $info-section-border-color;
+      padding-bottom: $default-vertical-gutter;
+    }
+  }
+  .rounded-percent {
+    $circle-width-size: 55px;
+    $circle-border-width: 6px;
+    border: $circle-border-width solid $percentage-circle-color;
+    width: $circle-width-size;
+    height: $circle-width-size;
+    font-size: $font-size-regular;
+    padding: ($circle-width-size - $font-size-regular - ($circle-border-width*2))/2 0;
     margin: 0 auto;
+    &:before,
+    &:after {
+      border-radius: 0% 100% 0% 0% / 0% 100% 0% 0%;
+      border: $circle-border-width solid $percentage-circle-color-active;
+      border-width: $circle-border-width $circle-border-width 0 0;
+      width: $circle-width-size/2;
+      height: $circle-width-size/2;
+      top: -$circle-border-width;
+      right: -$circle-border-width;
+    }
+
+    &:after {
+      right: -$circle-border-width;
+    }
+
+    &.percent-50,
+    &.percent-60,
+    &.percent-75,
+    &.percent-80,
+    &.percent-95,
+    &.percent-100 {
+      &:before,
+      &:after {
+        border-radius: 0% 100% 100% 0% / 0% 50% 50% 0%;
+        border: $circle-border-width solid $percentage-circle-color-active;
+        border-width: $circle-border-width $circle-border-width $circle-border-width 0;
+        height: $circle-width-size;
+      }
+    }
+  }
+}
+@include media(">=large") {  
+  .site-wrapper {
+    max-width: $container-lg-max-width;
+  }
+}
+
+@include media("<medium") {
+  address {
+    margin: $default-vertical-gutter 0 0;
   }
 }
