@@ -1,5 +1,6 @@
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "bower_components/font-awesome/scss/font-awesome.scss";
 @import "bower_components/include-media/dist/_include-media.scss";
 // endbower
 
@@ -17,7 +18,7 @@ $icon-image-path:   '../images/';
     src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Light.ttf') format('ttf');
 }
 
-@font-face {
+@font-face { 
     font-family: 'Bebas-Neue-Regular';
     src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Regular.ttf') format('ttf');
 }
@@ -82,6 +83,8 @@ $font-size-regular:       16px;
 $font-size-large:         20px;
 $font-size-extra-large:   32px;
 
+$face-size: 55px;
+
 // spacing
 $default-vertical-gutter:   20px;
 $default-horizontal-gutter: 20px;
@@ -140,6 +143,7 @@ p {
 
 address {
   font-size: $font-size-regular;
+  margin: $default-vertical-gutter 0 0;
 }
 
 a {
@@ -162,6 +166,10 @@ h1, h2, h3, h4 {
 h3, h4 {
   font-family: $font-family-regular;
   text-transform: capitalize;
+}
+
+.no-margin {
+  margin: 0 !important;
 }
 
 .site-wrapper {
@@ -333,6 +341,15 @@ h3, h4 {
       color: $secondary-text-color;
     }
   }
+
+  .round-face-picture {
+    width: $face-size;
+    height: $face-size;
+    display: inline-block;
+    border-radius: 50%;
+    border: 2px solid $white;
+    margin-right: $default-horizontal-gutter/2;
+  }
 }
 
 /* Responsive: Portrait tablets and up */
@@ -378,6 +395,9 @@ h3, h4 {
       border-bottom: 1px solid $info-section-border-color;
       padding-bottom: $default-vertical-gutter;
     }
+    &.short-separation {
+      margin-bottom: $default-vertical-gutter;
+    }
   }
   .rounded-percent {
     $circle-width-size: 55px;
@@ -418,6 +438,13 @@ h3, h4 {
       }
     }
   }
+  .footer {
+    .round-face-picture {
+      position: absolute;
+      left: -$face-size;
+      margin: 0;
+    }
+  }
 }
 @include media(">=large") {  
   .site-wrapper {
@@ -425,8 +452,8 @@ h3, h4 {
   }
 }
 
-@include media("<medium") {
+@include media(">=small") {
   address {
-    margin: $default-vertical-gutter 0 0;
+    margin: 0;
   }
 }
