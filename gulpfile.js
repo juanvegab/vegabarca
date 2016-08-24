@@ -177,12 +177,12 @@ gulp.task('default', ['clean'], () => {
   gulp.start('build');
 });
 
-gulp.task('deploy', () => {
+gulp.task('deploy', ['build'], () => {
   return gulp.src('dist/**/*')
   .pipe(ftp({
       host:       "vegabarca.com",
-      user:       "",
-      pass:       "",
+      user:       "vegabarc",
+      pass:       "103221va",
       remotePath: "/public_html"
   }))
   // you need to have some kind of stream after gulp-ftp to make sure it's flushed 
