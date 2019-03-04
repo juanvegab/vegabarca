@@ -4,10 +4,10 @@ const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync');
 const del = require('del');
 const wiredep = require('wiredep').stream;
-var gutil = require('gulp-util');
-var ftp = require('gulp-ftp');
+var ghPages = require('gulp-gh-pages');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+// var flatten = require('gulp-flatten');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -81,7 +81,9 @@ gulp.task('images', () => {
 
 gulp.task('fonts', () => {
   return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
+    // .concat('app/fonts/**/*')
     .concat('app/fonts/**/*', 'bower_components/**/*.{eot,svg,ttf,woff,woff2}'))
+    // .pipe(flatten({ includeParents: 1}))
     .pipe(gulp.dest('.tmp/fonts'))
     .pipe(gulp.dest('dist/fonts'));
 });
@@ -176,17 +178,5 @@ gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
 });
-
-gulp.task('deploy', ['build'], () => {
-  return gulp.src('dist/**/*')
-  .pipe(ftp({
-      host:       "vegabarca.com",
-      user:       "",
-      pass:       "",
-      remotePath: "/public_html"
-  }))
-  // you need to have some kind of stream after gulp-ftp to make sure it's flushed 
-  // this can be a gulp plugin, gulp.dest, or any kind of stream 
-  // here we use a passthrough stream 
-  .pipe(gutil.noop());
-});
+ 
+gulp.task('deploy', ['build'], () => gulp.src('./dist/**/*').pipe(ghPages()));
