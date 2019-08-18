@@ -1,0 +1,49 @@
+$fonts-path:      '../fonts';
+
+// Bebas Neue
+@font-face {
+    font-family: 'Bebas-Neue-Thin';
+    src: url('#{$fonts-path}/BebasNeue/BebasNeue-Thin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bebas-Neue-Light';
+    src: url('#{$fonts-path}/BebasNeue/BebasNeue-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bebas-Neue-Regular';
+    src: url('#{$fonts-path}/BebasNeue/BebasNeue-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bebas-Neue-Bold';
+    src: url('#{$fonts-path}/BebasNeue/BebasNeue-Bold.ttf') format('truetype');
+}
+
+// Montserrat
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('#{$fonts-path}/Montserrat/Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('#{$fonts-path}/Montserrat/Montserrat-Bold.ttf') format('truetype');
+}
+
+//SourceSansPro
+@font-face {
+    font-family: 'SourceSansPro-Light';
+    src: url('#{$fonts-path}/SourceSansPro/SourceSansPro-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SourceSansPro-Regular';
+    src: url('#{$fonts-path}/SourceSansPro/SourceSansPro-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SourceSansPro-Bold';
+    src: url('#{$fonts-path}/SourceSansPro/SourceSansPro-Bold.ttf') format('truetype');
+}

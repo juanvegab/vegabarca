@@ -1,0 +1,49 @@
+// size
+$font-size-extra-small:   12px;
+$font-size-small:         14px;
+$font-size-regular:       16px;
+$font-size-large:         20px;
+$font-size-extra-large:   32px;
+
+// family
+$font-family-thin:              'SourceSansPro-Thin';
+$font-family-regular:           'SourceSansPro-Regular';
+$font-family-bold:              'SourceSansPro-Bold';
+$font-family-titles-regular:    'SourceSansPro-Bold';
+$font-family-titles-bold:       'SourceSansPro-Bold';
+
+
+p {
+    margin: 0;
+    font-size: $font-size-regular;
+    text-transform: initial;
+}
+  
+a {
+    text-decoration: none;
+    color: $default-text-color;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: underline;
+        color: $default-text-color;
+    }
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    font-family: $font-family-titles-regular;
+    text-transform: uppercase;
+}
+
+h3, h4 {
+    font-family: $font-family-regular;
+    text-transform: capitalize;
+}
+
+strong,
+b,
+.bold {
+    font-family: "SourceSansPro-Bold";
+}

@@ -1,99 +1,6 @@
-$icon-font-path: '../fonts/';
-
-// Bebas Neue
-@font-face {
-    font-family: 'Bebas-Neue-Thin';
-    src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Thin.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'Bebas-Neue-Light';
-    src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Light.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'Bebas-Neue-Regular';
-    src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Regular.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'Bebas-Neue-Bold';
-    src: font-url('#{$icon-font-path}BebasNeue/BebasNeue-Bold.ttf') format('ttf');
-}
-
-// Montserrat
-@font-face {
-    font-family: 'Montserrat-Regular';
-    src: font-url('#{$icon-font-path}Montserrat/Montserrat-Regular.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'Montserrat-Bold';
-    src: font-url('#{$icon-font-path}Montserrat/Montserrat-Bold.ttf') format('ttf');
-}
-
-//SourceSansPro
-@font-face {
-    font-family: 'SourceSansPro-Light';
-    src: font-url('#{$icon-font-path}SourceSansPro/SourceSansPro-Light.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'SourceSansPro-Regular';
-    src: font-url('#{$icon-font-path}SourceSansPro/SourceSansPro-Regular.ttf') format('ttf');
-}
-
-@font-face {
-    font-family: 'SourceSansPro-Bold';
-    src: font-url('#{$icon-font-path}SourceSansPro/SourceSansPro-Bold.ttf') format('ttf');
-}
-
-
-
-// variables
-
-// size and spacing
-$container-lg-max-width: 1200px;
-
-// FONTS
-
-// family
-$font-family-thin:              'SourceSansPro-Thin';
-$font-family-regular:           'SourceSansPro-Regular';
-$font-family-bold:              'SourceSansPro-Bold';
-$font-family-titles-regular:    'SourceSansPro-Bold';
-$font-family-titles-bold:       'SourceSansPro-Bold';
-
-// size
-$font-size-extra-small:   12px;
-$font-size-small:         14px;
-$font-size-regular:       16px;
-$font-size-large:         20px;
-$font-size-extra-large:   32px;
-
-// spacing
-$default-vertical-gutter:   20px;
-$default-horizontal-gutter: 20px;
-$border-radius-regular:     5px;
-
-// colors pallet
-$white:       #ffffff;
-$black:       #000000;
-$light-gray:  #a9a9a9;
-$gray:        #ebebeb;
-$dark-gray:   #404040;
-$blue:        #4695d1;
-
-$default-text-color:        $dark-gray;
-$secondary-text-color:      $white;
-$default-title-color:       $dark-gray;
-$default-subtitle-color:    $blue;
-$info-section-border-color: $light-gray;
-$footer-background-color:         $blue;
-
-// bower:scss
-@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+@import './vendor/';
+@import './fonts/';
+@import './variables/';
 
 html, body {
   font-size: $font-size-regular;
@@ -101,37 +8,15 @@ html, body {
   color: $default-text-color;
 }
 
-p {
-  margin: 0;
-  font-size: $font-size-regular;
-  text-transform: initial;
-}
-
-a {
-  text-decoration: none;
-  color: $default-text-color;
-  &:hover,
-  &:focus,
-  &:active {
-    text-decoration: underline;
-    color: $default-text-color;
-  }
-}
-
-h1, h2, h3, h4 {
-  margin: 0;
-  font-family: $font-family-titles-regular;
-  text-transform: uppercase;
-}
-
-h3, h4 {
-  font-family: $font-family-regular;
-  text-transform: capitalize;
+body {
+  background-image: url("../images/background.png");
+  background-size: 40px;
+  background-attachment: fixed;
 }
 
 .header {
-  margin-top: $default-vertical-gutter*2;
   margin-bottom: $default-vertical-gutter*3;
+
   h1 {
     font-size: $font-size-large*2;
   }
@@ -145,39 +30,45 @@ h3, h4 {
   position: relative;
   margin-bottom: $default-vertical-gutter*2.5;
 
-  .section-title {
-    font-size: $font-size-extra-large;
-    color: $default-title-color;
-    margin-bottom: $default-vertical-gutter/2;
-  }
-  
-  .info-title {
-    font-family: $font-family-titles-bold;
-    font-size: $font-size-regular;
-    margin-bottom: $default-vertical-gutter/2;
-  }
-  
-  .info-subtitle {
-    font-family: $font-family-titles-bold;
-    font-size: $font-size-regular;
-    color: $default-subtitle-color;
-    margin-bottom: $default-vertical-gutter/2;
-  }
-
-  &.bottom-bordered {
-    border-bottom: 1px solid $info-section-border-color;
-    padding-bottom: $default-vertical-gutter;
-    margin-bottom: $default-vertical-gutter;
+  .fas {
+    font-size: 2.2em;
+    color: $info-section-icons-color;
   }
 }
+.section-title {
+  font-size: $font-size-extra-large;
+  color: $default-title-color;
+  margin-bottom: $default-vertical-gutter/2;
+}
 
-.footer {
+.info-title {
+  font-family: $font-family-titles-bold;
+  font-size: $font-size-regular;
+  margin-bottom: $default-vertical-gutter/2;
+}
+
+.info-subtitle {
+  font-family: $font-family-titles-bold;
+  font-size: $font-size-regular;
+  color: $default-subtitle-color;
+  margin-bottom: $default-vertical-gutter/2;
+}
+
+.bottom-bordered {
+  border-bottom: 1px solid $info-section-border-color;
+  padding-bottom: $default-vertical-gutter*1.5;
+  margin-bottom: $default-vertical-gutter*2;
+}
+
+footer {
   color: white;
   background-color: $footer-background-color;
   padding: $default-vertical-gutter*1.5 0;
+
   address {
     margin: 0;
   }
+
   a {
     color: $secondary-text-color;
     &:hover,
@@ -193,5 +84,6 @@ h3, h4 {
   .site-wrapper {
     max-width: 1200px;
     margin: 0 auto;
+    padding: $default-vertical-gutter*2 0 0;
   }
 }
