@@ -9,6 +9,7 @@ const del = require('del');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
+const ghPages = require('gulp-gh-pages');
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -206,6 +207,16 @@ function startDistServer() {
   });
 }
 
+const deploy = series(
+  build,
+  runGHPages
+);
+
+function runGHPages() {
+  return src('./dist/**/*')
+    .pipe(ghPages());
+}
+
 let serve;
 if (isDev) {
   serve = series(clean, parallel(styles, scripts, modernizr, fonts), startAppServer);
@@ -218,3 +229,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = build;
+exports.deploy = deploy;

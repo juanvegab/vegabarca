@@ -15,10 +15,13 @@ body {
 }
 
 .header {
-  margin-bottom: $default-vertical-gutter*3;
+  margin-bottom: $default-vertical-gutter*1.5;
+  margin-top: $default-vertical-gutter;
+  text-align: center;
 
   h1 {
-    font-size: $font-size-large*2;
+    font-size: $font-size-extra-large;
+    line-height: 1;
   }
 }
 
@@ -27,7 +30,6 @@ body {
 }
 
 .info-section {
-  position: relative;
   margin-bottom: $default-vertical-gutter*2.5;
 
   .fas {
@@ -39,6 +41,7 @@ body {
   font-size: $font-size-extra-large;
   color: $default-title-color;
   margin-bottom: $default-vertical-gutter/2;
+  line-height: 1;
 }
 
 .info-title {
@@ -57,7 +60,7 @@ body {
 .bottom-bordered {
   border-bottom: 1px solid $info-section-border-color;
   padding-bottom: $default-vertical-gutter*1.5;
-  margin-bottom: $default-vertical-gutter*2;
+  margin-bottom: $default-vertical-gutter*1.5;
 }
 
 footer {
@@ -85,5 +88,24 @@ footer {
     max-width: 1200px;
     margin: 0 auto;
     padding: $default-vertical-gutter*2 0 0;
+  }
+
+  .header {
+    margin-bottom: $default-vertical-gutter*3;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .bottom-bordered {
+    padding-bottom: $default-vertical-gutter*2;
+    margin-bottom: $default-vertical-gutter*2;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .header {
+    h1 {
+      font-size: $font-size-extra-large*1.5;
+    }
   }
 }
