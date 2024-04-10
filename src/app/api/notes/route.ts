@@ -135,7 +135,7 @@ export const DELETE = async (req: Request) => {
   }
 };
 
-export const getEmbeddingForNote = async (
+const getEmbeddingForNote = async (
   title: string,
   content: string | undefined,
 ) => {
