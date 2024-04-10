@@ -4,6 +4,7 @@ import { Bot, User, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Message } from "ai";
+import { useEffect, useRef } from "react";
 
 interface AIChatBoxProps {
   open: boolean;
@@ -21,6 +22,14 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
     error,
   } = useChat();
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div
       className={cn(
@@ -32,8 +41,8 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
         <XCircle size={30} />
       </button>
       <div className="flex h-[600px] flex-col overflow-hidden rounded-xl border bg-background shadow-xl">
-        <div className="bg-primary p-2 text-white">Chat with me</div>
-        <div className="mt-auto">
+        <div className="bg-primary p-2 text-secondary">Chat with me</div>
+        <div className="mt-auto overflow-y-scroll" ref={ref}>
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
