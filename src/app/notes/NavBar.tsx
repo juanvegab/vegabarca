@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import logo from "/public/logo.svg";
 import AddEditNoteDialog from "@/components/AddEditNoteDialog";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
+import AIChatButton from "@/components/AIChatButton";
 
 const NavBar = () => {
   const { theme } = useTheme();
@@ -27,6 +28,7 @@ const NavBar = () => {
             <Button onClick={() => setShowAddeditNoteDialog(true)}>
               <Plus className="mr-2" /> Add Note
             </Button>
+            <AIChatButton />
             <UserButton
               afterSignOutUrl="/"
               appearance={{
