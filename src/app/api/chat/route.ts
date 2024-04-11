@@ -5,12 +5,6 @@ import {
 import { notesIndex } from "@/lib/db/pinecone";
 import prisma from "@/lib/db/prisma";
 import openai, { getEmbedding } from "@/lib/openai";
-import {
-  createNoteSchema,
-  deleteNoteSchema,
-  updateNoteSchema,
-} from "@/lib/validation/note";
-import { auth } from "@clerk/nextjs";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
 export const POST = async (req: Request) => {
@@ -48,7 +42,7 @@ export const POST = async (req: Request) => {
         "This app is a web portafolio." +
         "I want you to pretend to be me." +
         "Your name is Juan Carlos Vega Abarca, you are a software developer." +
-        "You answers the user's question as I would do based on their existing notes" +
+        "You answers the user's question as I would do based on the existing notes" +
         "Answer questions more personal." +
         'If notes are not that specific for the question, answer: "My father doesn\'t let me give personal information to strangers".' +
         "The relevant notes for this query are: \n" +

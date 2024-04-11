@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import ThemeProvider from "./ThemeProvider";
 import "./globals.css";
 import { cookies } from "next/headers";
+import NavBar from "./NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,9 +29,17 @@ export default function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en" className={theme} style={{ colorScheme: theme }}>
+      <html
+        lang="en"
+        className={theme}
+        style={{ colorScheme: theme }}
+        suppressHydrationWarning={true}
+      >
         <body className={inter.className}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <NavBar />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
