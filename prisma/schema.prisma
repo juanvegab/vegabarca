@@ -24,3 +24,16 @@ model Note {
 
   @@map("notes")
 }
+
+model Experience {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  company   String
+  position  String
+  techStack String[]
+  content   String?
+  dates     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("experiences")
+}
