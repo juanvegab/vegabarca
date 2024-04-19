@@ -5,12 +5,35 @@ import ThemeProvider from "./ThemeProvider";
 import "./globals.css";
 import { cookies } from "next/headers";
 import NavBar from "./NavBar";
+import prisma from "@/lib/db/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Vegabarca",
-  description: "Portfolio of Vegabarca",
+export const generateMetadata = async (): Promise<Metadata> => {
+  const allExperiences = await prisma.experience.findMany({});
+  const allTechnologies = allExperiences
+    .map((experience) => experience.techStack)
+    .flat();
+  return {
+    title: {
+      default: "Juan Carlos Vega - Software Developer - Portfolio",
+      template: "%s | Juan Carlos Vega",
+    },
+    description: "Check all my projects and learn more about me.",
+    twitter: {
+      site: "@juanca23vega",
+      card: "summary_large_image",
+    },
+    keywords: [
+      "Juan Carlos Vega",
+      "Software Developer",
+      "Frontend Developer",
+      "Fullstack Developer",
+      "Web Developer",
+      "Costa Rica",
+      ...allTechnologies,
+    ],
+  };
 };
 
 function getTheme() {

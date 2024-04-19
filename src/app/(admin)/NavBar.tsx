@@ -9,13 +9,18 @@ import { UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "/public/logo.svg";
-import AddEditNoteDialog from "@/components/AddEditNoteDialog";
+import AddEditExperienceDialog from "@/components/AddEditExperienceDialog";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import AIChatButton from "@/components/AIChatButton";
+import AddEditNoteDialog from "@/components/AddEditNoteDialog";
+import { usePathname } from "next/navigation";
 
 const NavBar = () => {
   const { theme } = useTheme();
+  const [showAddeditExperienceDialog, setShowAddeditExperienceDialog] =
+    useState(false);
   const [showAddeditNoteDialog, setShowAddeditNoteDialog] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -25,9 +30,16 @@ const NavBar = () => {
             <Image src={logo} alt="Vegabarca" width={100} />
           </Link>
           <div className="flex items-center gap-2">
-            <Button onClick={() => setShowAddeditNoteDialog(true)}>
-              <Plus className="mr-2" /> Add Note
-            </Button>
+            {pathname === "/experiences" && (
+              <Button onClick={() => setShowAddeditExperienceDialog(true)}>
+                <Plus className="mr-2" /> Add Experience
+              </Button>
+            )}
+            {pathname === "/notes" && (
+              <Button onClick={() => setShowAddeditNoteDialog(true)}>
+                <Plus className="mr-2" /> Add Note
+              </Button>
+            )}
             <AIChatButton />
             <UserButton
               afterSignOutUrl="/"
@@ -46,6 +58,10 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
+      <AddEditExperienceDialog
+        open={showAddeditExperienceDialog}
+        setOpen={setShowAddeditExperienceDialog}
+      />
       <AddEditNoteDialog
         open={showAddeditNoteDialog}
         setOpen={setShowAddeditNoteDialog}

@@ -25,7 +25,16 @@ export const POST = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { position, company, dates, techStack, content } = parseResult.data;
+    const {
+      position,
+      company,
+      companyLogo,
+      link,
+      order,
+      dates,
+      techStack,
+      content,
+    } = parseResult.data;
     const { userId } = auth();
 
     if (!userId) {
@@ -36,7 +45,16 @@ export const POST = async (req: Request) => {
 
     const experience = await prisma.$transaction(async (tx) => {
       const experience = await tx.experience.create({
-        data: { position, company, dates, techStack, content },
+        data: {
+          position,
+          company,
+          companyLogo,
+          link,
+          order,
+          dates,
+          techStack,
+          content,
+        },
       });
 
       await experiencesIndex.upsert([
@@ -67,8 +85,17 @@ export const PUT = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { position, company, dates, techStack, content, id } =
-      parseResult.data;
+    const {
+      position,
+      company,
+      companyLogo,
+      link,
+      order,
+      dates,
+      techStack,
+      content,
+      id,
+    } = parseResult.data;
 
     const experience = await prisma.experience.findUnique({ where: { id } });
     if (!experience)
@@ -85,7 +112,16 @@ export const PUT = async (req: Request) => {
     const updatedExperience = await prisma.$transaction(async (tx) => {
       const updatedExperience = await tx.experience.update({
         where: { id },
-        data: { position, company, dates, techStack, content },
+        data: {
+          position,
+          company,
+          companyLogo,
+          link,
+          order,
+          dates,
+          techStack,
+          content,
+        },
       });
 
       await experiencesIndex.upsert([

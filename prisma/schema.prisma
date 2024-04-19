@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,25 +14,54 @@ datasource db {
 }
 
 model Note {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   content   String?
   userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("notes")
 }
 
 model Experience {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   company   String
+  companyLogo String?
   position  String
   techStack String[]
+  link      String?
+  image     String?
+  order     Int       @default(0)
   content   String?
   dates     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  isFeatured Boolean  @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  technologies TechnologiesOnExperiences[]
   @@map("experiences")
+}
+
+model Technology {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  logo      String?
+  categories String[]
+  isFeatured Boolean  @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  experiences TechnologiesOnExperiences[]
+  @@map("Technology")
+}
+
+model TechnologiesOnExperiences {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  experience    Experience @relation(fields: [experienceId], references: [id])
+  experienceId  String    @db.ObjectId
+  
+  technology    Technology @relation(fields: [technologyId], references: [id])
+  technologyId  String    @db.ObjectId
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }

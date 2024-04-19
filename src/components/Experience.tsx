@@ -9,6 +9,8 @@ import {
 } from "./ui/card";
 import { useState } from "react";
 import AddEditExperienceDialog from "./AddEditExperienceDialog";
+import { Badge } from "./ui/badge";
+import Image from "next/image";
 
 interface ExperienceProps {
   experience: ExperienceModel;
@@ -16,6 +18,7 @@ interface ExperienceProps {
 
 const Experience: React.FC<ExperienceProps> = ({ experience }) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const { companyLogo, position, techStack, company, dates } = experience;
 
   const wasUpdated = experience.updatedAt > experience.createdAt;
   const createdUpdatedAtTimestamp = (
@@ -30,15 +33,24 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
       >
         <CardHeader>
           <CardTitle>
-            {experience.position} at {experience.company}
+            {companyLogo && (
+              <Image
+                src={companyLogo}
+                alt="Company Logo"
+                width={40}
+                height={40}
+              />
+            )}
+            {position} at {company}
           </CardTitle>
-          <CardDescription>
-            {createdUpdatedAtTimestamp}
-            {wasUpdated && " (updated)"}
-          </CardDescription>
+          <CardDescription>{dates}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="whitespace-pre-line">{experience.content}</p>
+        <CardContent className="flex flex-wrap gap-2">
+          {techStack.map((tech) => (
+            <Badge key={`technology_${company.replaceAll(" ", "_")}_${tech}`}>
+              {tech}
+            </Badge>
+          ))}
         </CardContent>
       </Card>
       <AddEditExperienceDialog

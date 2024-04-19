@@ -1,20 +1,15 @@
 import { Button } from "@/components/ui/button";
-import logo from "/public/logo.svg";
-import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 import { Linkedin, Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import prisma from "@/lib/db/prisma";
+import ExperienceCard from "@/components/ExperienceCard";
 
-const Home = () => {
-  const { userId } = auth();
-  if (userId) redirect("/notes");
-
-  const sectionsStyles =
-    // "mb-4 w-full rounded-lg border px-6 py-4 shadow-lg md:w-1/2 lg:w-1/3 xl:w-1/4";
-    "mb-4 w-full rounded-lg border px-6 py-4 shadow-lg";
+const Home = async () => {
+  const allExperiences = await prisma.experience.findMany({});
+  const sectionsStyles = "mb-4 w-full rounded-lg border px-6 py-4 shadow-lg";
 
   return (
     <main className="p-4">
@@ -251,7 +246,10 @@ const Home = () => {
       </div>
       <div className="mx-auto mt-4 w-full max-w-[900px]">
         <h2 className="mb-4 text-xl font-bold">Experience</h2>
-        <section className={cn(sectionsStyles, "")}>
+        {allExperiences.map((experience) => (
+          <ExperienceCard key={experience.id} experience={experience} />
+        ))}
+        {/* <section className={cn(sectionsStyles, "")}>
           <div>
             <div>
               <h3 className="text-2xl font-semibold">
@@ -427,167 +425,7 @@ const Home = () => {
               <ul className="list-disc pl-6"></ul>
             </div>
           </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
-        <section className={cn(sectionsStyles, "")}>
-          <div>
-            <div>
-              <h3 className="text-2xl font-semibold">
-                Edx — Senior Web Developer
-              </h3>
-              <p className="mb-2">July 2023 - March 2024</p>
-              <div className="mb-6 flex flex-wrap gap-1">
-                <Badge>React</Badge>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <ul className="list-disc pl-6"></ul>
-            </div>
-          </div>
-        </section>
+        </section> */}
       </div>
     </main>
   );

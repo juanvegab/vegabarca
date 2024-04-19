@@ -24,7 +24,9 @@ import { Textarea } from "./ui/textarea";
 import LoadingButton from "./ui/loading-button";
 import { useRouter } from "next/navigation";
 import { Experience } from "@prisma/client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import Image from "next/image";
+import { base64ToFile } from "@/lib/utils";
 
 interface AddEditExperienceDialogProps {
   open: boolean;
@@ -43,6 +45,7 @@ const AddEditExperienceDialog = ({
   const form = useForm<CreateExperienceSchema>({
     resolver: zodResolver(createExperienceSchema),
     defaultValues: {
+      order: experienceToEdit?.order || 0,
       position: experienceToEdit?.position || "",
       company: experienceToEdit?.company || "",
       dates: experienceToEdit?.dates || "",
@@ -93,6 +96,19 @@ const AddEditExperienceDialog = ({
     }
   };
 
+  const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    if (!event.target.files || !event.target.files[0])
+      throw new Error("No file provided");
+    const file = event.target.files[0];
+    const response = await fetch(`/api/images?fileName=${file.name}`, {
+      method: "POST",
+      body: file,
+    });
+    const newBlob = await response.json();
+    return newBlob.url;
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -104,12 +120,74 @@ const AddEditExperienceDialog = ({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
                 control={form.control}
+                name="companyLogo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Logo</FormLabel>
+                    {field.value ? (
+                      <Image
+                        className="rounded-xl border"
+                        src={field.value}
+                        alt="Company Logo"
+                        width={80}
+                        height={80}
+                      />
+                    ) : (
+                      <div className="flex h-20 w-20 items-center justify-center rounded-xl border bg-slate-400">
+                        <p className="text-center text-xs">
+                          Click here to add a logo
+                        </p>
+                      </div>
+                    )}
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      placeholder="Company Logo"
+                      onChange={async (e) => {
+                        form.setValue("companyLogo", await uploadFile(e));
+                      }}
+                    />
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="string"
+                        className="hidden"
+                        placeholder="Company Logo URL"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="company"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Company</FormLabel>
                     <FormControl>
                       <Input placeholder="Company" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="order"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="number"
+                        placeholder="Order"
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          field.onChange({ target: { value } });
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -149,8 +227,8 @@ const AddEditExperienceDialog = ({
                     <FormLabel>Tech Stack</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Tech Stack"
                         {...field}
+                        placeholder="Tech Stack"
                         value={field.value.map((t) => t.trim()).join(",")}
                         onChange={(e) => {
                           const value = e.target.value.split(",");
