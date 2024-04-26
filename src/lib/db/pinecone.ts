@@ -10,3 +10,4 @@ const pinecone = new Pinecone({
 
 export const notesIndex = pinecone.Index("vegabarca");
 export const experiencesIndex = pinecone.Index("vegabarca");
+export const technologiesIndex = pinecone.Index("vegabarca");

@@ -20,6 +20,8 @@ export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     const parseResult = createExperienceSchema.safeParse(body);
+
+    // request body validation and parsing
     if (!parseResult.success) {
       console.error(parseResult.error);
       return Response.json({ error: "Invalid input" }, { status: 400 });
@@ -37,6 +39,7 @@ export const POST = async (req: Request) => {
     } = parseResult.data;
     const { userId } = auth();
 
+    // authenthincation validation and authorization
     if (!userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -68,9 +71,11 @@ export const POST = async (req: Request) => {
       return experience;
     });
 
+    // Correct response
     return Response.json(experience, { status: 201 });
   } catch (error) {
     console.error(error);
+    // Error handling
     return Response.json({ error: "An error occurred" }, { status: 500 });
   }
 };
@@ -98,6 +103,8 @@ export const PUT = async (req: Request) => {
     } = parseResult.data;
 
     const experience = await prisma.experience.findUnique({ where: { id } });
+
+    // Check if experience exists
     if (!experience)
       return Response.json({ error: "Experience not found" }, { status: 404 });
 

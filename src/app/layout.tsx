@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import ThemeProvider from "./ThemeProvider";
@@ -6,6 +7,12 @@ import "./globals.css";
 import { cookies } from "next/headers";
 import NavBar from "./NavBar";
 import prisma from "@/lib/db/prisma";
+import {
+  DEFAULT_SITE_DESCRIPTION,
+  DEFAULT_TITLE_VALUES,
+  METADATA_COMMON_KEYWORDS,
+  SOCIAL_MEDIA_INFO,
+} from "@/constants/analitics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,24 +22,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
     .map((experience) => experience.techStack)
     .flat();
   return {
-    title: {
-      default: "Juan Carlos Vega - Software Developer - Portfolio",
-      template: "%s | Juan Carlos Vega",
-    },
-    description: "Check all my projects and learn more about me.",
-    twitter: {
-      site: "@juanca23vega",
-      card: "summary_large_image",
-    },
-    keywords: [
-      "Juan Carlos Vega",
-      "Software Developer",
-      "Frontend Developer",
-      "Fullstack Developer",
-      "Web Developer",
-      "Costa Rica",
-      ...allTechnologies,
-    ],
+    title: DEFAULT_TITLE_VALUES,
+    description: DEFAULT_SITE_DESCRIPTION,
+    twitter: SOCIAL_MEDIA_INFO.twitter,
+    keywords: [...METADATA_COMMON_KEYWORDS, ...allTechnologies],
   };
 };
 
@@ -63,6 +56,7 @@ export default function RootLayout({
             <NavBar />
             {children}
           </ThemeProvider>
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>

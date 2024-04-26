@@ -2,36 +2,37 @@ import { technologiesIndex } from "@/lib/db/pinecone";
 import prisma from "@/lib/db/prisma";
 import { getEmbedding } from "@/lib/openai";
 import {
-  createNoteSchema,
-  deleteNoteSchema,
-  updateNoteSchema,
+  createTechnologySchema,
+  deleteTechnologySchema,
+  updateTechnologySchema,
 } from "@/lib/validation/technology";
 import { auth } from "@clerk/nextjs";
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const parseResult = createNoteSchema.safeParse(body);
+    const parseResult = createTechnologySchema.safeParse(body);
     if (!parseResult.success) {
       console.error(parseResult.error);
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, content } = parseResult.data;
+    const { name, isFeatured, logo, categories } = parseResult.data;
     const { userId } = auth();
 
     if (!userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const embedding = await getEmbeddingForNote(title, content);
+    const embedding = await getEmbeddingForTechnology(name, categories, logo);
 
     const technology = await prisma.$transaction(async (tx) => {
       const technology = await tx.technology.create({
         data: {
-          title,
-          content,
-          userId,
+          name,
+          isFeatured,
+          logo,
+          categories,
         },
       });
 
@@ -56,45 +57,38 @@ export const POST = async (req: Request) => {
 export const PUT = async (req: Request) => {
   try {
     const body = await req.json();
-    const parseResult = updateNoteSchema.safeParse(body);
+    const parseResult = updateTechnologySchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, content, id } = parseResult.data;
+    const { name, isFeatured, logo, categories, id } = parseResult.data;
 
     const technology = await prisma.technology.findUnique({ where: { id } });
     if (!technology)
-      return Response.json({ error: "Note not found" }, { status: 404 });
+      return Response.json({ error: "Technology not found" }, { status: 404 });
 
-    const { userId } = auth();
+    const embedding = await getEmbeddingForTechnology(name, categories, logo);
 
-    if (!userId || userId !== technology.userId) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const embedding = await getEmbeddingForNote(title, content);
-
-    const updatedNote = await prisma.$transaction(async (tx) => {
-      const updatedNote = await tx.technology.update({
+    const updatedTechnology = await prisma.$transaction(async (tx) => {
+      const updatedTechnology = await tx.technology.update({
         where: { id },
-        data: { title, content },
+        data: { name, isFeatured, logo, categories },
       });
 
       await technologiesIndex.upsert([
         {
           id,
           values: embedding,
-          metadata: { userId },
         },
       ]);
 
-      return updatedNote;
+      return updatedTechnology;
     });
 
-    return Response.json({ updatedNote }, { status: 200 });
+    return Response.json({ updatedTechnology }, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json({ error: "An error occurred" }, { status: 500 });
@@ -104,7 +98,7 @@ export const PUT = async (req: Request) => {
 export const DELETE = async (req: Request) => {
   try {
     const body = await req.json();
-    const parseResult = deleteNoteSchema.safeParse(body);
+    const parseResult = deleteTechnologySchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);
@@ -115,29 +109,35 @@ export const DELETE = async (req: Request) => {
 
     const technology = await prisma.technology.findUnique({ where: { id } });
     if (!technology)
-      return Response.json({ error: "Note not found" }, { status: 404 });
+      return Response.json({ error: "Technology not found" }, { status: 404 });
 
-    const { userId } = auth();
+    // this will be validated to only super users
+    // const { userId } = auth();
 
-    if (!userId || userId !== technology.userId) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // if (!userId || userId !== technology.userId) {
+    //   return Response.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
     await prisma.$transaction(async (tx) => {
       await tx.technology.delete({ where: { id } });
       await technologiesIndex.deleteOne(id);
     });
 
-    return Response.json({ message: "Note deleted" }, { status: 200 });
+    return Response.json({ message: "Technology deleted" }, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json({ error: "An error occurred" }, { status: 500 });
   }
 };
 
-const getEmbeddingForNote = async (
+const getEmbeddingForTechnology = async (
   title: string,
-  content: string | undefined,
+  categories: string[],
+  logo?: string,
 ) => {
-  return getEmbedding(title + "\n\n" + content ?? "");
+  return getEmbedding(
+    title + "\n\n" + categories.join(", ") ?? "" + logo
+      ? `\n\n Technology logo url: ${logo}`
+      : "",
+  );
 };
