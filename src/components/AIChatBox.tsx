@@ -4,9 +4,10 @@ import { Bot, User, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Message } from "ai";
-import { useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import { track } from "@vercel/analytics";
 
 interface AIChatBoxProps {
   open: boolean;
@@ -30,6 +31,11 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
   }, [open]);
 
   const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
+
+  const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
+    track("AI_BOT_QUESTION_SUBMITED", { question: input });
+    handleSubmit(event);
+  };
 
   return (
     <div
@@ -70,7 +76,7 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
             </div>
           )}
         </div>
-        <form onSubmit={handleSubmit} className="m-3 flex gap-1">
+        <form onSubmit={submitQuestion} className="m-3 flex gap-1">
           <Input
             ref={inputRef}
             value={input}
