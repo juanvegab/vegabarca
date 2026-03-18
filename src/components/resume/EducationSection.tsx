@@ -1,85 +1,13 @@
-"use client";
+import prisma from "@/lib/db/prisma";
+import EducationLogoImage from "./EducationLogoImage";
 
-import Image from "next/image";
-import { useState } from "react";
+export default async function EducationSection() {
+  const educationItems = await prisma.education.findMany({
+    orderBy: { order: "asc" },
+  });
 
-interface EducationItem {
-  institution: string;
-  degree: string;
-  period: string;
-  highlight?: boolean;
-  logo?: string;
-}
+  if (educationItems.length === 0) return null;
 
-const educationItems: EducationItem[] = [
-  {
-    institution: "MIT Professional Education",
-    degree: "Applied AI & Data Science Program",
-    period: "September 2025 – January 2026",
-    highlight: true,
-    logo: "https://logo.clearbit.com/mit.edu",
-  },
-  {
-    institution: "Universidad Cenfotec",
-    degree: "Software Engineering Diploma",
-    period: "2008 – 2011",
-    logo: "https://logo.clearbit.com/ucenfotec.ac.cr",
-  },
-  {
-    institution: "Universidad Cenfotec",
-    degree: "Web Development Diploma",
-    period: "2010 – 2012",
-    logo: "https://logo.clearbit.com/ucenfotec.ac.cr",
-  },
-  {
-    institution: "Ultimate Courses by Todd Motto",
-    degree: "Angular Framework Certification",
-    period: "February 2020",
-    logo: "https://logo.clearbit.com/ultimatecourses.com",
-  },
-  {
-    institution: "Ultimate Courses by Todd Motto",
-    degree: "NGRX State Management Certification",
-    period: "May 2020",
-    logo: "https://logo.clearbit.com/ultimatecourses.com",
-  },
-  {
-    institution: "Origami Academy",
-    degree: "WordPress Theming Certification",
-    period: "2013",
-  },
-];
-
-function InstitutionLogo({
-  src,
-  institution,
-}: {
-  src: string;
-  institution: string;
-}) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
-        {institution[0]}
-      </div>
-    );
-  }
-
-  return (
-    <Image
-      src={src}
-      alt={`${institution} logo`}
-      width={36}
-      height={36}
-      className="shrink-0 rounded object-contain"
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
-export default function EducationSection() {
   return (
     <section aria-labelledby="education-heading" className="mb-8">
       <h2
@@ -100,7 +28,10 @@ export default function EducationSection() {
             }`}
           >
             {item.logo ? (
-              <InstitutionLogo src={item.logo} institution={item.institution} />
+              <EducationLogoImage
+                src={item.logo}
+                institution={item.institution}
+              />
             ) : (
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
                 {item.institution[0]}
@@ -109,7 +40,9 @@ export default function EducationSection() {
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-semibold">{item.institution}</h3>
-                <span className="text-sm text-muted-foreground">{item.period}</span>
+                <span className="text-sm text-muted-foreground">
+                  {item.period}
+                </span>
               </div>
               <p className="text-sm text-muted-foreground">{item.degree}</p>
             </div>

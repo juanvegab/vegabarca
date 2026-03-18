@@ -54,6 +54,20 @@ model Technology {
   @@map("Technology")
 }
 
+model Education {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  institution String
+  degree      String
+  period      String
+  logo        String?
+  highlight   Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("education")
+}
+
 model TechnologiesOnExperiences {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   experience    Experience @relation(fields: [experienceId], references: [id])
