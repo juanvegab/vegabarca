@@ -10,6 +10,9 @@ const nextConfig = {
       {
         hostname: "ae8v8ta0oaszavs8.public.blob.vercel-storage.com",
       },
+      {
+        hostname: "logo.clearbit.com",
+      },
     ],
   },
 };
