@@ -15,6 +15,12 @@ const NavBar = () => {
             <Image src={logo} alt="Vegabarca" width={100} />
           </Link>
           <div className="flex items-center gap-2">
+            <Link
+              href="/resume"
+              className="rounded-md px-3 py-1.5 text-sm font-medium hover:bg-accent"
+            >
+              Resume
+            </Link>
             <AIChatButton />
             <ThemeToggleButton />
           </div>

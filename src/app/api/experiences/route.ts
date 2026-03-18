@@ -44,22 +44,22 @@ export const POST = async (req: Request) => {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const embedding = await getEmbeddingForExperience(parseResult.data);
+    const experience = await prisma.experience.create({
+      data: {
+        position,
+        company,
+        companyLogo,
+        link,
+        order,
+        dates,
+        techStack,
+        content,
+      },
+    });
 
-    const experience = await prisma.$transaction(async (tx) => {
-      const experience = await tx.experience.create({
-        data: {
-          position,
-          company,
-          companyLogo,
-          link,
-          order,
-          dates,
-          techStack,
-          content,
-        },
-      });
-
+    // Embedding is best-effort — don't fail the request if it errors
+    try {
+      const embedding = await getEmbeddingForExperience(parseResult.data);
       await experiencesIndex.upsert([
         {
           id: experience.id,
@@ -67,9 +67,9 @@ export const POST = async (req: Request) => {
           metadata: { userId },
         },
       ]);
-
-      return experience;
-    });
+    } catch (embeddingError) {
+      console.error("Embedding/Pinecone error (non-fatal):", embeddingError);
+    }
 
     // Correct response
     return Response.json(experience, { status: 201 });
@@ -114,23 +114,23 @@ export const PUT = async (req: Request) => {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const embedding = await getEmbeddingForExperience(parseResult.data);
+    const updatedExperience = await prisma.experience.update({
+      where: { id },
+      data: {
+        position,
+        company,
+        companyLogo,
+        link,
+        order,
+        dates,
+        techStack,
+        content,
+      },
+    });
 
-    const updatedExperience = await prisma.$transaction(async (tx) => {
-      const updatedExperience = await tx.experience.update({
-        where: { id },
-        data: {
-          position,
-          company,
-          companyLogo,
-          link,
-          order,
-          dates,
-          techStack,
-          content,
-        },
-      });
-
+    // Embedding is best-effort — don't fail the request if it errors
+    try {
+      const embedding = await getEmbeddingForExperience(parseResult.data);
       await experiencesIndex.upsert([
         {
           id,
@@ -138,9 +138,9 @@ export const PUT = async (req: Request) => {
           metadata: { userId },
         },
       ]);
-
-      return updatedExperience;
-    });
+    } catch (embeddingError) {
+      console.error("Embedding/Pinecone error (non-fatal):", embeddingError);
+    }
 
     return Response.json({ updatedExperience }, { status: 200 });
   } catch (error) {
