@@ -1,3 +1,8 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+
 interface EducationItem {
   institution: string;
   degree: string;
@@ -45,7 +50,34 @@ const educationItems: EducationItem[] = [
   },
 ];
 
-import Image from "next/image";
+function InstitutionLogo({
+  src,
+  institution,
+}: {
+  src: string;
+  institution: string;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
+        {institution[0]}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={`${institution} logo`}
+      width={36}
+      height={36}
+      className="shrink-0 rounded object-contain"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 export default function EducationSection() {
   return (
@@ -67,16 +99,9 @@ export default function EducationSection() {
                 : ""
             }`}
           >
-            {item.logo && (
-              <Image
-                src={item.logo}
-                alt={`${item.institution} logo`}
-                width={36}
-                height={36}
-                className="shrink-0 rounded object-contain"
-              />
-            )}
-            {!item.logo && (
+            {item.logo ? (
+              <InstitutionLogo src={item.logo} institution={item.institution} />
+            ) : (
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
                 {item.institution[0]}
               </div>

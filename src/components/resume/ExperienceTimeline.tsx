@@ -1,10 +1,36 @@
+"use client";
+
 import { Experience } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
+import { useState } from "react";
 
 interface ExperienceTimelineProps {
   experiences: Experience[];
+}
+
+function CompanyLogo({ src, company }: { src: string; company: string }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
+        {company[0]}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={`${company} logo`}
+      width={32}
+      height={32}
+      className="mt-0.5 shrink-0 rounded object-contain"
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 export default function ExperienceTimeline({
@@ -32,14 +58,12 @@ export default function ExperienceTimeline({
               <span className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-background bg-blue-500" />
 
               <div className="flex flex-wrap items-start gap-2">
-                {exp.companyLogo && (
-                  <Image
-                    src={exp.companyLogo}
-                    alt={`${exp.company} logo`}
-                    width={32}
-                    height={32}
-                    className="mt-0.5 rounded"
-                  />
+                {exp.companyLogo ? (
+                  <CompanyLogo src={exp.companyLogo} company={exp.company} />
+                ) : (
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
+                    {exp.company[0]}
+                  </div>
                 )}
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2">
