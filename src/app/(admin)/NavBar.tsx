@@ -13,6 +13,7 @@ import AddEditExperienceDialog from "@/components/AddEditExperienceDialog";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import AIChatButton from "@/components/AIChatButton";
 import AddEditNoteDialog from "@/components/AddEditNoteDialog";
+import AddEditEducationDialog from "@/components/AddEditEducationDialog";
 import { usePathname } from "next/navigation";
 
 const NavBar = () => {
@@ -20,6 +21,7 @@ const NavBar = () => {
   const [showAddeditExperienceDialog, setShowAddeditExperienceDialog] =
     useState(false);
   const [showAddeditNoteDialog, setShowAddeditNoteDialog] = useState(false);
+  const [showAddEducationDialog, setShowAddEducationDialog] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -38,6 +40,11 @@ const NavBar = () => {
             {pathname === "/notes" && (
               <Button onClick={() => setShowAddeditNoteDialog(true)}>
                 <Plus className="mr-2" /> Add Note
+              </Button>
+            )}
+            {pathname === "/education" && (
+              <Button onClick={() => setShowAddEducationDialog(true)}>
+                <Plus className="mr-2" /> Add Education
               </Button>
             )}
             <AIChatButton />
@@ -65,6 +72,10 @@ const NavBar = () => {
       <AddEditNoteDialog
         open={showAddeditNoteDialog}
         setOpen={setShowAddeditNoteDialog}
+      />
+      <AddEditEducationDialog
+        open={showAddEducationDialog}
+        setOpen={setShowAddEducationDialog}
       />
     </>
   );
