@@ -183,6 +183,32 @@ export const DELETE = async (req: Request) => {
   }
 };
 
+export const PATCH = async (req: Request) => {
+  try {
+    const { userId } = auth();
+    if (!userId)
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+    const { orders } = (await req.json()) as {
+      orders: { id: string; order: number }[];
+    };
+
+    if (!Array.isArray(orders))
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+
+    await prisma.$transaction(
+      orders.map(({ id, order }) =>
+        prisma.experience.update({ where: { id }, data: { order } }),
+      ),
+    );
+
+    return Response.json({ message: "Order updated" }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "An error occurred" }, { status: 500 });
+  }
+};
+
 const getEmbeddingForExperience = async ({
   position,
   company,

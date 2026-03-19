@@ -1,4 +1,4 @@
-import Experience from "@/components/Experience";
+import SortableExperienceGrid from "@/components/SortableExperienceGrid";
 import prisma from "@/lib/db/prisma";
 import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
@@ -12,16 +12,13 @@ const Experiences = async () => {
   const { userId } = auth();
   if (!userId) return redirect("/sign-in");
 
-  const allExperiences = await prisma.experience.findMany({});
+  const allExperiences = await prisma.experience.findMany({
+    orderBy: { order: "asc" },
+  });
 
   return (
-    <main className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {allExperiences.map((experience) => (
-        <Experience key={experience.id} experience={experience} />
-      ))}
-      {allExperiences.length === 0 && (
-        <p className="col-span-full">{`You don't have any experiencess`}</p>
-      )}
+    <main>
+      <SortableExperienceGrid experiences={allExperiences} />
     </main>
   );
 };
