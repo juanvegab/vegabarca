@@ -11,12 +11,17 @@ import { useState } from "react";
 import AddEditExperienceDialog from "./AddEditExperienceDialog";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
+import { GripVertical } from "lucide-react";
 
 interface ExperienceProps {
   experience: ExperienceModel;
+  dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
-const Experience: React.FC<ExperienceProps> = ({ experience }) => {
+const Experience: React.FC<ExperienceProps> = ({
+  experience,
+  dragHandleProps,
+}) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const { companyLogo, position, techStack, company, dates } = experience;
 
@@ -28,9 +33,18 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
   return (
     <>
       <Card
-        className="cursor-pointer transition-shadow hover:shadow-lg"
+        className="relative cursor-pointer transition-shadow hover:shadow-lg"
         onClick={() => setShowEditDialog(true)}
       >
+        {dragHandleProps && (
+          <div
+            className="absolute right-2 top-2 cursor-grab p-1 text-muted-foreground hover:text-foreground active:cursor-grabbing"
+            onClick={(e) => e.stopPropagation()}
+            {...dragHandleProps}
+          >
+            <GripVertical className="h-4 w-4" />
+          </div>
+        )}
         <CardHeader>
           <CardTitle>
             {companyLogo && (
