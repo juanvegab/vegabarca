@@ -1,7 +1,7 @@
 import prisma from "@/lib/db/prisma";
 import ResumeHeader from "@/components/resume/ResumeHeader";
 import MITCertSpotlight from "@/components/resume/MITCertSpotlight";
-import ExperienceTimeline from "@/components/resume/ExperienceTimeline";
+import ContractorGroupedExperience from "@/components/resume/ContractorGroupedExperience";
 import SkillsGrid from "@/components/resume/SkillsGrid";
 import EducationSection from "@/components/resume/EducationSection";
 import ResumeDownload from "@/components/resume/ResumeDownload";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ResumePage() {
   const [experiences, technologies] = await Promise.all([
-    prisma.experience.findMany({}),
+    prisma.experience.findMany({ include: { contractorCompany: true } }),
     prisma.technology.findMany({}),
   ]);
 
@@ -20,7 +20,7 @@ export default async function ResumePage() {
       <article>
         <ResumeHeader />
         <MITCertSpotlight />
-        <ExperienceTimeline experiences={experiences} />
+        <ContractorGroupedExperience experiences={experiences} />
         <SkillsGrid technologies={technologies} />
         <EducationSection />
       </article>
