@@ -1,6 +1,10 @@
 "use client";
 
-import { Experience as ExperienceModel } from "@prisma/client";
+import { ContractorCompany, Experience as ExperienceModel } from "@prisma/client";
+
+export type ExperienceWithContractor = ExperienceModel & {
+  contractorCompany: ContractorCompany | null;
+};
 import {
   DndContext,
   DragEndEvent,
@@ -19,7 +23,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 import Experience from "./Experience";
 
-function SortableItem({ experience }: { experience: ExperienceModel }) {
+function SortableItem({ experience }: { experience: ExperienceWithContractor }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: experience.id });
 
@@ -31,7 +35,7 @@ function SortableItem({ experience }: { experience: ExperienceModel }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} className="h-full">
       <Experience
         experience={experience}
         dragHandleProps={{ ...attributes, ...listeners }}
@@ -41,7 +45,7 @@ function SortableItem({ experience }: { experience: ExperienceModel }) {
 }
 
 interface SortableExperienceGridProps {
-  experiences: ExperienceModel[];
+  experiences: ExperienceWithContractor[];
 }
 
 export default function SortableExperienceGrid({

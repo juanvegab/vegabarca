@@ -12,7 +12,9 @@ const Experiences = async () => {
   const { userId } = auth();
   if (!userId) return redirect("/sign-in");
 
-  const allExperiences = await prisma.experience.findMany({});
+  const allExperiences = await prisma.experience.findMany({
+    include: { contractorCompany: true },
+  });
 
   return (
     <main className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
