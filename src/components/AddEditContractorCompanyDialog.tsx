@@ -45,6 +45,7 @@ const AddEditContractorCompanyDialog = ({
     defaultValues: {
       name: companyToEdit?.name || "",
       logo: companyToEdit?.logo || undefined,
+      url: companyToEdit?.url || "",
     },
   });
 
@@ -160,6 +161,19 @@ const AddEditContractorCompanyDialog = ({
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Contractor / Agency name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website URL</FormLabel>
+                    <FormControl>
+                      <Input type="url" placeholder="https://company.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
