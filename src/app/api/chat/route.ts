@@ -80,7 +80,8 @@ export const POST = async (req: Request) => {
 
     return result.toUIMessageStreamResponse();
   } catch (error) {
-    console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("[/api/chat]", message, error);
+    return Response.json({ error: "Internal server error", detail: message }, { status: 500 });
   }
 };
