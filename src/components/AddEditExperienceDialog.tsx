@@ -61,6 +61,7 @@ const AddEditExperienceDialog = ({
       dates: experienceToEdit?.dates || "",
       techStack: experienceToEdit?.techStack || [],
       link: experienceToEdit?.link || undefined,
+      isFeatured: experienceToEdit?.isFeatured ?? false,
       content: experienceToEdit?.content || "",
       contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
     },
@@ -240,6 +241,26 @@ const AddEditExperienceDialog = ({
                     <FormControl>
                       <Input type="url" placeholder="https://project-or-company.com" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isFeatured"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          checked={field.value ?? false}
+                          onChange={(e) => field.onChange(e.target.checked)}
+                          className="h-4 w-4 rounded border-input accent-blue-600"
+                        />
+                      </FormControl>
+                      <FormLabel className="mb-0 cursor-pointer">Agentic AI project</FormLabel>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
