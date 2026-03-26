@@ -38,17 +38,21 @@ export default function WhatIBuild() {
         {CAPABILITIES.map(({ icon: Icon, title, description, highlight }) => (
           <Card
             key={title}
-            className={
+            className={`group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
               highlight
                 ? "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20"
-                : ""
-            }
+                : "hover:border-border/80"
+            }`}
           >
-            <CardHeader className="pb-3">
+            <CardHeader className="items-center pb-3 text-center">
               <div
-                className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${highlight ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300" : "bg-muted text-muted-foreground"}`}
+                className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
+                  highlight
+                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+                    : "bg-muted text-muted-foreground"
+                }`}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-6 w-6" />
               </div>
               <CardTitle
                 className={`text-lg ${highlight ? "text-blue-700 dark:text-blue-300" : ""}`}
@@ -56,7 +60,7 @@ export default function WhatIBuild() {
                 {title}
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-center">
               <p className="text-sm text-muted-foreground">{description}</p>
             </CardContent>
           </Card>

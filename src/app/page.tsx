@@ -32,10 +32,10 @@ const Home = async () => {
 
       {featuredExperiences.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 py-12">
-          <h2 className="mb-2 text-3xl font-bold tracking-tight">
+          <h2 className="mb-2 text-2xl font-bold tracking-tight">
             Selected Work
           </h2>
-          <p className="mb-8 text-muted-foreground">
+          <p className="mb-6 text-muted-foreground">
             A few highlights — see the full timeline on my resume.
           </p>
           <div className="grid gap-4 md:grid-cols-2">

@@ -12,45 +12,49 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
   const contentInParagraphs = (content?.split("\n") || []).filter(
     (p) => p !== "",
   );
+
   return (
-    <>
-      <section className="mb-4 w-full rounded-lg border px-6 py-4 shadow-lg">
-        <div>
-          <div>
-            <h3 className="flex gap-2 text-2xl font-semibold">
-              {companyLogo && (
-                <Image
-                  src={companyLogo}
-                  alt="Company Logo"
-                  width={40}
-                  height={40}
-                />
-              )}
-              {company} — {position}
-            </h3>
-            <p className="mb-2">{dates}</p>
-            <div className="mb-6 flex flex-wrap gap-1">
-              {techStack.map((tech) => (
-                <Badge
-                  key={`technology_${company.replaceAll(" ", "_")}_${tech}`}
-                >
-                  {tech}
-                </Badge>
-              ))}
-            </div>
+    <section className="group flex h-full flex-col rounded-lg border px-5 py-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      <div className="mb-3 flex items-start gap-3">
+        {companyLogo ? (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white p-0.5">
+            <Image
+              src={companyLogo}
+              alt={`${company} logo`}
+              width={36}
+              height={36}
+              className="h-full w-full object-contain"
+            />
           </div>
-          <div className="flex flex-col gap-2">
-            <ul className="list-disc pl-6">
-              {contentInParagraphs.map((paragraph, index) => (
-                <li key={`tasks_${company.replaceAll(" ", "_")}_${index}`}>
-                  {paragraph}
-                </li>
-              ))}
-            </ul>
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground">
+            {company[0]}
           </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <h3 className="text-base font-semibold leading-snug">
+            {company} — {position}
+          </h3>
+          <p className="mt-0.5 text-sm text-muted-foreground">{dates}</p>
         </div>
-      </section>
-    </>
+      </div>
+
+      <div className="mb-3 flex flex-wrap gap-1">
+        {techStack.map((tech) => (
+          <Badge key={`technology_${company.replaceAll(" ", "_")}_${tech}`}>
+            {tech}
+          </Badge>
+        ))}
+      </div>
+
+      <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+        {contentInParagraphs.map((paragraph, index) => (
+          <li key={`tasks_${company.replaceAll(" ", "_")}_${index}`}>
+            {paragraph}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 
