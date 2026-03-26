@@ -10,6 +10,7 @@ export const createExperienceSchema = z.object({
   techStack: z.array(z.string()).min(1, { message: "Tech stack is required" }),
   content: z.string().optional(),
   dates: z.string().min(1, { message: "Dates are required" }),
+  contractorCompanyId: z.string().optional(),
 });
 
 export type CreateExperienceSchema = z.infer<typeof createExperienceSchema>;

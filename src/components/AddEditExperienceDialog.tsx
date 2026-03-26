@@ -23,8 +23,8 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import LoadingButton from "./ui/loading-button";
 import { useRouter } from "next/navigation";
-import { Experience } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
+import { ContractorCompany, Experience } from "@prisma/client";
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { base64ToFile } from "@/lib/utils";
 
@@ -40,7 +40,17 @@ const AddEditExperienceDialog = ({
   experienceToEdit,
 }: AddEditExperienceDialogProps) => {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
+  const [contractorCompanies, setContractorCompanies] = useState<
+    ContractorCompany[]
+  >([]);
   const router = useRouter();
+
+  useEffect(() => {
+    fetch("/api/contractor-companies")
+      .then((res) => res.json())
+      .then((data) => setContractorCompanies(data))
+      .catch(console.error);
+  }, []);
 
   const form = useForm<CreateExperienceSchema>({
     resolver: zodResolver(createExperienceSchema),
@@ -51,6 +61,7 @@ const AddEditExperienceDialog = ({
       dates: experienceToEdit?.dates || "",
       techStack: experienceToEdit?.techStack || [],
       content: experienceToEdit?.content || "",
+      contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
     },
   });
 
@@ -248,6 +259,32 @@ const AddEditExperienceDialog = ({
                     <FormLabel>Content</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Content" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="contractorCompanyId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contractor / Agency</FormLabel>
+                    <FormControl>
+                      <select
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        value={field.value ?? ""}
+                        onChange={(e) =>
+                          field.onChange(e.target.value || undefined)
+                        }
+                      >
+                        <option value="">None</option>
+                        {contractorCompanies.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
