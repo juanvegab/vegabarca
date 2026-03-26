@@ -40,7 +40,7 @@ const Home = async () => {
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {featuredExperiences.map((experience) => (
-              <ExperienceCard key={experience.id} experience={experience} />
+              <ExperienceCard key={experience.id} experience={experience} hideDates />
             ))}
           </div>
           <div className="mt-8 text-center">

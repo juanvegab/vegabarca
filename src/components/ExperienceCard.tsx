@@ -4,9 +4,10 @@ import Image from "next/image";
 
 interface ExperienceCardProps {
   experience: ExperienceModel;
+  hideDates?: boolean;
 }
 
-const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
+const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience, hideDates }) => {
   const { companyLogo, position, techStack, company, dates, content } =
     experience;
   const contentInParagraphs = (content?.split("\n") || []).filter(
@@ -35,7 +36,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
           <h3 className="text-base font-semibold leading-snug">
             {company} — {position}
           </h3>
-          <p className="mt-0.5 text-sm text-muted-foreground">{dates}</p>
+          {!hideDates && <p className="mt-0.5 text-sm text-muted-foreground">{dates}</p>}
         </div>
       </div>
 

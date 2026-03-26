@@ -7,7 +7,7 @@ const ThemeProviderWrapper = ({ children }: { children: ReactNode }) => {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="light"
+      defaultTheme="system"
       enableSystem={true}
       storageKey="theme"
     >
