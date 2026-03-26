@@ -1,5 +1,5 @@
 "use client";
-import { Experience as ExperienceModel } from "@prisma/client";
+import { ExperienceWithContractor } from "./SortableExperienceGrid";
 import {
   Card,
   CardContent,
@@ -11,10 +11,10 @@ import { useState } from "react";
 import AddEditExperienceDialog from "./AddEditExperienceDialog";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
-import { GripVertical } from "lucide-react";
+import { Building2, GripVertical } from "lucide-react";
 
 interface ExperienceProps {
-  experience: ExperienceModel;
+  experience: ExperienceWithContractor;
   dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
@@ -23,17 +23,13 @@ const Experience: React.FC<ExperienceProps> = ({
   dragHandleProps,
 }) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const { companyLogo, position, techStack, company, dates } = experience;
-
-  const wasUpdated = experience.updatedAt > experience.createdAt;
-  const createdUpdatedAtTimestamp = (
-    wasUpdated ? experience.updatedAt : experience.createdAt
-  ).toDateString();
+  const { companyLogo, position, techStack, company, dates, contractorCompany } =
+    experience;
 
   return (
     <>
       <Card
-        className="relative cursor-pointer transition-shadow hover:shadow-lg"
+        className="relative flex h-full cursor-pointer flex-col transition-shadow hover:shadow-lg"
         onClick={() => setShowEditDialog(true)}
       >
         {dragHandleProps && (
@@ -46,20 +42,35 @@ const Experience: React.FC<ExperienceProps> = ({
           </div>
         )}
         <CardHeader>
-          <CardTitle>
-            {companyLogo && (
+          <div className="flex min-h-[44px] items-center gap-3">
+            {companyLogo ? (
               <Image
                 src={companyLogo}
                 alt="Company Logo"
                 width={40}
                 height={40}
+                className="shrink-0 rounded object-contain"
               />
+            ) : (
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-muted text-sm font-bold text-muted-foreground">
+                {company[0]}
+              </div>
             )}
-            {position} at {company}
-          </CardTitle>
-          <CardDescription>{dates}</CardDescription>
+            <div className="min-w-0 flex-1 pr-6">
+              <CardTitle className="text-base leading-snug">
+                {position} at {company}
+              </CardTitle>
+              <CardDescription>{dates}</CardDescription>
+            </div>
+          </div>
+          {contractorCompany && (
+            <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+              <Building2 className="h-3 w-3 shrink-0" />
+              <span>via {contractorCompany.name}</span>
+            </div>
+          )}
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-2">
+        <CardContent className="flex flex-1 flex-wrap content-start gap-2">
           {techStack.map((tech) => (
             <Badge key={`technology_${company.replaceAll(" ", "_")}_${tech}`}>
               {tech}

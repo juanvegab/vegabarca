@@ -14,6 +14,7 @@ const Experiences = async () => {
 
   const allExperiences = await prisma.experience.findMany({
     orderBy: { order: "asc" },
+    include: { contractorCompany: true },
   });
 
   return (
