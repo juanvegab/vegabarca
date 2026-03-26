@@ -20,8 +20,8 @@ export default async function ResumePage() {
       <article>
         <ResumeHeader />
         <MITCertSpotlight />
-        <ContractorGroupedExperience experiences={experiences} />
         <SkillsGrid technologies={technologies} />
+        <ContractorGroupedExperience experiences={experiences} />
         <EducationSection />
       </article>
     </main>
