@@ -71,6 +71,27 @@ const NavBar = () => {
             <ThemeToggleButton />
           </div>
         </div>
+        <div className="mt-2 flex flex-wrap gap-1 border-t pt-2">
+          {[
+            { href: "/experiences", label: "Experiences" },
+            { href: "/contractor-companies", label: "Contractor Companies" },
+            { href: "/technologies", label: "Technologies" },
+            { href: "/education", label: "Education" },
+            { href: "/notes", label: "Notes" },
+          ].map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+                pathname === href
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
       </nav>
       <AddEditExperienceDialog
         open={showAddeditExperienceDialog}

@@ -15,7 +15,7 @@ export default function MITCertSpotlight() {
   return (
     <section
       aria-labelledby="mit-cert-heading"
-      className="mb-8 rounded-xl border border-amber-300 bg-amber-50 px-6 py-5 shadow-sm dark:border-amber-700 dark:bg-amber-950/20"
+      className="mb-8 rounded-xl border border-amber-300 bg-amber-50 px-6 py-5 shadow-sm print:break-after-avoid dark:border-amber-700 dark:bg-amber-950/20"
     >
       <div className="flex items-start gap-4">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-200 dark:bg-amber-800">
