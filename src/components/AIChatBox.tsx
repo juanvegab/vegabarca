@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
 import { Bot, User, XCircle } from "lucide-react";
@@ -8,15 +10,21 @@ import { FormEvent, useEffect, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { track } from "@vercel/analytics";
+import { useChatContext } from "@/contexts/ChatContext";
 
-interface AIChatBoxProps {
-  open: boolean;
-  onClose: () => void;
-}
+const AIChatBox: React.FC = () => {
+  const { chatOpen, closeChat, pendingMessage, clearPendingMessage } =
+    useChatContext();
 
-const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
-    useChat();
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    error,
+    setInput,
+  } = useChat();
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,8 +35,16 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
   }, [messages]);
 
   useEffect(() => {
-    if (open && inputRef.current) inputRef.current.focus();
-  }, [open]);
+    if (chatOpen && inputRef.current) inputRef.current.focus();
+  }, [chatOpen]);
+
+  useEffect(() => {
+    if (pendingMessage && chatOpen) {
+      setInput(pendingMessage);
+      clearPendingMessage();
+      if (inputRef.current) inputRef.current.focus();
+    }
+  }, [pendingMessage, chatOpen, setInput, clearPendingMessage]);
 
   const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
 
@@ -40,11 +56,11 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
   return (
     <div
       className={cn(
-        "z10 bottom-0 right-0 w-full max-w-[500px] p-1 xl:right-36",
-        open ? "fixed" : "hidden",
+        "z-10 bottom-0 right-0 w-full max-w-[500px] p-1 xl:right-36",
+        chatOpen ? "fixed" : "hidden",
       )}
     >
-      <button onClick={onClose} className="mb-1 ms-auto block">
+      <button onClick={closeChat} className="mb-1 ms-auto block">
         <XCircle size={30} />
       </button>
       <div className="flex h-[600px] flex-col overflow-hidden rounded-xl border bg-background shadow-xl">
@@ -55,10 +71,7 @@ const AIChatBox: React.FC<AIChatBoxProps> = ({ open, onClose }) => {
           ))}
           {isLoading && lastMessageIsUser && (
             <ChatMessage
-              message={{
-                role: "assistant",
-                content: "Thinking...",
-              }}
+              message={{ role: "assistant", content: "Thinking..." }}
             />
           )}
           {error && (
@@ -115,7 +128,7 @@ const ChatMessage: React.FC<{ message: Pick<Message, "role" | "content"> }> = ({
         {isAiMessage ? <Bot /> : userImage}
       </div>
       <div
-        className={`flex flex-col rounded-lg px-2 py-1 text-white ${isAiMessage ? "flex-row bg-blue-600 " : "items-end bg-blue-300"}`}
+        className={`flex flex-col rounded-lg px-2 py-1 text-white ${isAiMessage ? "flex-row bg-blue-600" : "items-end bg-blue-300"}`}
       >
         <span className="text-sm font-medium">
           {isAiMessage ? "Juanca" : "You"}:

@@ -7,6 +7,8 @@ import "./globals.css";
 import { cookies } from "next/headers";
 import NavBar from "./NavBar";
 import prisma from "@/lib/db/prisma";
+import { ChatProvider } from "@/contexts/ChatContext";
+import AIChatBox from "@/components/AIChatBox";
 import {
   DEFAULT_SITE_DESCRIPTION,
   DEFAULT_TITLE_VALUES,
@@ -53,8 +55,11 @@ export default function RootLayout({
       >
         <body className={inter.className}>
           <ThemeProvider>
-            <NavBar />
-            {children}
+            <ChatProvider>
+              <NavBar />
+              {children}
+              <AIChatBox />
+            </ChatProvider>
           </ThemeProvider>
           <Analytics />
         </body>
