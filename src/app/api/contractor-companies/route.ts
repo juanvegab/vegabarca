@@ -31,9 +31,9 @@ export const POST = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { name, logo } = parseResult.data;
+    const { name, logo, url } = parseResult.data;
     const company = await prisma.contractorCompany.create({
-      data: { name, logo },
+      data: { name, logo, url: url || null },
     });
     return Response.json(company, { status: 201 });
   } catch (error) {
@@ -55,14 +55,14 @@ export const PUT = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { id, name, logo } = parseResult.data;
+    const { id, name, logo, url } = parseResult.data;
     const existing = await prisma.contractorCompany.findUnique({ where: { id } });
     if (!existing)
       return Response.json({ error: "Not found" }, { status: 404 });
 
     const updated = await prisma.contractorCompany.update({
       where: { id },
-      data: { name, logo },
+      data: { name, logo, url: url || null },
     });
     return Response.json(updated, { status: 200 });
   } catch (error) {

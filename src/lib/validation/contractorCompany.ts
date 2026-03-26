@@ -3,6 +3,7 @@ import { z } from "zod";
 export const createContractorCompanySchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   logo: z.string().optional(),
+  url: z.string().url().optional().or(z.literal("")),
 });
 
 export type CreateContractorCompanySchema = z.infer<

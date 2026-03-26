@@ -60,6 +60,7 @@ const AddEditExperienceDialog = ({
       company: experienceToEdit?.company || "",
       dates: experienceToEdit?.dates || "",
       techStack: experienceToEdit?.techStack || [],
+      link: experienceToEdit?.link || undefined,
       content: experienceToEdit?.content || "",
       contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
     },
@@ -225,6 +226,19 @@ const AddEditExperienceDialog = ({
                     <FormLabel>Dates</FormLabel>
                     <FormControl>
                       <Input placeholder="Dates" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link</FormLabel>
+                    <FormControl>
+                      <Input type="url" placeholder="https://project-or-company.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
