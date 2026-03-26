@@ -36,6 +36,7 @@ export const POST = async (req: Request) => {
       dates,
       techStack,
       content,
+      isFeatured,
       contractorCompanyId,
     } = parseResult.data;
     const { userId } = auth();
@@ -55,6 +56,7 @@ export const POST = async (req: Request) => {
         dates,
         techStack,
         content,
+        isFeatured: isFeatured ?? false,
         contractorCompanyId,
       },
     });
@@ -101,6 +103,7 @@ export const PUT = async (req: Request) => {
       dates,
       techStack,
       content,
+      isFeatured,
       contractorCompanyId,
       id,
     } = parseResult.data;
@@ -128,6 +131,7 @@ export const PUT = async (req: Request) => {
         dates,
         techStack,
         content,
+        isFeatured: isFeatured ?? false,
         contractorCompanyId,
       },
     });

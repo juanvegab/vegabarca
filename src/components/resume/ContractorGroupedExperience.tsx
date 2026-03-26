@@ -35,7 +35,13 @@ function ContractorLogo({ src, name }: { src: string; name: string }) {
 
 function SmallLogo({ src, company }: { src: string; company: string }) {
   const [failed, setFailed] = useState(false);
-  if (failed) return null;
+  if (failed) {
+    return (
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[10px] font-bold text-muted-foreground">
+        {company[0]}
+      </div>
+    );
+  }
   return (
     <Image
       src={src}
@@ -94,7 +100,11 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   return (
     <li className={liClass}>
       <div className="flex items-start gap-2">
-        {exp.companyLogo && <SmallLogo src={exp.companyLogo} company={exp.company} />}
+        {exp.companyLogo ? (
+          <SmallLogo src={exp.companyLogo} company={exp.company} />
+        ) : (
+          <div className="h-5 w-5 shrink-0" />
+        )}
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
             {title}
@@ -142,14 +152,16 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
     </span>
   );
 
+  const wrapClass = exp.isFeatured
+    ? "break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+    : "break-inside-avoid flex items-start gap-3";
+
   return (
-    <div className="break-inside-avoid flex items-start gap-3">
+    <div className={wrapClass}>
       {exp.companyLogo ? (
         <SmallLogo src={exp.companyLogo} company={exp.company} />
       ) : (
-        <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[10px] font-bold text-muted-foreground">
-          {exp.company[0]}
-        </div>
+        <div className="h-5 w-5 shrink-0" />
       )}
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
@@ -256,7 +268,7 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="break-inside-avoid rounded-lg border bg-card p-5 shadow-sm print:border-border print:shadow-none"
+              className="rounded-lg border bg-card p-5 shadow-sm print:border-border print:shadow-none"
             >
               {/* Umbrella header */}
               <div className="mb-4 flex items-center gap-3">
