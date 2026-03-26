@@ -78,8 +78,8 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const bullets = (exp.content?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const liClass = exp.isFeatured
-    ? "break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-    : "break-inside-avoid";
+    ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+    : "";
 
   const title = exp.link ? (
     <a
@@ -153,8 +153,8 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   const wrapClass = exp.isFeatured
-    ? "break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-    : "break-inside-avoid flex items-start gap-3";
+    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+    : "flex items-start gap-3";
 
   return (
     <div className={wrapClass}>
@@ -234,7 +234,7 @@ export default function ContractorGroupedExperience({
         Experience
       </h2>
 
-      <div className="flex flex-col gap-6">
+      <div className="space-y-6">
         {renderItems.map((item) => {
           if (item.kind === "single") {
             return <UngroupedItem key={item.exp.id} exp={item.exp} />;

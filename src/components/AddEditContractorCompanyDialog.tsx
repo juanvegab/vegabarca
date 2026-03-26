@@ -23,7 +23,7 @@ import { Input } from "./ui/input";
 import LoadingButton from "./ui/loading-button";
 import { useRouter } from "next/navigation";
 import { ContractorCompany } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 
 interface AddEditContractorCompanyDialogProps {
@@ -39,6 +39,15 @@ const AddEditContractorCompanyDialog = ({
 }: AddEditContractorCompanyDialogProps) => {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    form.reset({
+      name: companyToEdit?.name || "",
+      logo: companyToEdit?.logo || undefined,
+      url: companyToEdit?.url || "",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const form = useForm<CreateContractorCompanySchema>({
     resolver: zodResolver(createContractorCompanySchema),
