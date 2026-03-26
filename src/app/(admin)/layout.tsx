@@ -4,7 +4,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <main className="max-w-7x1 m-auto p-4">{children}</main>
+      <main className="mx-auto max-w-7xl px-6 py-4">{children}</main>
     </>
   );
 };

@@ -1,21 +1,17 @@
-import { cn } from "@/lib/utils";
-import { useChat } from "ai/react";
-import { useState } from "react";
+"use client";
+
 import { Button } from "./ui/button";
 import { Bot } from "lucide-react";
-import AIChatBox from "./AIChatBox";
+import { useChatContext } from "@/contexts/ChatContext";
 
 const AIChatButton: React.FC = () => {
-  const [chatBoxOpen, setChatBoxOpen] = useState(false);
+  const { openChat } = useChatContext();
 
   return (
-    <>
-      <Button onClick={() => setChatBoxOpen(true)}>
-        <Bot size={20} className="mr-2" />
-        AI Chat
-      </Button>
-      <AIChatBox open={chatBoxOpen} onClose={() => setChatBoxOpen(false)} />
-    </>
+    <Button onClick={openChat}>
+      <Bot size={20} className="mr-2" />
+      AI Chat
+    </Button>
   );
 };
 

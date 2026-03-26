@@ -4,9 +4,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import ThemeProvider from "./ThemeProvider";
 import "./globals.css";
-import { cookies } from "next/headers";
-import NavBar from "./NavBar";
 import prisma from "@/lib/db/prisma";
+import { ChatProvider } from "@/contexts/ChatContext";
+import AIChatBox from "@/components/AIChatBox";
 import {
   DEFAULT_SITE_DESCRIPTION,
   DEFAULT_TITLE_VALUES,
@@ -29,32 +29,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-function getTheme() {
-  const cookieStore = cookies();
-  const themeCookie = cookieStore.get("theme");
-  const theme = themeCookie ? themeCookie.value : "dark";
-  return theme;
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = getTheme() as string;
-
   return (
     <ClerkProvider>
-      <html
-        lang="en"
-        className={theme}
-        style={{ colorScheme: theme }}
-        suppressHydrationWarning={true}
-      >
+      <html lang="en" suppressHydrationWarning={true}>
         <body className={inter.className}>
           <ThemeProvider>
-            <NavBar />
-            {children}
+            <ChatProvider>
+              {children}
+              <AIChatBox />
+            </ChatProvider>
           </ThemeProvider>
           <Analytics />
         </body>
