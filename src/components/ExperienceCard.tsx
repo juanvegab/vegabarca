@@ -18,7 +18,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience, hideDates }
     <section className="group flex h-full flex-col rounded-lg border px-5 py-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="mb-3 flex items-start gap-3">
         {companyLogo ? (
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white p-0.5">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white p-0.5">
             <Image
               src={companyLogo}
               alt={`${company} logo`}

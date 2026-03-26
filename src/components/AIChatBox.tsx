@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useChat } from "ai/react";
+import { useChat } from "@ai-sdk/react";
+import { UIMessage } from "ai";
 import { Bot, User, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Message } from "ai";
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { track } from "@vercel/analytics";
@@ -16,18 +16,13 @@ const AIChatBox: React.FC = () => {
   const { chatOpen, closeChat, pendingMessage, clearPendingMessage } =
     useChatContext();
 
-  const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-    error,
-    setInput,
-  } = useChat();
+  const { messages, sendMessage, status, error } = useChat();
 
+  const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isLoading = status === "submitted" || status === "streaming";
 
   useEffect(() => {
     if (scrollRef.current)
@@ -44,13 +39,17 @@ const AIChatBox: React.FC = () => {
       clearPendingMessage();
       if (inputRef.current) inputRef.current.focus();
     }
-  }, [pendingMessage, chatOpen, setInput, clearPendingMessage]);
+  }, [pendingMessage, chatOpen, clearPendingMessage]);
 
-  const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
+  const lastMessageIsUser =
+    messages[messages.length - 1]?.role === "user";
 
   const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!input.trim()) return;
     track("AI_BOT_QUESTION_SUBMITED", { question: input });
-    handleSubmit(event);
+    sendMessage({ text: input });
+    setInput("");
   };
 
   return (
@@ -71,14 +70,14 @@ const AIChatBox: React.FC = () => {
           ))}
           {isLoading && lastMessageIsUser && (
             <ChatMessage
-              message={{ role: "assistant", content: "Thinking..." }}
+              message={{ role: "assistant", parts: [{ type: "text", text: "Thinking..." }] }}
             />
           )}
           {error && (
             <ChatMessage
               message={{
                 role: "assistant",
-                content: "An error occurred. Please try again.",
+                parts: [{ type: "text", text: "An error occurred. Please try again." }],
               }}
             />
           )}
@@ -93,7 +92,7 @@ const AIChatBox: React.FC = () => {
           <Input
             ref={inputRef}
             value={input}
-            onChange={handleInputChange}
+            onChange={(e) => setInput(e.target.value)}
             placeholder="Say something..."
           />
           <Button className="ml-2" type="submit">
@@ -105,11 +104,18 @@ const AIChatBox: React.FC = () => {
   );
 };
 
-const ChatMessage: React.FC<{ message: Pick<Message, "role" | "content"> }> = ({
-  message: { role, content },
-}) => {
+type ChatMessageProps = {
+  message: Pick<UIMessage, "role" | "parts">;
+};
+
+const ChatMessage: React.FC<ChatMessageProps> = ({ message: { role, parts } }) => {
   const { user } = useUser();
   const isAiMessage = role === "assistant";
+  const content = parts
+    .filter((p) => p.type === "text")
+    .map((p) => (p as { type: "text"; text: string }).text)
+    .join("");
+
   const userImage = user?.hasImage ? (
     <Image
       src={user.imageUrl}
@@ -120,6 +126,7 @@ const ChatMessage: React.FC<{ message: Pick<Message, "role" | "content"> }> = ({
   ) : (
     <User />
   );
+
   return (
     <div
       className={`flex gap-2 p-2 ${isAiMessage ? "flex-row" : "flex-row-reverse"}`}
