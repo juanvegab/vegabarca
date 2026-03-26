@@ -14,6 +14,7 @@ import ThemeToggleButton from "@/components/ThemeToggleButton";
 import AIChatButton from "@/components/AIChatButton";
 import AddEditNoteDialog from "@/components/AddEditNoteDialog";
 import AddEditEducationDialog from "@/components/AddEditEducationDialog";
+import AddEditContractorCompanyDialog from "@/components/AddEditContractorCompanyDialog";
 import { usePathname } from "next/navigation";
 
 const NavBar = () => {
@@ -22,6 +23,7 @@ const NavBar = () => {
     useState(false);
   const [showAddeditNoteDialog, setShowAddeditNoteDialog] = useState(false);
   const [showAddEducationDialog, setShowAddEducationDialog] = useState(false);
+  const [showAddContractorDialog, setShowAddContractorDialog] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -45,6 +47,11 @@ const NavBar = () => {
             {pathname === "/education" && (
               <Button onClick={() => setShowAddEducationDialog(true)}>
                 <Plus className="mr-2" /> Add Education
+              </Button>
+            )}
+            {pathname === "/contractor-companies" && (
+              <Button onClick={() => setShowAddContractorDialog(true)}>
+                <Plus className="mr-2" /> Add Contractor
               </Button>
             )}
             <AIChatButton />
@@ -76,6 +83,10 @@ const NavBar = () => {
       <AddEditEducationDialog
         open={showAddEducationDialog}
         setOpen={setShowAddEducationDialog}
+      />
+      <AddEditContractorCompanyDialog
+        open={showAddContractorDialog}
+        setOpen={setShowAddContractorDialog}
       />
     </>
   );

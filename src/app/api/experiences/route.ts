@@ -36,6 +36,7 @@ export const POST = async (req: Request) => {
       dates,
       techStack,
       content,
+      contractorCompanyId,
     } = parseResult.data;
     const { userId } = auth();
 
@@ -54,6 +55,7 @@ export const POST = async (req: Request) => {
         dates,
         techStack,
         content,
+        contractorCompanyId,
       },
     });
 
@@ -99,6 +101,7 @@ export const PUT = async (req: Request) => {
       dates,
       techStack,
       content,
+      contractorCompanyId,
       id,
     } = parseResult.data;
 
@@ -125,6 +128,7 @@ export const PUT = async (req: Request) => {
         dates,
         techStack,
         content,
+        contractorCompanyId,
       },
     });
 
