@@ -8,9 +8,10 @@ interface ExperienceCardProps {
 }
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience, hideDates }) => {
-  const { companyLogo, position, techStack, company, dates, content } =
+  const { companyLogo, position, techStack, company, dates, content, visibleSummary } =
     experience;
-  const contentInParagraphs = (content?.split("\n") || []).filter(
+  const summary = visibleSummary ?? content;
+  const contentInParagraphs = (summary?.split("\n") || []).filter(
     (p) => p !== "",
   );
 
