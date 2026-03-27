@@ -63,6 +63,7 @@ const AddEditExperienceDialog = ({
       link: experienceToEdit?.link || undefined,
       isFeatured: experienceToEdit?.isFeatured ?? false,
       content: experienceToEdit?.content || "",
+      visibleSummary: experienceToEdit?.visibleSummary || "",
       contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
     },
   });
@@ -294,6 +295,19 @@ const AddEditExperienceDialog = ({
                     <FormLabel>Content</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Content" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="visibleSummary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Visible Summary <span className="text-muted-foreground font-normal">(overrides Content on resume)</span></FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Leave blank to use Content. Used by Resume Tailor." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
