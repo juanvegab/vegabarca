@@ -9,6 +9,7 @@ export const createExperienceSchema = z.object({
   position: z.string().min(1, { message: "Position is required" }),
   techStack: z.array(z.string()).min(1, { message: "Tech stack is required" }),
   content: z.string().optional(),
+  visibleSummary: z.string().optional(),
   dates: z.string().min(1, { message: "Dates are required" }),
   isFeatured: z.boolean().optional(),
   contractorCompanyId: z.string().optional(),
