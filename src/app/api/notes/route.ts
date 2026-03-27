@@ -1,6 +1,6 @@
 import { notesIndex } from "@/lib/db/pinecone";
 import prisma from "@/lib/db/prisma";
-import { getEmbedding } from "@/lib/openai";
+import { getEmbedding } from "@/lib/embeddings";
 import {
   createNoteSchema,
   deleteNoteSchema,

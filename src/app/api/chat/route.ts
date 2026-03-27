@@ -1,91 +1,87 @@
-import {
-  ChatCompletionMessage,
-  ChatCompletionSystemMessageParam,
-} from "openai/resources/index.mjs";
 import { notesIndex } from "@/lib/db/pinecone";
 import prisma from "@/lib/db/prisma";
-import openai, { getEmbedding } from "@/lib/openai";
-import { OpenAIStream, StreamingTextResponse } from "ai";
+import { getEmbedding } from "@/lib/embeddings";
+import { anthropic } from "@ai-sdk/anthropic";
+import { streamText, convertToModelMessages, UIMessage } from "ai";
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const messages: ChatCompletionMessage[] = body.messages;
+    const messages: UIMessage[] = body.messages;
 
-    const messageTruncated = messages.slice(-6);
+    const recentMessages = messages.slice(-6);
 
-    const embedding = await getEmbedding(
-      messageTruncated.map((m) => m.content).join("\n"),
-    );
+    const textForEmbedding = recentMessages
+      .map((m) =>
+        m.parts
+          .filter((p) => p.type === "text")
+          .map((p) => (p as { type: "text"; text: string }).text)
+          .join(" "),
+      )
+      .join("\n");
+
+    const embedding = await getEmbedding(textForEmbedding);
 
     const vectorQueryResponse = await notesIndex.query({
       vector: embedding,
-      topK: 3,
+      topK: 4,
     });
 
-    const relevantNotes = await prisma.note.findMany({
-      where: {
-        id: {
-          in: vectorQueryResponse.matches.map((m) => m.id),
-        },
-      },
+    const matchIds = vectorQueryResponse.matches.map((m) => m.id);
+
+    const [relevantNotes, relevantExperiences] = await Promise.all([
+      prisma.note.findMany({ where: { id: { in: matchIds } } }),
+      prisma.experience.findMany({ where: { id: { in: matchIds } } }),
+    ]);
+
+    const contextBlocks: string[] = [];
+
+    if (relevantExperiences.length > 0) {
+      contextBlocks.push(
+        "## Relevant Work Experience\n" +
+          relevantExperiences
+            .map(
+              (e) =>
+                `**${e.position} at ${e.company}** (${e.dates})\n` +
+                `Tech: ${e.techStack.join(", ")}\n` +
+                e.content,
+            )
+            .join("\n\n"),
+      );
+    }
+
+    if (relevantNotes.length > 0) {
+      contextBlocks.push(
+        "## Additional Context\n" +
+          relevantNotes
+            .map((n) => `**${n.title}**\n${n.content}`)
+            .join("\n\n"),
+      );
+    }
+
+    const systemPrompt =
+      `You are Juan Carlos Vega Abarca — an Agentic AI & Full-Stack Engineer with 15+ years of experience. ` +
+      `You are responding to visitors on your personal portfolio site, which is often viewed by hiring managers and recruiters. ` +
+      `Speak in first person, be confident, concise, and personable. ` +
+      `Highlight your expertise in agentic AI systems, RAG pipelines, LLMs, React, Next.js, and TypeScript when relevant. ` +
+      `If asked about availability, you are open to senior and staff-level roles at AI-first companies. ` +
+      `Keep answers short — 2–4 sentences unless a detailed breakdown is clearly needed. ` +
+      `If the context below doesn't cover the question, answer from general knowledge about your background, or say you'd be happy to connect directly. ` +
+      `Today's date: ${new Date().toLocaleDateString()}\n\n` +
+      (contextBlocks.length > 0
+        ? `# Context about Juan Carlos\n\n${contextBlocks.join("\n\n")}`
+        : "");
+
+    const result = streamText({
+      model: anthropic("claude-sonnet-4-6"),
+      system: systemPrompt,
+      messages: await convertToModelMessages(recentMessages),
     });
 
-    const relevantExperiences = await prisma.experience.findMany({
-      where: {
-        id: {
-          in: vectorQueryResponse.matches.map((m) => m.id),
-        },
-      },
-    });
-
-    console.log("Relevant Notes found: ", relevantNotes);
-    console.log("Relevant Experiences found: ", relevantExperiences);
-
-    const systemMessage: ChatCompletionSystemMessageParam = {
-      role: "system",
-      content:
-        "Today is: " +
-        new Date().toLocaleDateString() +
-        "\n" +
-        "This app is a web portafolio." +
-        "I want you to pretend to be me." +
-        "Your name is Juan Carlos Vega Abarca, you are a software developer." +
-        "You answers the user's question as I would do based on the existing notes" +
-        "Answer questions more personal." +
-        "Try to limit your answers, try to be short." +
-        'If notes are not that specific for the question, answer: "My father doesn\'t let me give personal information to strangers".' +
-        (relevantNotes.length > 0
-          ? "The relevant notes for this query are: \n"
-          : "") +
-        relevantNotes
-          .map((n) => `Title: ${n.title}\n\nContent: \n ${n.content}`)
-          .join("\n\n\n") +
-        (relevantExperiences.length > 0
-          ? "The relevant work experiences for this query are: "
-          : "") +
-        relevantExperiences
-          .map(
-            (n) =>
-              `${n.position} at ${n.company} \n\n` +
-              `Dates: ${n.dates} \n Tech Stack: ${n.techStack.join(", ")} \n` +
-              `Company Logo: ${n.companyLogo} \n Link: ${n.link} \n Image: ${n.image} \n` +
-              `\n ${n.content}`,
-          )
-          .join("\n\n\n"),
-    };
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      stream: true,
-      messages: [systemMessage, ...messageTruncated],
-    });
-
-    const stream = OpenAIStream(response);
-
-    return new StreamingTextResponse(stream);
+    return result.toUIMessageStreamResponse();
   } catch (error) {
-    console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("[/api/chat]", message, error);
+    return Response.json({ error: "Internal server error", detail: message }, { status: 500 });
   }
 };
