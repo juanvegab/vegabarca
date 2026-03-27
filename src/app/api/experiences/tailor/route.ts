@@ -29,7 +29,7 @@ export const POST = async (req: Request) => {
           "You are a professional resume writer. Given an original experience description and a job description, " +
           "rewrite the experience bullets to highlight the most relevant skills and impact for that specific role. " +
           "Keep the same number of bullets or fewer. Be specific, use action verbs, quantify where possible. " +
-          "Return ONLY the bullet points as plain text, one per line, no extra commentary.",
+          "Return ONLY the bullet text, one per line, with NO leading dashes, hyphens, asterisks, or bullet symbols. No extra commentary.",
         prompt:
           `Job Description:\n${jobDescription}\n\n` +
           `Experience: ${exp.position} at ${exp.company}\n` +

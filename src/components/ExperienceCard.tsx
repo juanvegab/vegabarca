@@ -53,7 +53,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience, hideDates }
       <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
         {contentInParagraphs.map((paragraph, index) => (
           <li key={`tasks_${company.replaceAll(" ", "_")}_${index}`}>
-            {paragraph}
+            {paragraph.replace(/^[-•*]\s*/, "")}
           </li>
         ))}
       </ul>
