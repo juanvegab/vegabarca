@@ -47,6 +47,7 @@ model Experience {
   content   String?
   dates     String
   isFeatured Boolean  @default(false)
+  visibleSummary String?
   contractorCompany   ContractorCompany? @relation(fields: [contractorCompanyId], references: [id])
   contractorCompanyId String?            @db.ObjectId
   createdAt DateTime  @default(now())

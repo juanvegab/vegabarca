@@ -49,7 +49,8 @@ export default function ExperienceTimeline({
 
       <ol className="relative border-l border-border pl-6">
         {sorted.map((exp) => {
-          const bullets = (exp.content?.split("\n") || []).filter(
+          const summary = exp.visibleSummary ?? exp.content;
+          const bullets = (summary?.split("\n") || []).filter(
             (p) => p.trim() !== "",
           );
 
@@ -74,6 +75,12 @@ export default function ExperienceTimeline({
                       <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
                         <Sparkles size={10} />
                         Agentic AI
+                      </span>
+                    )}
+                    {exp.visibleSummary && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900 dark:text-green-300">
+                        <Sparkles size={10} />
+                        Tailored
                       </span>
                     )}
                   </div>
