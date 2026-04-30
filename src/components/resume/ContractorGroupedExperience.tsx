@@ -75,7 +75,8 @@ function AgenticBadge({ header = false }: { header?: boolean }) {
 }
 
 function SubProject({ exp }: { exp: ExperienceWithContractor }) {
-  const bullets = (exp.content?.split("\n") ?? []).filter((p) => p.trim() !== "");
+  const summary = exp.visibleSummary ?? exp.content;
+  const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const liClass = exp.isFeatured
     ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
@@ -123,7 +124,7 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
           {bullets.length > 0 && (
             <ul className="list-disc space-y-0.5 pl-4 text-sm">
               {bullets.map((b, i) => (
-                <li key={i}>{b}</li>
+                <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
               ))}
             </ul>
           )}
@@ -134,7 +135,8 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
 }
 
 function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
-  const bullets = (exp.content?.split("\n") ?? []).filter((p) => p.trim() !== "");
+  const summary = exp.visibleSummary ?? exp.content;
+  const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const title = exp.link ? (
     <a
@@ -181,7 +183,7 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
         {bullets.length > 0 && (
           <ul className="list-disc space-y-0.5 pl-4 text-sm">
             {bullets.map((b, i) => (
-              <li key={i}>{b}</li>
+              <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
             ))}
           </ul>
         )}
