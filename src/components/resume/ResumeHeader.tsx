@@ -3,21 +3,22 @@ import Link from "next/link";
 
 export default function ResumeHeader() {
   return (
-    <header className="mb-8 border-b pb-8">
+    <header className="mb-8 border-b pb-8 print:mb-3 print:pb-3">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">
+          <h1 className="text-4xl font-bold tracking-tight print:text-3xl">
             Juan Carlos Vega Abarca
           </h1>
-          <p className="mt-1 text-xl font-medium text-blue-600 dark:text-blue-400">
+          <p className="mt-1 text-xl font-medium text-blue-600 dark:text-blue-400 print:text-base print:mt-0">
             Agentic AI &amp; Full-Stack Engineer
           </p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-muted-foreground print:mt-0">
             15+ years of experience · MIT Applied AI &amp; Data Science Certified
           </p>
         </div>
 
-        <address className="mt-4 flex flex-col gap-1.5 text-sm not-italic sm:mt-0 sm:text-right">
+        {/* Contact info — icons hidden globally on print, text only remains */}
+        <address className="mt-4 flex flex-col gap-1.5 text-sm not-italic sm:mt-0 sm:text-right print:mt-0 print:gap-0.5 print:text-xs">
           <Link
             href="mailto:juancarlos@vegabarca.com"
             className="flex items-center gap-1.5 hover:text-blue-600 sm:flex-row-reverse"
@@ -57,7 +58,7 @@ export default function ResumeHeader() {
         </address>
       </div>
 
-      <div className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+      <div className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">
         <p>
           Software engineer with 15+ years of experience building robust
           full-stack applications. Currently specializing in Agentic AI systems,

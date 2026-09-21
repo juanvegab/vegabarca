@@ -17,23 +17,26 @@ export default async function EducationSection() {
         Education
       </h2>
 
-      <div className="space-y-3">
+      <div className="space-y-3 print:space-y-1">
         {educationItems.map((item) => (
           <div
             key={`${item.institution}_${item.degree}`}
-            className={`flex items-center gap-4 rounded-lg border px-4 py-3 ${
+            className={`flex items-center gap-4 rounded-lg border px-4 py-3 print:gap-0 print:border-0 print:border-b print:border-gray-200 print:rounded-none print:px-0 print:py-1 ${
               item.highlight
                 ? "border-amber-300 bg-amber-50 dark:border-amber-700 dark:bg-amber-950/20"
                 : ""
             }`}
           >
+            {/* Logo hidden on print */}
             {item.logo ? (
-              <EducationLogoImage
-                src={item.logo}
-                institution={item.institution}
-              />
+              <div className="print:hidden">
+                <EducationLogoImage
+                  src={item.logo}
+                  institution={item.institution}
+                />
+              </div>
             ) : (
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground print:hidden">
                 {item.institution[0]}
               </div>
             )}
