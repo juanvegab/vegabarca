@@ -62,6 +62,7 @@ const AddEditExperienceDialog = ({
       techStack: experienceToEdit?.techStack || [],
       link: experienceToEdit?.link || undefined,
       isFeatured: experienceToEdit?.isFeatured ?? false,
+      isCompact: experienceToEdit?.isCompact ?? false,
       content: experienceToEdit?.content || "",
       visibleSummary: experienceToEdit?.visibleSummary || "",
       contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
@@ -246,26 +247,48 @@ const AddEditExperienceDialog = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="isFeatured"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-2">
-                      <FormControl>
-                        <input
-                          type="checkbox"
-                          checked={field.value ?? false}
-                          onChange={(e) => field.onChange(e.target.checked)}
-                          className="h-4 w-4 rounded border-input accent-blue-600"
-                        />
-                      </FormControl>
-                      <FormLabel className="mb-0 cursor-pointer">Agentic AI project</FormLabel>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-wrap gap-4">
+                <FormField
+                  control={form.control}
+                  name="isFeatured"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value ?? false}
+                            onChange={(e) => field.onChange(e.target.checked)}
+                            className="h-4 w-4 rounded border-input accent-blue-600"
+                          />
+                        </FormControl>
+                        <FormLabel className="mb-0 cursor-pointer">Agentic AI project</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="isCompact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value ?? false}
+                            onChange={(e) => field.onChange(e.target.checked)}
+                            className="h-4 w-4 rounded border-input accent-amber-600"
+                          />
+                        </FormControl>
+                        <FormLabel className="mb-0 cursor-pointer">Compact card</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="techStack"

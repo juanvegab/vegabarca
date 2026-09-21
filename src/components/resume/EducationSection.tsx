@@ -17,7 +17,7 @@ export default async function EducationSection() {
         Education
       </h2>
 
-      <div className="space-y-3 print:space-y-1">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {educationItems.map((item) => (
           <div
             key={`${item.institution}_${item.degree}`}

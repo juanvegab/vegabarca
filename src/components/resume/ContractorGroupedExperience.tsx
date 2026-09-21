@@ -56,6 +56,77 @@ function SmallLogo({ src, company }: { src: string; company: string }) {
   );
 }
 
+// ---------- compact card ----------
+
+function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
+  const [expanded, setExpanded] = useState(false);
+  const summary = exp.visibleSummary ?? exp.content;
+  const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
+
+  const title = exp.link ? (
+    <a
+      href={exp.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline"
+    >
+      {exp.company} — {exp.position}
+      <ExternalLink size={11} className="shrink-0 opacity-60" />
+    </a>
+  ) : (
+    <span className="font-semibold text-sm">
+      {exp.company} — {exp.position}
+    </span>
+  );
+
+  return (
+    <div className="flex flex-col rounded-lg border bg-card p-4 shadow-sm print:p-2 print:shadow-none">
+      <div className="flex items-start gap-2">
+        {exp.companyLogo ? (
+          <SmallLogo src={exp.companyLogo} company={exp.company} />
+        ) : (
+          <div className="h-5 w-5 shrink-0" />
+        )}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-1">
+            {title}
+            {exp.isFeatured && <AgenticBadge />}
+          </div>
+          <p className="text-xs text-muted-foreground">{exp.dates}</p>
+        </div>
+      </div>
+
+      {exp.techStack.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {exp.techStack.map((tech) => (
+            <Badge key={`${exp.id}_${tech}`} variant="secondary">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      {bullets.length > 0 && (
+        <>
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="mt-2 self-start text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline transition-colors print:hidden"
+          >
+            {expanded ? "Hide details ↑" : "Details ↓"}
+          </button>
+          {expanded && (
+            <ul className="mt-2 list-disc space-y-0.5 pl-4 text-sm print:hidden">
+              {bullets.map((b, i) => (
+                <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 // ---------- sub-components ----------
 
 function AgenticBadge({ header = false }: { header?: boolean }) {
@@ -238,10 +309,17 @@ export default function ContractorGroupedExperience({
         Experience
       </h2>
 
-      <div className="space-y-6 print:space-y-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-3">
         {renderItems.map((item) => {
           if (item.kind === "single") {
-            return <UngroupedItem key={item.exp.id} exp={item.exp} />;
+            if (item.exp.isCompact) {
+              return <CompactExperienceCard key={item.exp.id} exp={item.exp} />;
+            }
+            return (
+              <div key={item.exp.id} className="col-span-1 sm:col-span-2">
+                <UngroupedItem exp={item.exp} />
+              </div>
+            );
           }
 
           const { exps } = item;
@@ -272,7 +350,7 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
+              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
             >
               {/* Umbrella header */}
               <div className="mb-4 flex items-center gap-3 print:mb-1">
