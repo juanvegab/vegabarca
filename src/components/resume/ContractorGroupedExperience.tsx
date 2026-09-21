@@ -79,7 +79,7 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const liClass = exp.isFeatured
-    ? "print:break-inside-avoid print:border-0 print:bg-white print:rounded-none print:p-0 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+    ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
     : "";
 
   const title = exp.link ? (
@@ -100,12 +100,11 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
 
   return (
     <li className={liClass}>
-      <div className="flex items-start gap-2 print:gap-0">
-        {/* Logo hidden on print */}
+      <div className="flex items-start gap-2">
         {exp.companyLogo ? (
           <SmallLogo src={exp.companyLogo} company={exp.company} />
         ) : (
-          <div className="h-5 w-5 shrink-0 print:hidden" />
+          <div className="h-5 w-5 shrink-0" />
         )}
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -114,20 +113,13 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
           </div>
           <p className="mb-1.5 text-xs text-muted-foreground print:mb-0.5">{exp.dates}</p>
           {exp.techStack.length > 0 && (
-            <>
-              {/* Screen: styled badges */}
-              <div className="mb-2 flex flex-wrap gap-1 print:hidden">
-                {exp.techStack.map((tech) => (
-                  <Badge key={`${exp.id}_${tech}`} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-              {/* Print: plain comma-separated text — ATS-friendly */}
-              <p className="hidden print:block mb-1 text-xs text-gray-500">
-                {exp.techStack.join(", ")}
-              </p>
-            </>
+            <div className="mb-2 flex flex-wrap gap-1">
+              {exp.techStack.map((tech) => (
+                <Badge key={`${exp.id}_${tech}`} variant="secondary">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
           )}
           {bullets.length > 0 && (
             <ul className="list-disc space-y-0.5 pl-4 text-sm">
@@ -163,16 +155,15 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   const wrapClass = exp.isFeatured
-    ? "print:break-inside-avoid print:border-0 print:bg-white print:rounded-none print:p-0 flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
     : "flex items-start gap-3";
 
   return (
     <div className={wrapClass}>
-      {/* Logo hidden on print */}
       {exp.companyLogo ? (
         <SmallLogo src={exp.companyLogo} company={exp.company} />
       ) : (
-        <div className="h-5 w-5 shrink-0 print:hidden" />
+        <div className="h-5 w-5 shrink-0" />
       )}
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
@@ -181,20 +172,13 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
         </div>
         <p className="mb-1.5 text-sm text-muted-foreground print:mb-0.5">{exp.dates}</p>
         {exp.techStack.length > 0 && (
-          <>
-            {/* Screen: styled badges */}
-            <div className="mb-2 flex flex-wrap gap-1 print:hidden">
-              {exp.techStack.map((tech) => (
-                <Badge key={`${exp.id}_${tech}`} variant="secondary">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-            {/* Print: plain comma-separated text — ATS-friendly */}
-            <p className="hidden print:block mb-1 text-xs text-gray-500">
-              {exp.techStack.join(", ")}
-            </p>
-          </>
+          <div className="mb-2 flex flex-wrap gap-1">
+            {exp.techStack.map((tech) => (
+              <Badge key={`${exp.id}_${tech}`} variant="secondary">
+                {tech}
+              </Badge>
+            ))}
+          </div>
         )}
         {bullets.length > 0 && (
           <ul className="list-disc space-y-0.5 pl-4 text-sm">
@@ -286,15 +270,14 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="rounded-lg border bg-card p-5 shadow-sm print:border-0 print:border-b print:border-gray-300 print:rounded-none print:shadow-none print:bg-white print:p-0 print:pb-3"
+              className="rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
             >
               {/* Umbrella header */}
               <div className="mb-4 flex items-center gap-3 print:mb-1">
-                {/* Logo hidden on print */}
                 {company.logo ? (
                   <ContractorLogo src={company.logo} name={company.name} />
                 ) : (
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground print:hidden">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground">
                     {company.name[0]}
                   </div>
                 )}
