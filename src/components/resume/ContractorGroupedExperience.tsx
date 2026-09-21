@@ -28,6 +28,7 @@ function ContractorLogo({ src, name }: { src: string; name: string }) {
       width={40}
       height={40}
       className="shrink-0 rounded-md object-contain"
+      loading="eager"
       onError={() => setFailed(true)}
     />
   );
@@ -49,6 +50,7 @@ function SmallLogo({ src, company }: { src: string; company: string }) {
       width={20}
       height={20}
       className="mt-0.5 shrink-0 rounded object-contain"
+      loading="eager"
       onError={() => setFailed(true)}
     />
   );
