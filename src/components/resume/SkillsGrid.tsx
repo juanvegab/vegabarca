@@ -64,7 +64,18 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
         Skills &amp; Technologies
       </h2>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Print: compact flat text list — ATS-friendly */}
+      <div className="hidden print:block">
+        {orderedCategories.map((category) => (
+          <p key={category} className="mb-1 text-sm">
+            <strong>{category}:</strong>{" "}
+            {grouped[category].join(", ")}
+          </p>
+        ))}
+      </div>
+
+      {/* Screen: visual grid cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 print:hidden">
         {orderedCategories.map((category) => (
           <div
             key={category}

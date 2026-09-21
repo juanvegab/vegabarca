@@ -75,16 +75,29 @@
   }
 }
 
+@page {
+  size: letter;
+  margin: 0.5in 0.65in;
+}
+
 @media print {
   nav,
   .print\:hidden {
     display: none !important;
   }
 
+  img,
+  svg {
+    display: none !important;
+  }
+
   body {
     background: white !important;
-    color: black !important;
-    font-size: 12pt;
+    color: #111 !important;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   main {
@@ -93,20 +106,51 @@
     margin: 0 !important;
   }
 
-  h1 { font-size: 20pt; }
-  h2 { font-size: 14pt; margin-top: 14pt; }
-  h3 { font-size: 12pt; }
+  h1 {
+    font-size: 20pt;
+    line-height: 1.15;
+    margin-bottom: 2pt;
+  }
+
+  h2 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 0.5pt solid #444 !important;
+    padding-bottom: 2pt;
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    color: #222 !important;
+  }
+
+  h3 {
+    font-size: 9.5pt;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
 
   a {
-    color: black !important;
+    color: #111 !important;
     text-decoration: none !important;
   }
 
-  .border {
-    border-color: #ccc !important;
+  p {
+    margin-bottom: 1pt;
   }
 
-  section, article, li {
+  ul,
+  ol {
+    padding-left: 13pt;
+    margin: 2pt 0;
+  }
+
+  li {
+    margin: 1pt 0;
+  }
+
+  section {
     page-break-inside: avoid;
+    margin-bottom: 4pt !important;
   }
 }
