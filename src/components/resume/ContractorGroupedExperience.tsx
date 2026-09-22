@@ -127,6 +127,115 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
   );
 }
 
+// ---------- compact group card ----------
+
+function CompactGroupCard({
+  exps,
+  item,
+}: {
+  exps: ExperienceWithContractor[];
+  item: { key: string };
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const company = exps[0].contractorCompany!;
+  const hasAgentic = exps.some((e) => e.isFeatured);
+
+  const newestDates = exps[0].dates;
+  const oldestDates = exps[exps.length - 1].dates;
+  const dateRange =
+    newestDates === oldestDates
+      ? newestDates
+      : `${oldestDates} – ${newestDates}`;
+
+  const allTech = [...new Set(exps.flatMap((e) => e.techStack))];
+
+  const companyName = company.url ? (
+    <a
+      href={company.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 font-bold text-sm hover:underline"
+    >
+      {company.name}
+      <ExternalLink size={11} className="shrink-0 opacity-60" />
+    </a>
+  ) : (
+    <span className="font-bold text-sm">{company.name}</span>
+  );
+
+  return (
+    <div
+      key={item.key}
+      className="flex flex-col rounded-lg border bg-card p-4 shadow-sm print:p-2 print:shadow-none"
+    >
+      <div className="flex items-start gap-2">
+        {company.logo ? (
+          <ContractorLogo src={company.logo} name={company.name} />
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground">
+            {company.name[0]}
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-1">
+            {companyName}
+            {hasAgentic && <AgenticBadge />}
+          </div>
+          <p className="text-xs text-muted-foreground">{dateRange}</p>
+          <div className="mt-1 space-y-0.5">
+            {exps.map((exp) => (
+              <p key={exp.id} className="text-xs text-muted-foreground">
+                {exp.company} — {exp.position}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {allTech.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {allTech.map((tech) => (
+            <Badge key={tech} variant="secondary">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="mt-2 self-start text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline transition-colors print:hidden"
+      >
+        {expanded ? "Hide details ↑" : "Details ↓"}
+      </button>
+
+      {expanded && (
+        <div className="mt-2 space-y-3 print:hidden">
+          {exps.map((exp) => {
+            const summary = exp.visibleSummary ?? exp.content;
+            const bullets = (summary?.split("\n") ?? []).filter(
+              (p) => p.trim() !== ""
+            );
+            if (bullets.length === 0) return null;
+            return (
+              <div key={exp.id}>
+                <p className="text-xs font-semibold mb-0.5">
+                  {exp.company} — {exp.position}
+                </p>
+                <ul className="list-disc space-y-0.5 pl-4 text-sm">
+                  {bullets.map((b, i) => (
+                    <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ---------- sub-components ----------
 
 function AgenticBadge({ header = false }: { header?: boolean }) {
@@ -323,6 +432,11 @@ export default function ContractorGroupedExperience({
           }
 
           const { exps } = item;
+
+          if (exps.every((e) => e.isCompact)) {
+            return <CompactGroupCard key={item.key} exps={exps} item={item} />;
+          }
+
           const company = exps[0].contractorCompany!;
           const hasAgentic = exps.some((e) => e.isFeatured);
 
