@@ -63,6 +63,7 @@ const AddEditExperienceDialog = ({
       link: experienceToEdit?.link || undefined,
       isFeatured: experienceToEdit?.isFeatured ?? false,
       isCompact: experienceToEdit?.isCompact ?? false,
+      isHidden: experienceToEdit?.isHidden ?? false,
       content: experienceToEdit?.content || "",
       visibleSummary: experienceToEdit?.visibleSummary || "",
       contractorCompanyId: experienceToEdit?.contractorCompanyId || undefined,
@@ -283,6 +284,26 @@ const AddEditExperienceDialog = ({
                           />
                         </FormControl>
                         <FormLabel className="mb-0 cursor-pointer">Compact card</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="isHidden"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value ?? false}
+                            onChange={(e) => field.onChange(e.target.checked)}
+                            className="h-4 w-4 rounded border-input accent-red-600"
+                          />
+                        </FormControl>
+                        <FormLabel className="mb-0 cursor-pointer">Hidden</FormLabel>
                       </div>
                       <FormMessage />
                     </FormItem>

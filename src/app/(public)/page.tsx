@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 const Home = async () => {
   const [featuredExperiences, technologies] = await Promise.all([
     prisma.experience.findMany({
-      where: { isFeatured: true },
+      where: { isFeatured: true, isHidden: false },
       orderBy: { order: "asc" },
     }),
     prisma.technology.findMany({}),

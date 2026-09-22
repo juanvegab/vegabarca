@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ResumePage() {
   const [experiences, technologies] = await Promise.all([
-    prisma.experience.findMany({ include: { contractorCompany: true } }),
+    prisma.experience.findMany({ where: { isHidden: false }, include: { contractorCompany: true } }),
     prisma.technology.findMany({}),
   ]);
 

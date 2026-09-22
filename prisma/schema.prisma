@@ -48,6 +48,7 @@ model Experience {
   dates     String
   isFeatured Boolean  @default(false)
   isCompact  Boolean  @default(false)
+  isHidden   Boolean  @default(false)
   visibleSummary String?
   contractorCompany   ContractorCompany? @relation(fields: [contractorCompanyId], references: [id])
   contractorCompanyId String?            @db.ObjectId
