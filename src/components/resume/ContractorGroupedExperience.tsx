@@ -376,7 +376,7 @@ export default function ContractorGroupedExperience({
         Experience
       </h2>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-3 items-start">
         {renderItems.map((item) => {
           if (item.kind === "single") {
             if (item.exp.isCompact) {
