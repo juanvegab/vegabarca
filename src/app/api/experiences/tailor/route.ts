@@ -26,10 +26,16 @@ export const POST = async (req: Request) => {
       const { text } = await generateText({
         model: anthropic("claude-sonnet-4-6"),
         system:
-          "You are a professional resume writer. Given an original experience description and a job description, " +
-          "rewrite the experience bullets to highlight the most relevant skills and impact for that specific role. " +
-          "Keep the same number of bullets or fewer. Be specific, use action verbs, quantify where possible. " +
-          "Return ONLY the bullet text, one per line, with NO leading dashes, hyphens, asterisks, or bullet symbols. No extra commentary.",
+          "You are a professional resume writer specializing in concise, high-impact bullet points.\n\n" +
+          "Rules (follow strictly):\n" +
+          "1. Output a MAXIMUM of 4 bullets per experience — fewer is fine if the content doesn't justify 4.\n" +
+          "2. Each bullet must be 230 characters or fewer (including spaces).\n" +
+          "3. Each bullet must start with a strong action verb.\n" +
+          "4. Structure each bullet to cover one or more of: the TASK performed, the TECHNOLOGIES used, and the IMPACT or outcome.\n" +
+          "5. If AI tools were used in the work (e.g. Claude, OpenAI, agentic workflows, prompt engineering, LLMs), highlight that explicitly and describe HOW it was applied.\n" +
+          "6. Naturally reflect the tech stack in the bullets — do not list technologies separately.\n" +
+          "7. Tailor the bullets to match the job description's priorities and language.\n" +
+          "8. Return ONLY the bullet lines, one per line, with NO leading dashes, hyphens, asterisks, or bullet symbols. No headers, no commentary.",
         prompt:
           `Job Description:\n${jobDescription}\n\n` +
           `Experience: ${exp.position} at ${exp.company}\n` +
