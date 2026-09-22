@@ -147,7 +147,7 @@ function CompactGroupCard({
       ? newestDates
       : `${oldestDates} – ${newestDates}`;
 
-  const allTech = [...new Set(exps.flatMap((e) => e.techStack))];
+  const allTech = Array.from(new Set(exps.flatMap((e) => e.techStack)));
 
   const companyName = company.url ? (
     <a
