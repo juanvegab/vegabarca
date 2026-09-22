@@ -12,13 +12,14 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 const Home = async () => {
-  const [featuredExperiences, technologies] = await Promise.all([
+  const [allFeatured, technologies] = await Promise.all([
     prisma.experience.findMany({
       where: { isFeatured: true },
       orderBy: { order: "asc" },
     }),
     prisma.technology.findMany({}),
   ]);
+  const featuredExperiences = allFeatured.filter((e) => !e.isHidden);
 
   return (
     <main>
@@ -40,7 +41,7 @@ const Home = async () => {
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {featuredExperiences.map((experience) => (
-              <ExperienceCard key={experience.id} experience={experience} hideDates />
+              <ExperienceCard key={experience.id} experience={experience} />
             ))}
           </div>
           <div className="mt-8 text-center">

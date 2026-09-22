@@ -38,6 +38,8 @@ export const POST = async (req: Request) => {
       content,
       visibleSummary,
       isFeatured,
+      isCompact,
+      isHidden,
       contractorCompanyId,
     } = parseResult.data;
     const { userId } = auth();
@@ -59,6 +61,8 @@ export const POST = async (req: Request) => {
         content,
         visibleSummary,
         isFeatured: isFeatured ?? false,
+        isCompact: isCompact ?? false,
+        isHidden: isHidden ?? false,
         contractorCompanyId,
       },
     });
@@ -107,6 +111,8 @@ export const PUT = async (req: Request) => {
       content,
       visibleSummary,
       isFeatured,
+      isCompact,
+      isHidden,
       contractorCompanyId,
       id,
     } = parseResult.data;
@@ -136,6 +142,8 @@ export const PUT = async (req: Request) => {
         content,
         visibleSummary,
         isFeatured: isFeatured ?? false,
+        isCompact: isCompact ?? false,
+        isHidden: isHidden ?? false,
         contractorCompanyId,
       },
     });

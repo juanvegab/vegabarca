@@ -12,6 +12,8 @@ export const createExperienceSchema = z.object({
   visibleSummary: z.string().optional(),
   dates: z.string().min(1, { message: "Dates are required" }),
   isFeatured: z.boolean().optional(),
+  isCompact: z.boolean().optional(),
+  isHidden: z.boolean().optional(),
   contractorCompanyId: z.string().optional(),
 });
 

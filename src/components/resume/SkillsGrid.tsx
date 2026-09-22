@@ -29,7 +29,7 @@ const FALLBACK_SKILLS: Record<string, string[]> = {
   Mobile: ["React Native", "Ionic", "Cordova"],
   Backend: [
     "Node.js", "NestJS", "Express", "Elixir", "Phoenix Live",
-    "Python", "PHP", "C#",
+    "Python", "PHP", "C#", "Java",
   ],
   Databases: ["PostgreSQL", "MongoDB", "Firebase", "MySQL", "GraphQL", "Pinecone"],
   Others: ["GIT", "GitFlow", "Figma", "UI/UX Design", "Jira", "AWS Cognito", "Vercel", "Linux"],
