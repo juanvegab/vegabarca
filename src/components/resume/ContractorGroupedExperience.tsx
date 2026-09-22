@@ -169,7 +169,7 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   return (
-    <li className="flex flex-col gap-1">
+    <li className="col-span-1 flex flex-col gap-1">
       <div className="flex items-start gap-2">
         {exp.companyLogo ? (
           <SmallLogo src={exp.companyLogo} company={exp.company} />
@@ -218,9 +218,12 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const liClass = exp.isFeatured
-    ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-    : "";
+  const liClass = [
+    "col-span-1 sm:col-span-2",
+    exp.isFeatured
+      ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+      : "",
+  ].join(" ");
 
   const title = exp.link ? (
     <a
@@ -438,7 +441,7 @@ export default function ContractorGroupedExperience({
               </div>
 
               {/* Sub-projects */}
-              <ol className="space-y-4 border-l border-border pl-5 print:space-y-2 print:border-0 print:pl-4">
+              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-start border-l border-border pl-5 print:border-0 print:pl-4 print:gap-2">
                 {exps.map((exp) =>
                   exp.isCompact ? (
                     <CompactSubProject key={exp.id} exp={exp} />
