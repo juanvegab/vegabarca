@@ -393,6 +393,12 @@ export default function ContractorGroupedExperience({
           }
 
           const { exps } = item;
+
+          // Single compact sub-experience → render as col-span-1 compact card
+          if (exps.length === 1 && exps[0].isCompact) {
+            return <CompactExperienceCard key={item.key} exp={exps[0]} />;
+          }
+
           const company = exps[0].contractorCompany!;
           const hasAgentic = exps.some((e) => e.isFeatured);
 
