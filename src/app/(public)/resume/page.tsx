@@ -9,10 +9,11 @@ import ResumeDownload from "@/components/resume/ResumeDownload";
 export const dynamic = "force-dynamic";
 
 export default async function ResumePage() {
-  const [experiences, technologies] = await Promise.all([
-    prisma.experience.findMany({ where: { NOT: { isHidden: true } }, include: { contractorCompany: true } }),
+  const [allExperiences, technologies] = await Promise.all([
+    prisma.experience.findMany({ include: { contractorCompany: true } }),
     prisma.technology.findMany({}),
   ]);
+  const experiences = allExperiences.filter((e) => !e.isHidden);
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 print:px-0 print:py-0">

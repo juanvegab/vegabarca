@@ -12,13 +12,14 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 const Home = async () => {
-  const [featuredExperiences, technologies] = await Promise.all([
+  const [allFeatured, technologies] = await Promise.all([
     prisma.experience.findMany({
-      where: { isFeatured: true, NOT: { isHidden: true } },
+      where: { isFeatured: true },
       orderBy: { order: "asc" },
     }),
     prisma.technology.findMany({}),
   ]);
+  const featuredExperiences = allFeatured.filter((e) => !e.isHidden);
 
   return (
     <main>
