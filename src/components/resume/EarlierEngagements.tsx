@@ -1,12 +1,12 @@
 "use client";
 
-import { Experience } from "@prisma/client";
 import Image from "next/image";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { ExperienceWithContractor } from "@/components/SortableExperienceGrid";
 
 interface EarlierEngagementsProps {
-  experiences: Experience[];
+  experiences: ExperienceWithContractor[];
 }
 
 function extractYears(dates: string): string {
@@ -60,7 +60,12 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
                   <InlineLogo src={exp.companyLogo} company={exp.company} />
                 )}
                 <span className="font-medium text-foreground">{exp.company}</span>
-                <span className="text-muted-foreground">— {exp.position}</span>
+                <span className="text-muted-foreground">
+                  — {exp.position}
+                  {exp.contractorCompany && (
+                    <span className="text-muted-foreground/70"> at {exp.contractorCompany.name}</span>
+                  )}
+                </span>
               </span>
               <span className="shrink-0 tabular-nums text-muted-foreground">
                 {extractYears(exp.dates)}
