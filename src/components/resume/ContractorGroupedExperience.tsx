@@ -442,7 +442,6 @@ export default function ContractorGroupedExperience({
                     <h3 className="text-base">{companyName}</h3>
                     {hasAgentic && <AgenticBadge header />}
                   </div>
-                  <p className="text-xs text-muted-foreground">{dateRange}</p>
                 </div>
               </div>
 
