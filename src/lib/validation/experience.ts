@@ -14,6 +14,7 @@ export const createExperienceSchema = z.object({
   isFeatured: z.boolean().optional(),
   isCompact: z.boolean().optional(),
   isHidden: z.boolean().optional(),
+  isCondensed: z.boolean().optional(),
   contractorCompanyId: z.string().optional(),
 });
 
