@@ -1,4 +1,9 @@
+"use client";
+
 import { Experience } from "@prisma/client";
+import Image from "next/image";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 interface EarlierEngagementsProps {
   experiences: Experience[];
@@ -10,6 +15,27 @@ function extractYears(dates: string): string {
   const first = years[0];
   const last = years[years.length - 1];
   return first === last ? first : `${first} – ${last}`;
+}
+
+function InlineLogo({ src, company }: { src: string; company: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded bg-muted text-[8px] font-bold text-muted-foreground">
+        {company[0]}
+      </span>
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={`${company} logo`}
+      width={16}
+      height={16}
+      className="inline-block h-4 w-4 shrink-0 rounded object-contain"
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 export default function EarlierEngagements({ experiences }: EarlierEngagementsProps) {
@@ -25,18 +51,30 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
       >
         Earlier Engagements
       </h2>
-      <ul className="space-y-1">
+      <ul className="space-y-2">
         {sorted.map((exp) => (
-          <li
-            key={exp.id}
-            className="flex items-baseline justify-between gap-4 text-sm text-muted-foreground print:text-[8.5pt]"
-          >
-            <span>
-              <span className="font-medium text-foreground">{exp.company}</span>
-              {" — "}
-              {exp.position}
-            </span>
-            <span className="shrink-0 tabular-nums">{extractYears(exp.dates)}</span>
+          <li key={exp.id} className="text-sm print:text-[8.5pt]">
+            <div className="flex items-center justify-between gap-4">
+              <span className="flex items-center gap-1.5">
+                {exp.companyLogo && (
+                  <InlineLogo src={exp.companyLogo} company={exp.company} />
+                )}
+                <span className="font-medium text-foreground">{exp.company}</span>
+                <span className="text-muted-foreground">— {exp.position}</span>
+              </span>
+              <span className="shrink-0 tabular-nums text-muted-foreground">
+                {extractYears(exp.dates)}
+              </span>
+            </div>
+            {exp.techStack.length > 0 && (
+              <div className="mt-1 flex flex-wrap gap-1 pl-5">
+                {exp.techStack.map((tech) => (
+                  <Badge key={tech} variant="secondary" className="text-[10px] px-1.5 py-0 print:text-[7pt]">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </li>
         ))}
       </ul>
