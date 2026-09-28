@@ -38,6 +38,58 @@ function InlineLogo({ src, company }: { src: string; company: string }) {
   );
 }
 
+function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
+  const [expanded, setExpanded] = useState(false);
+  const summary = exp.visibleSummary ?? exp.content;
+  const bullets = (summary?.split("\n") ?? []).filter((b) => b.trim() !== "");
+
+  return (
+    <li className="text-sm print:text-[8.5pt]">
+      <div className="flex items-center justify-between gap-4">
+        <span className="flex items-center gap-1.5">
+          {exp.companyLogo && (
+            <InlineLogo src={exp.companyLogo} company={exp.company} />
+          )}
+          <span className="font-medium text-foreground">{exp.company}</span>
+          <span className="text-muted-foreground">
+            — {exp.position}
+            {exp.contractorCompany && (
+              <span className="text-muted-foreground/70"> at {exp.contractorCompany.name}</span>
+            )}
+          </span>
+          {bullets.length > 0 && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="print:hidden ml-1 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline transition-colors"
+            >
+              {expanded ? "less ↑" : "more ↓"}
+            </button>
+          )}
+        </span>
+        <span className="shrink-0 tabular-nums text-muted-foreground">
+          {extractYears(exp.dates)}
+        </span>
+      </div>
+      {exp.techStack.length > 0 && (
+        <div className="mt-1 flex flex-wrap gap-1 pl-5">
+          {exp.techStack.map((tech) => (
+            <Badge key={tech} variant="secondary" className="text-[10px] px-1.5 py-0 print:text-[7pt]">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      )}
+      {expanded && bullets.length > 0 && (
+        <ul className="print:hidden mt-2 list-disc space-y-0.5 pl-9 text-sm text-muted-foreground">
+          {bullets.map((b, i) => (
+            <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 export default function EarlierEngagements({ experiences }: EarlierEngagementsProps) {
   if (experiences.length === 0) return null;
 
@@ -53,34 +105,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
       </h2>
       <ul className="space-y-2">
         {sorted.map((exp) => (
-          <li key={exp.id} className="text-sm print:text-[8.5pt]">
-            <div className="flex items-center justify-between gap-4">
-              <span className="flex items-center gap-1.5">
-                {exp.companyLogo && (
-                  <InlineLogo src={exp.companyLogo} company={exp.company} />
-                )}
-                <span className="font-medium text-foreground">{exp.company}</span>
-                <span className="text-muted-foreground">
-                  — {exp.position}
-                  {exp.contractorCompany && (
-                    <span className="text-muted-foreground/70"> at {exp.contractorCompany.name}</span>
-                  )}
-                </span>
-              </span>
-              <span className="shrink-0 tabular-nums text-muted-foreground">
-                {extractYears(exp.dates)}
-              </span>
-            </div>
-            {exp.techStack.length > 0 && (
-              <div className="mt-1 flex flex-wrap gap-1 pl-5">
-                {exp.techStack.map((tech) => (
-                  <Badge key={tech} variant="secondary" className="text-[10px] px-1.5 py-0 print:text-[7pt]">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </li>
+          <EngagementRow key={exp.id} exp={exp} />
         ))}
       </ul>
     </section>

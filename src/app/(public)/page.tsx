@@ -15,7 +15,7 @@ const Home = async () => {
   const [allFeatured, technologies] = await Promise.all([
     prisma.experience.findMany({
       where: { isFeatured: true },
-      orderBy: { order: "asc" },
+      orderBy: { order: "desc" },
     }),
     prisma.technology.findMany({}),
   ]);
