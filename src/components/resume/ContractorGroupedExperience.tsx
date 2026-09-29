@@ -453,10 +453,10 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
+              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none print:break-inside-avoid"
             >
-              {/* Umbrella header — break-after:avoid keeps it attached to first child */}
-              <div className="mb-4 flex items-center gap-3 print:mb-1 print:break-after-avoid">
+              {/* Umbrella header */}
+              <div className="mb-4 flex items-center gap-3 print:mb-1">
                 {company.logo ? (
                   <ContractorLogo src={company.logo} name={company.name} />
                 ) : (
