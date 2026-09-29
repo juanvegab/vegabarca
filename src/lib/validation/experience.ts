@@ -15,6 +15,7 @@ export const createExperienceSchema = z.object({
   isCompact: z.boolean().optional(),
   isHidden: z.boolean().optional(),
   isCondensed: z.boolean().optional(),
+  engagementType: z.enum(["full-time", "part-time", "contract", "freelance"]).optional(),
   contractorCompanyId: z.string().optional(),
 });
 

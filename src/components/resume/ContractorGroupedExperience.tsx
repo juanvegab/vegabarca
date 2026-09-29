@@ -92,7 +92,10 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
             {title}
             {exp.isFeatured && <AgenticBadge />}
           </div>
+          <div className="flex items-center gap-1.5">
           <p className="text-xs text-muted-foreground">{exp.dates}</p>
+          {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+        </div>
         </div>
       </div>
 
@@ -128,6 +131,21 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
 }
 
 // ---------- sub-components ----------
+
+function EngagementTypeBadge({ type }: { type: string }) {
+  const labels: Record<string, string> = {
+    "full-time": "Full-time",
+    "part-time": "Part-time",
+    contract: "Contract",
+    freelance: "Freelance",
+  };
+  const label = labels[type] ?? type;
+  return (
+    <span className="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium text-muted-foreground print:text-[7pt]">
+      {label}
+    </span>
+  );
+}
 
 function AgenticBadge({ header = false }: { header?: boolean }) {
   const base = "inline-flex items-center gap-1 rounded-full font-medium";
@@ -181,7 +199,10 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
             {title}
             {exp.isFeatured && <AgenticBadge />}
           </div>
-          <p className="text-xs text-muted-foreground">{exp.dates}</p>
+          <div className="flex items-center gap-1.5">
+            <p className="text-xs text-muted-foreground">{exp.dates}</p>
+            {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+          </div>
         </div>
       </div>
       {exp.techStack.length > 0 && (
@@ -254,7 +275,10 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
             {title}
             {exp.isFeatured && <AgenticBadge />}
           </div>
-          <p className="mb-1.5 text-xs text-muted-foreground print:mb-0.5">{exp.dates}</p>
+          <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
+            <p className="text-xs text-muted-foreground">{exp.dates}</p>
+            {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+          </div>
           {exp.techStack.length > 0 && (
             <div className="mb-2 flex flex-wrap gap-1">
               {exp.techStack.map((tech) => (
@@ -313,7 +337,10 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
           {title}
           {exp.isFeatured && <AgenticBadge />}
         </div>
-        <p className="mb-1.5 text-sm text-muted-foreground print:mb-0.5">{exp.dates}</p>
+        <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
+          <p className="text-sm text-muted-foreground">{exp.dates}</p>
+          {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+        </div>
         {exp.techStack.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-1">
             {exp.techStack.map((tech) => (
@@ -426,7 +453,7 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
+              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none print:break-inside-avoid"
             >
               {/* Umbrella header */}
               <div className="mb-4 flex items-center gap-3 print:mb-1">

@@ -41,6 +41,7 @@ export const POST = async (req: Request) => {
       isCompact,
       isHidden,
       isCondensed,
+      engagementType,
       contractorCompanyId,
     } = parseResult.data;
     const { userId } = auth();
@@ -65,6 +66,7 @@ export const POST = async (req: Request) => {
         isCompact: isCompact ?? false,
         isHidden: isHidden ?? false,
         isCondensed: isCondensed ?? false,
+        engagementType: engagementType ?? null,
         contractorCompanyId,
       },
     });
@@ -116,6 +118,7 @@ export const PUT = async (req: Request) => {
       isCompact,
       isHidden,
       isCondensed,
+      engagementType,
       contractorCompanyId,
       id,
     } = parseResult.data;
@@ -148,6 +151,7 @@ export const PUT = async (req: Request) => {
         isCompact: isCompact ?? false,
         isHidden: isHidden ?? false,
         isCondensed: isCondensed ?? false,
+        engagementType: engagementType ?? null,
         contractorCompanyId,
       },
     });
