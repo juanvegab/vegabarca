@@ -16,7 +16,7 @@ function ContractorLogo({ src, name }: { src: string; name: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
     return (
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted text-sm font-bold text-muted-foreground print:h-6 print:w-6 print:text-xs">
         {name[0]}
       </div>
     );
@@ -27,7 +27,7 @@ function ContractorLogo({ src, name }: { src: string; name: string }) {
       alt={`${name} logo`}
       width={40}
       height={40}
-      className="shrink-0 rounded-md object-contain"
+      className="shrink-0 rounded-md object-contain print:h-6 print:w-6"
       loading="eager"
       onError={() => setFailed(true)}
     />
@@ -456,7 +456,7 @@ export default function ContractorGroupedExperience({
               className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none print:break-inside-avoid"
             >
               {/* Umbrella header */}
-              <div className="mb-4 flex items-center gap-3 print:mb-1">
+              <div className="mb-4 flex items-center gap-3 print:mb-1 print:gap-2">
                 {company.logo ? (
                   <ContractorLogo src={company.logo} name={company.name} />
                 ) : (
@@ -466,7 +466,7 @@ export default function ContractorGroupedExperience({
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-base">{companyName}</h3>
+                    <h3 className="text-base print:text-sm">{companyName}</h3>
                     {hasAgentic && <AgenticBadge header />}
                   </div>
                 </div>
