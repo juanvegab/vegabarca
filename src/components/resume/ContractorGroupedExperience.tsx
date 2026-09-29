@@ -187,7 +187,7 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   return (
-    <li className="col-span-1 flex flex-col gap-1">
+    <li className="col-span-1 flex flex-col gap-1 print:break-inside-avoid">
       <div className="flex items-start gap-2">
         {exp.companyLogo ? (
           <SmallLogo src={exp.companyLogo} company={exp.company} />
@@ -240,9 +240,9 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const liClass = [
-    "col-span-1 sm:col-span-2",
+    "col-span-1 sm:col-span-2 print:break-inside-avoid",
     exp.isFeatured
-      ? "print:break-inside-avoid rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
+      ? "rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
       : "",
   ].join(" ");
 
@@ -453,10 +453,10 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none print:break-inside-avoid"
+              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none"
             >
-              {/* Umbrella header */}
-              <div className="mb-4 flex items-center gap-3 print:mb-1">
+              {/* Umbrella header — break-after:avoid keeps it attached to first child */}
+              <div className="mb-4 flex items-center gap-3 print:mb-1 print:break-after-avoid">
                 {company.logo ? (
                   <ContractorLogo src={company.logo} name={company.name} />
                 ) : (
