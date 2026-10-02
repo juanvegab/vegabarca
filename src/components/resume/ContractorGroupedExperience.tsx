@@ -473,7 +473,7 @@ export default function ContractorGroupedExperience({
               </div>
 
               {/* Sub-projects */}
-              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-start border-l border-border pl-5 print:border-0 print:pl-4 print:gap-2">
+              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-start print:gap-2">
                 {exps.map((exp) =>
                   exp.isCompact ? (
                     <CompactSubProject key={exp.id} exp={exp} />
