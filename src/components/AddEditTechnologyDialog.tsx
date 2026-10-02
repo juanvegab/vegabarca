@@ -28,7 +28,7 @@ import {
   createTechnologySchema,
 } from "@/lib/validation/technology";
 
-const CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Others"];
+const CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
 
 interface Props {
   open: boolean;
