@@ -16,15 +16,15 @@ async function categorizeWithClaude(techNames: string[]): Promise<Record<string,
     model: anthropic("claude-sonnet-4-6"),
     system:
       `You are a software engineering taxonomy expert. Categorize each technology into one or more of these exact categories: ${VALID_CATEGORIES.join(", ")}.\n\n` +
-      `Guidelines:\n` +
-      `- AI/ML: LLMs, AI frameworks, prompt engineering, embeddings, vector DBs, AI APIs (Claude, OpenAI, etc.)\n` +
-      `- Frontend: UI frameworks/libraries, CSS, HTML, JS frameworks, state management\n` +
-      `- Mobile: mobile frameworks, native mobile tools\n` +
-      `- Backend: server frameworks, languages, runtime environments\n` +
-      `- Databases: databases, ORMs, data stores\n` +
-      `- Tools & Platforms: cloud providers, SaaS platforms, auth services, payment services, analytics, CI/CD, DevOps tools (AWS, Vercel, Clerk, Salesforce, Stripe, RevenueCat, AdMob, GitHub, CI/CD, etc.)\n` +
-      `- UI/UX: design tools, design systems, accessibility, UX methodologies (Figma, A11y, UI/UX Design, etc.)\n` +
-      `- Others: anything that genuinely doesn't fit above\n\n` +
+      `Guidelines per category:\n` +
+      `- AI/ML: LLMs, AI frameworks, prompt engineering, embeddings, vector DBs, AI APIs and coding assistants — includes Claude, OpenAI, LangChain, RAG, Cursor, Copilot, AI SDK, ML Kit, etc.\n` +
+      `- Frontend: UI frameworks/libraries, CSS, HTML, JS frameworks, state management, web performance metrics — includes React, Next.js, Vue, Angular, Tailwind, GSAP, Redux, TypeScript (when used in frontend context), CWV, etc.\n` +
+      `- Mobile: mobile-specific frameworks, build tools and runtimes — includes React Native, Expo, EAS Build, NativeWind, Ionic, Cordova, etc.\n` +
+      `- Backend: server-side frameworks, programming languages, runtimes, CMS platforms — includes Node.js, NestJS, Elixir, Phoenix, PHP, Python, Java, C#, .Net, Microservices, Wordpress, Sitecore, Cloud Functions, etc.\n` +
+      `- Databases: databases, ORMs, data stores, search engines — includes PostgreSQL, MongoDB, MySQL, Firebase, Firestore, Prisma, Pinecone, GraphQL, Redis, etc.\n` +
+      `- Tools & Platforms: cloud infrastructure, SaaS/third-party services, auth providers, payment platforms, analytics SDKs, DevOps and CI/CD tools — includes AWS, Vercel, Clerk, Salesforce, Stytch, Stripe, RevenueCat, AdMob, GitHub, CI/CD, YAML, SEO tools, etc. NOT programming languages or frameworks.\n` +
+      `- UI/UX: design tools, design methodologies, accessibility standards, UX practices — includes Figma, A11y, UI/UX Design, UX/UI Design, Responsive Design, etc.\n` +
+      `- Others: only use for things that genuinely don't fit any category above.\n\n` +
       `Rules:\n` +
       `- Return ONLY valid JSON: an object where each key is a technology name (exactly as given) and the value is an array of category strings.\n` +
       `- Use ONLY the categories listed above, spelled exactly as shown.\n` +
