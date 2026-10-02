@@ -67,12 +67,13 @@ export const POST = async (req: Request) => {
   const { userId } = auth();
   if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { jobDescription } = await req.json();
+  const { jobDescription, force = false } = await req.json();
   if (!jobDescription?.trim())
     return Response.json({ error: "jobDescription is required" }, { status: 400 });
 
   const experiences = await prisma.experience.findMany({
     orderBy: { order: "desc" },
+    where: force ? undefined : { visibleSummary: null },
   });
 
   // Seed with the most common verbs already in the resume to push variety from the start
@@ -158,7 +159,11 @@ export const POST = async (req: Request) => {
     results.push({ id: exp.id, company: exp.company, position: exp.position, visibleSummary });
   }
 
-  return Response.json({ tailored: results.length, results });
+  const remaining = await prisma.experience.count({
+    where: { visibleSummary: null, content: { not: null } },
+  });
+
+  return Response.json({ tailored: results.length, remaining, results });
 };
 
 export const DELETE = async () => {

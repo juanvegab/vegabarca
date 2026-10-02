@@ -21,16 +21,29 @@ export default function TailorPage() {
     setLoading(true);
     setStatus(null);
     setResults(null);
+
+    let totalTailored = 0;
+    const allResults: TailoredResult[] = [];
+
     try {
-      const res = await fetch("/api/experiences/tailor", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jobDescription }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setResults(data.results);
-      setStatus(`Tailored ${data.tailored} experiences successfully.`);
+      while (true) {
+        setStatus(`Tailoring… (${totalTailored} done so far)`);
+        const res = await fetch("/api/experiences/tailor", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ jobDescription }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? "Unknown error");
+
+        totalTailored += data.tailored ?? 0;
+        allResults.push(...(data.results ?? []));
+        setResults([...allResults]);
+
+        if (!data.remaining || data.remaining === 0) break;
+        setStatus(`Tailoring… (${totalTailored} done, ${data.remaining} remaining)`);
+      }
+      setStatus(`Done — tailored ${totalTailored} experience${totalTailored !== 1 ? "s" : ""}.`);
     } catch (e) {
       setStatus(`Error: ${e}`);
     } finally {
