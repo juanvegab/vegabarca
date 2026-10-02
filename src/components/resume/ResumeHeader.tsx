@@ -60,6 +60,10 @@ export default function ResumeHeader() {
           applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
           Looking for remote Senior roles on AI products.
         </p>
+        <p className="mt-1">
+          <span className="font-medium text-foreground">Languages:</span>{" "}
+          English (Fluent) · Italian (B1) · Spanish (Native)
+        </p>
       </div>
     </header>
   );

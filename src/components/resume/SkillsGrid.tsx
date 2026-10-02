@@ -7,6 +7,10 @@ interface SkillsGridProps {
 
 const CATEGORY_ORDER = ["Languages", "Frontend", "Mobile", "Backend & Data", "AI / LLM", "Agentic Coding", "Tools & Platforms", "UI/UX", "Others"];
 
+const CATEGORY_LABEL: Record<string, string> = {
+  Languages: "Programming Languages",
+};
+
 const FALLBACK_SKILLS: Record<string, string[]> = {
   "AI/ML": [
     "Large Language Models (LLMs)",
@@ -70,7 +74,7 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
         {orderedCategories.map((category) => (
           <div key={category} className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
             <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-muted-foreground">
-              {category}
+              {CATEGORY_LABEL[category] ?? category}
             </span>
             <div className="flex flex-wrap gap-1.5">
               {grouped[category].map((skill) => (
@@ -87,7 +91,7 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
       <div className="hidden print:block space-y-0.5 text-[8.5pt]">
         {orderedCategories.map((category) => (
           <p key={category}>
-            <span className="font-bold uppercase tracking-wide">{category}:</span>{" "}
+            <span className="font-bold uppercase tracking-wide">{CATEGORY_LABEL[category] ?? category}:</span>{" "}
             {grouped[category].join(", ")}
           </p>
         ))}
