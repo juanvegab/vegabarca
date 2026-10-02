@@ -3,7 +3,7 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { generateText } from "ai";
 import { auth } from "@clerk/nextjs";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
 const MAX_CHARS = 230;
 
