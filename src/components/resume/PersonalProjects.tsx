@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+// useState kept for ProjectLogo error fallback
 import { ExternalLink, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Experience } from "@prisma/client";
@@ -42,7 +43,6 @@ function AgenticBadge() {
 }
 
 function ProjectCard({ project }: { project: Experience }) {
-  const [expanded, setExpanded] = useState(false);
   const summary = project.visibleSummary ?? project.content;
   const bullets = (summary?.split("\n") ?? []).filter((b) => b.trim() !== "");
 
@@ -91,19 +91,11 @@ function ProjectCard({ project }: { project: Experience }) {
           </div>
         )}
         {bullets.length > 0 && (
-          <>
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="mb-1 self-start text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline transition-colors print:hidden"
-            >
-              {expanded ? "Hide details ↑" : "Details ↓"}
-            </button>
-            <ul className={`list-disc space-y-0.5 pl-4 text-sm ${expanded ? "block" : "hidden"} print:block`}>
-              {bullets.map((b, i) => (
-                <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
-              ))}
-            </ul>
-          </>
+          <ul className="list-disc space-y-0.5 pl-4 text-sm">
+            {bullets.map((b, i) => (
+              <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
+            ))}
+          </ul>
         )}
       </div>
     </div>
