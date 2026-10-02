@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
 
   const [experiences, technologies] = await Promise.all([
     prisma.experience.findMany({ orderBy: { order: "desc" } }),
-    prisma.technology.findMany({ select: { id: true, name: true } }),
+    prisma.technology.findMany({ select: { id: true, name: true, categories: true } }),
   ]);
 
   const experienceData = experiences
@@ -91,6 +91,30 @@ export const POST = async (req: Request) => {
     if (!tech) continue;
     await prisma.technology.update({ where: { id: tech.id }, data: { isHidden: true } });
     results.hidden++;
+  }
+
+  // Hide any technology that still has a legacy/invalid category name.
+  // These are stale records from before the category restructure (e.g. "Backend", "AI/ML").
+  const touchedIds = new Set<string>();
+  for (const skills of Object.values(parsed.skills)) {
+    for (const skillName of skills) {
+      const tech = techByKey.get(normalize(skillName));
+      if (tech) touchedIds.add(tech.id);
+    }
+  }
+  for (const skillName of parsed.hidden ?? []) {
+    const tech = techByKey.get(normalize(skillName));
+    if (tech) touchedIds.add(tech.id);
+  }
+
+  const untouched = technologies.filter((t) => !touchedIds.has(t.id));
+  const legacyIds = untouched
+    .filter((t) => t.categories.some((c) => !VALID_CATEGORIES.includes(c)))
+    .map((t) => t.id);
+
+  if (legacyIds.length > 0) {
+    await prisma.technology.updateMany({ where: { id: { in: legacyIds } }, data: { isHidden: true } });
+    results.hidden += legacyIds.length;
   }
 
   return Response.json({ ...results, categories: Object.keys(parsed.skills) });
