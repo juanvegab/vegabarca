@@ -102,7 +102,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
         id="earlier-heading"
         className="mb-3 text-xl font-bold tracking-tight"
       >
-        Earlier Engagements
+        Previous Experience
       </h2>
       <ul className="space-y-2">
         {sorted.map((exp) => (

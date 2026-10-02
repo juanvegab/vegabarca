@@ -65,12 +65,11 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
         Skills &amp; Technologies
       </h2>
 
-      <div className="space-y-2">
+      {/* Web: pills layout */}
+      <div className="space-y-2 print:hidden">
         {orderedCategories.map((category) => (
           <div key={category} className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-            <span
-              className="shrink-0 text-xs font-bold uppercase tracking-wide text-muted-foreground"
-            >
+            <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-muted-foreground">
               {category}
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -81,6 +80,16 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
               ))}
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Print: comma-separated text */}
+      <div className="hidden print:block space-y-0.5 text-[8.5pt]">
+        {orderedCategories.map((category) => (
+          <p key={category}>
+            <span className="font-bold uppercase tracking-wide">{category}:</span>{" "}
+            {grouped[category].join(", ")}
+          </p>
         ))}
       </div>
     </section>

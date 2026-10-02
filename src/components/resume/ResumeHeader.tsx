@@ -54,7 +54,7 @@ export default function ResumeHeader() {
 
       <div className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">
         <p>
-          Senior Full-Stack Engineer with 15+ years building scalable web and mobile
+          Senior Full-Stack Engineer with 15+ years building web and mobile
           applications with React, Next.js, React Native, TypeScript and Node.js.
           Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
           applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
