@@ -24,15 +24,10 @@ export default async function ResumePage() {
       <article>
         <ResumeHeader />
         <SkillsGrid technologies={technologies} />
-        <div className="hidden print:block">
-          <EducationSection />
-        </div>
         <ContractorGroupedExperience experiences={experiences} />
         <PersonalProjects projects={personalProjects} />
         <EarlierEngagements experiences={condensed} />
-        <div className="print:hidden">
-          <EducationSection />
-        </div>
+        <EducationSection />
       </article>
     </main>
   );
