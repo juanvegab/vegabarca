@@ -97,7 +97,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
   const sorted = [...experiences].sort((a, b) => b.order - a.order);
 
   return (
-    <section aria-labelledby="earlier-heading" className="mb-8 print:mt-3 print:break-before-avoid">
+    <section aria-labelledby="earlier-heading" className="mb-8 print:mt-6 print:break-before-avoid">
       <h2
         id="earlier-heading"
         className="mb-3 text-xl font-bold tracking-tight"
