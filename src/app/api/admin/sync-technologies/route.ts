@@ -35,7 +35,8 @@ async function categorizeWithClaude(techNames: string[]): Promise<Record<string,
   });
 
   try {
-    return JSON.parse(text.trim());
+    const cleaned = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    return JSON.parse(cleaned);
   } catch {
     return {};
   }

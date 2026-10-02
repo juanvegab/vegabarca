@@ -60,7 +60,8 @@ export const POST = async (req: Request) => {
 
   let parsed: { skills: Record<string, string[]>; hidden: string[] };
   try {
-    parsed = JSON.parse(text.trim());
+    const cleaned = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+    parsed = JSON.parse(cleaned);
   } catch {
     return Response.json({ error: "Failed to parse AI response", raw: text }, { status: 500 });
   }
