@@ -25,7 +25,7 @@ const EducationLogoImage = ({ src, institution }: Props) => {
       alt={`${institution} logo`}
       width={36}
       height={36}
-      className="shrink-0 rounded object-contain"
+      className="shrink-0 rounded object-contain print:h-5 print:w-5"
       loading="eager"
       onError={() => setFailed(true)}
     />

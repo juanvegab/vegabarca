@@ -27,18 +27,16 @@ export default async function EducationSection() {
                 : ""
             }`}
           >
-            <div className="print:hidden">
-              {item.logo ? (
-                <EducationLogoImage
-                  src={item.logo}
-                  institution={item.institution}
-                />
-              ) : (
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
-                  {item.institution[0]}
-                </div>
-              )}
-            </div>
+            {item.logo ? (
+              <EducationLogoImage
+                src={item.logo}
+                institution={item.institution}
+              />
+            ) : (
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground print:h-5 print:w-5 print:text-[8px]">
+                {item.institution[0]}
+              </div>
+            )}
             <div className="flex-1 min-w-0 print:text-[8.5pt]">
               <div className="flex flex-wrap items-baseline justify-between gap-2 print:gap-1">
                 <h3 className="font-semibold">{item.institution}</h3>
