@@ -68,7 +68,7 @@ function ProjectCard({ project }: { project: Experience }) {
           {nameEl}
         </div>
         <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
-          <p className="text-sm text-muted-foreground">{project.dates}</p>
+          <p className="text-xs text-muted-foreground">{project.dates}</p>
         </div>
         {project.techStack.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-1">

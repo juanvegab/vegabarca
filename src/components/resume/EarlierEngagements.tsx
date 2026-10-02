@@ -33,6 +33,7 @@ function InlineLogo({ src, company }: { src: string; company: string }) {
       width={16}
       height={16}
       className="inline-block h-4 w-4 shrink-0 rounded object-contain"
+      loading="eager"
       onError={() => setFailed(true)}
     />
   );
@@ -96,7 +97,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
   const sorted = [...experiences].sort((a, b) => b.order - a.order);
 
   return (
-    <section aria-labelledby="earlier-heading" className="mb-8">
+    <section aria-labelledby="earlier-heading" className="mb-8 print:break-before-avoid">
       <h2
         id="earlier-heading"
         className="mb-3 text-xl font-bold tracking-tight"
