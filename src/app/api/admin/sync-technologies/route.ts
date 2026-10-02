@@ -9,17 +9,53 @@ export const maxDuration = 60;
 
 const VALID_CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
 
-// Normalize for dedup: lowercase, strip spaces/hyphens/dots/underscores
-// "React Native", "ReactNative", "react-native" → "reactnative"
-// "AI", "Ai", "A.I." → "ai" / "ai"
 const normalize = (s: string) => s.toLowerCase().replace(/[\s\-_.]/g, "");
 
+async function categorizeWithClaude(techNames: string[]): Promise<Record<string, string[]>> {
+  const { text } = await generateText({
+    model: anthropic("claude-sonnet-4-6"),
+    system:
+      `You are a software engineering taxonomy expert. Categorize each technology into one or more of these exact categories: ${VALID_CATEGORIES.join(", ")}.\n\n` +
+      `Guidelines:\n` +
+      `- AI/ML: LLMs, AI frameworks, prompt engineering, embeddings, vector DBs, AI APIs (Claude, OpenAI, etc.)\n` +
+      `- Frontend: UI frameworks/libraries, CSS, HTML, JS frameworks, state management\n` +
+      `- Mobile: mobile frameworks, native mobile tools\n` +
+      `- Backend: server frameworks, languages, runtime environments\n` +
+      `- Databases: databases, ORMs, data stores\n` +
+      `- Tools & Platforms: cloud providers, SaaS platforms, auth services, payment services, analytics, CI/CD, DevOps tools (AWS, Vercel, Clerk, Salesforce, Stripe, RevenueCat, AdMob, GitHub, CI/CD, etc.)\n` +
+      `- UI/UX: design tools, design systems, accessibility, UX methodologies (Figma, A11y, UI/UX Design, etc.)\n` +
+      `- Others: anything that genuinely doesn't fit above\n\n` +
+      `Rules:\n` +
+      `- Return ONLY valid JSON: an object where each key is a technology name (exactly as given) and the value is an array of category strings.\n` +
+      `- Use ONLY the categories listed above, spelled exactly as shown.\n` +
+      `- Most technologies belong to one category. Use two only when genuinely cross-cutting.\n` +
+      `- Do not include any explanation, markdown, or code fences — just the raw JSON object.`,
+    prompt: `Categorize these technologies:\n${techNames.join("\n")}`,
+  });
+
+  try {
+    return JSON.parse(text.trim());
+  } catch {
+    return {};
+  }
+}
+
+function resolveCategories(techName: string, categorized: Record<string, string[]>): string[] {
+  const matchKey = Object.keys(categorized).find(
+    (k) => normalize(k) === normalize(techName),
+  );
+  const rawCats: unknown = matchKey ? categorized[matchKey] : undefined;
+  const categories = (Array.isArray(rawCats) ? rawCats : ["Others"]).filter(
+    (c): c is string => VALID_CATEGORIES.includes(c),
+  );
+  return categories.length > 0 ? categories : ["Others"];
+}
+
+// POST — sync new techs from experiences
 export const POST = async () => {
   const { userId } = auth();
   if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Collect all unique tech names from every experience's techStack,
-  // deduplicating by normalized key (keep the first occurrence as canonical name)
   const experiences = await prisma.experience.findMany({ select: { techStack: true } });
   const canonicalByKey = new Map<string, string>();
   for (const exp of experiences) {
@@ -31,67 +67,57 @@ export const POST = async () => {
     }
   }
 
-  // Find which normalized keys are already covered by existing Technology records
   const existing = await prisma.technology.findMany({ select: { name: true } });
   const existingKeys = new Set(existing.map((t) => normalize(t.name)));
 
-  const newEntries = Array.from(canonicalByKey.entries()).filter(
-    ([key]) => !existingKeys.has(key),
-  );
+  const newEntries = Array.from(canonicalByKey.entries()).filter(([key]) => !existingKeys.has(key));
 
   if (newEntries.length === 0) {
     return Response.json({ created: 0, message: "All technologies already synced." });
   }
 
   const newTechs = newEntries.map(([, name]) => name);
-
-  // Ask Claude to categorize all new techs in one call
-  const { text } = await generateText({
-    model: anthropic("claude-sonnet-4-6"),
-    system:
-      `You are a software engineering taxonomy expert. Categorize each technology into one or more of these exact categories: ${VALID_CATEGORIES.join(", ")}.\n\n` +
-      `Rules:\n` +
-      `- Return ONLY valid JSON: an object where each key is a technology name (exactly as given) and the value is an array of category strings.\n` +
-      `- Use ONLY the categories listed above, spelled exactly as shown.\n` +
-      `- Most technologies belong to one category. Use two only when genuinely cross-cutting (e.g. a framework used for both AI and backend).\n` +
-      `- If unsure, use "Others".\n` +
-      `- Do not include any explanation, markdown, or code fences — just the raw JSON object.`,
-    prompt: `Categorize these technologies:\n${newTechs.join("\n")}`,
-  });
-
-  let categorized: Record<string, string[]>;
-  try {
-    categorized = JSON.parse(text.trim());
-  } catch {
-    return Response.json({ error: "Failed to parse AI response", raw: text }, { status: 500 });
-  }
-
-  // Create Technology records and embed them
-  const results = { created: 0, skipped: 0, errors: [] as string[] };
+  const categorized = await categorizeWithClaude(newTechs);
+  const results = { created: 0, errors: [] as string[] };
 
   await Promise.allSettled(
     newTechs.map(async (techName) => {
-      // Match Claude's response key case-insensitively
-      const matchKey = Object.keys(categorized).find(
-        (k) => normalize(k) === normalize(techName),
-      );
-      const rawCats: unknown = matchKey ? categorized[matchKey] : undefined;
-      const categories = (Array.isArray(rawCats) ? rawCats : ["Others"]).filter(
-        (c): c is string => VALID_CATEGORIES.includes(c),
-      );
-      const finalCategories = categories.length > 0 ? categories : ["Others"];
-
+      const finalCategories = resolveCategories(techName, categorized);
       try {
         const technology = await prisma.technology.create({
           data: { name: techName, categories: finalCategories },
         });
-
         const embedding = await getEmbedding(`${techName}\n\n${finalCategories.join(", ")}`);
         await technologiesIndex.upsert([{ id: technology.id, values: embedding, metadata: { userId } }]);
-
         results.created++;
       } catch (e) {
         results.errors.push(`${techName}: ${e}`);
+      }
+    }),
+  );
+
+  return Response.json(results);
+};
+
+// PATCH — re-categorize all existing technologies with the current category set
+export const PATCH = async () => {
+  const { userId } = auth();
+  if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  const all = await prisma.technology.findMany({ select: { id: true, name: true } });
+  if (all.length === 0) return Response.json({ updated: 0, message: "No technologies found." });
+
+  const categorized = await categorizeWithClaude(all.map((t) => t.name));
+  const results = { updated: 0, errors: [] as string[] };
+
+  await Promise.allSettled(
+    all.map(async ({ id, name }) => {
+      const finalCategories = resolveCategories(name, categorized);
+      try {
+        await prisma.technology.update({ where: { id }, data: { categories: finalCategories } });
+        results.updated++;
+      } catch (e) {
+        results.errors.push(`${name}: ${e}`);
       }
     }),
   );
