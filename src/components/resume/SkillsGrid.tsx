@@ -57,10 +57,10 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
   ];
 
   return (
-    <section aria-labelledby="skills-heading" className="mb-8">
+    <section aria-labelledby="skills-heading" className="mb-8 print:mb-3">
       <h2
         id="skills-heading"
-        className="mb-4 text-xl font-bold tracking-tight"
+        className="mb-4 text-xl font-bold tracking-tight print:mb-1"
       >
         Skills &amp; Technologies
       </h2>

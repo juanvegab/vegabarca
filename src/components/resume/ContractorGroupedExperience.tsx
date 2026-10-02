@@ -169,7 +169,7 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   return (
-    <li className="col-span-1 flex flex-col gap-1 print:break-inside-avoid">
+    <li className="col-span-1 flex flex-col gap-1">
       <div className="flex items-start gap-2">
         {exp.companyLogo ? (
           <SmallLogo src={exp.companyLogo} company={exp.company} />
@@ -377,10 +377,10 @@ export default function ContractorGroupedExperience({
   }
 
   return (
-    <section aria-labelledby="experience-heading" className="mb-8">
+    <section aria-labelledby="experience-heading" className="mb-8 print:mb-3">
       <h2
         id="experience-heading"
-        className="mb-6 text-xl font-bold tracking-tight"
+        className="mb-6 text-xl font-bold tracking-tight print:mb-2"
       >
         Experience
       </h2>
