@@ -65,25 +65,18 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
         Skills &amp; Technologies
       </h2>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-2">
         {orderedCategories.map((category) => (
-          <div
-            key={category}
-            className={
-              category === "AI / LLM" || category === "Agentic Coding"
-                ? "rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950/20"
-                : "rounded-lg border p-4"
-            }
-          >
-            <h3
-              className={`mb-2 text-sm font-bold uppercase tracking-wide ${
+          <div key={category} className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
+            <span
+              className={`shrink-0 text-xs font-bold uppercase tracking-wide ${
                 category === "AI / LLM" || category === "Agentic Coding"
-                  ? "text-blue-700 dark:text-blue-300"
+                  ? "text-blue-600 dark:text-blue-400"
                   : "text-muted-foreground"
               }`}
             >
               {category}
-            </h3>
+            </span>
             <div className="flex flex-wrap gap-1.5">
               {grouped[category].map((skill) => (
                 <Badge

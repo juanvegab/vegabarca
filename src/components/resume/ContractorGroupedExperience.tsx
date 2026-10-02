@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ExternalLink, Sparkles } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ExperienceWithContractor } from "@/components/SortableExperienceGrid";
 
@@ -90,7 +90,6 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-1">
             {title}
-            {exp.isFeatured && <AgenticBadge />}
           </div>
           <div className="flex items-center gap-1.5">
           <p className="text-xs text-muted-foreground">{exp.dates}</p>
@@ -147,23 +146,6 @@ function EngagementTypeBadge({ type }: { type: string }) {
   );
 }
 
-function AgenticBadge({ header = false }: { header?: boolean }) {
-  const base = "inline-flex items-center gap-1 rounded-full font-medium";
-  if (header) {
-    return (
-      <span className={`${base} bg-amber-100 px-2 py-0.5 text-xs text-amber-800 dark:bg-amber-900 dark:text-amber-200`}>
-        <Sparkles size={10} />
-        Agentic AI
-      </span>
-    );
-  }
-  return (
-    <span className={`${base} bg-amber-200 px-1.5 py-0.5 text-[10px] text-amber-900 dark:bg-amber-800 dark:text-amber-100`}>
-      <Sparkles size={9} />
-      Agentic AI
-    </span>
-  );
-}
 
 function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
   const [expanded, setExpanded] = useState(false);
@@ -197,7 +179,6 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-1">
             {title}
-            {exp.isFeatured && <AgenticBadge />}
           </div>
           <div className="flex items-center gap-1.5">
             <p className="text-xs text-muted-foreground">{exp.dates}</p>
@@ -239,12 +220,7 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const liClass = [
-    "col-span-1 sm:col-span-2 print:break-inside-avoid",
-    exp.isFeatured
-      ? "rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-      : "",
-  ].join(" ");
+  const liClass = "col-span-1 sm:col-span-2 print:break-inside-avoid";
 
   const title = exp.link ? (
     <a
@@ -273,7 +249,6 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2">
             {title}
-            {exp.isFeatured && <AgenticBadge />}
           </div>
           <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
             <p className="text-xs text-muted-foreground">{exp.dates}</p>
@@ -321,9 +296,7 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
     </span>
   );
 
-  const wrapClass = exp.isFeatured
-    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-    : "flex items-start gap-3";
+  const wrapClass = "print:break-inside-avoid flex items-start gap-3";
 
   return (
     <div className={wrapClass}>
@@ -335,7 +308,6 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
           {title}
-          {exp.isFeatured && <AgenticBadge />}
         </div>
         <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
           <p className="text-sm text-muted-foreground">{exp.dates}</p>
@@ -427,8 +399,6 @@ export default function ContractorGroupedExperience({
           }
 
           const company = exps[0].contractorCompany!;
-          const hasAgentic = exps.some((e) => e.isFeatured);
-
           const newestDates = exps[0].dates;
           const oldestDates = exps[exps.length - 1].dates;
           const dateRange =
@@ -467,7 +437,6 @@ export default function ContractorGroupedExperience({
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="text-base print:text-sm">{companyName}</h3>
-                    {hasAgentic && <AgenticBadge header />}
                   </div>
                 </div>
               </div>

@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-// useState kept for ProjectLogo error fallback
-import { ExternalLink, Sparkles } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Experience } from "@prisma/client";
 
@@ -33,22 +32,11 @@ function ProjectLogo({ src, name }: { src: string; name: string }) {
   );
 }
 
-function AgenticBadge() {
-  return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-amber-200 px-1.5 py-0.5 text-[10px] font-medium text-amber-900 dark:bg-amber-800 dark:text-amber-100">
-      <Sparkles size={9} />
-      Agentic AI
-    </span>
-  );
-}
-
 function ProjectCard({ project }: { project: Experience }) {
   const summary = project.visibleSummary ?? project.content;
   const bullets = (summary?.split("\n") ?? []).filter((b) => b.trim() !== "");
 
-  const wrapClass = project.isFeatured
-    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-950/20"
-    : "flex items-start gap-3";
+  const wrapClass = "print:break-inside-avoid flex items-start gap-3";
 
   const nameEl = project.link ? (
     <a
@@ -76,7 +64,6 @@ function ProjectCard({ project }: { project: Experience }) {
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
           {nameEl}
-          {project.isFeatured && <AgenticBadge />}
         </div>
         <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
           <p className="text-sm text-muted-foreground">{project.dates}</p>

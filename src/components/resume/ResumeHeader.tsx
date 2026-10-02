@@ -10,10 +10,10 @@ export default function ResumeHeader() {
             Juan Carlos Vega Abarca
           </h1>
           <p className="mt-1 text-xl font-medium text-blue-600 dark:text-blue-400 print:text-base print:mt-0">
-            Agentic AI &amp; Full-Stack Engineer
+            Senior Full-Stack Engineer | AI/LLM Applications
           </p>
           <p className="mt-1 text-sm text-muted-foreground print:mt-0">
-            15+ years of experience · MIT Applied AI &amp; Data Science Certified
+            San José, Costa Rica (UTC-6) · Remote
           </p>
         </div>
 
@@ -60,12 +60,11 @@ export default function ResumeHeader() {
 
       <div className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">
         <p>
-          Software engineer with 15+ years of experience building robust
-          full-stack applications. Currently specializing in Agentic AI systems,
-          LLM integration, and AI-powered product development. MIT Professional
-          Education certified in Applied AI &amp; Data Science. Passionate about
-          building intelligent tools that automate workflows and create smarter
-          user experiences.
+          Senior Full-Stack Engineer with 15+ years building scalable web and mobile
+          applications with React, Next.js, React Native, TypeScript and Node.js.
+          Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
+          applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
+          Looking for remote Senior/Staff roles on AI-powered products.
         </p>
       </div>
     </header>

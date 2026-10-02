@@ -71,12 +71,7 @@ export default function ExperienceTimeline({
                     <h3 className="text-lg font-semibold">
                       {exp.company} — {exp.position}
                     </h3>
-                    {exp.isFeatured && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                        <Sparkles size={10} />
-                        Agentic AI
-                      </span>
-                    )}
+
                     {exp.visibleSummary && (
                       <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900 dark:text-green-300">
                         <Sparkles size={10} />
