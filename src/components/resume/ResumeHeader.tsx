@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, Globe } from "lucide-react";
 import Link from "next/link";
 
 export default function ResumeHeader() {
@@ -40,6 +40,15 @@ export default function ResumeHeader() {
         >
           <Github size={13} className="shrink-0" />
           github.com/juanvegab
+        </Link>
+        <Link
+          href="https://www.vegabarca.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-blue-600"
+        >
+          <Globe size={13} className="shrink-0" />
+          www.vegabarca.com
         </Link>
       </address>
 
