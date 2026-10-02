@@ -220,7 +220,10 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const liClass = "col-span-1 sm:col-span-2 print:break-inside-avoid";
+  const liClass = [
+    "col-span-1 sm:col-span-2 print:break-inside-avoid",
+    exp.isFeatured ? "rounded-lg border bg-card px-4 py-3 shadow-sm print:shadow-none" : "",
+  ].join(" ");
 
   const title = exp.link ? (
     <a
@@ -296,7 +299,9 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
     </span>
   );
 
-  const wrapClass = "print:break-inside-avoid flex items-start gap-3";
+  const wrapClass = exp.isFeatured
+    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:shadow-none"
+    : "print:break-inside-avoid flex items-start gap-3";
 
   return (
     <div className={wrapClass}>
