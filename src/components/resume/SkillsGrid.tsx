@@ -5,7 +5,7 @@ interface SkillsGridProps {
   technologies: Technology[];
 }
 
-const CATEGORY_ORDER = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Others"];
+const CATEGORY_ORDER = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
 
 const FALLBACK_SKILLS: Record<string, string[]> = {
   "AI/ML": [

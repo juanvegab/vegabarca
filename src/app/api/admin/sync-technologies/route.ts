@@ -7,7 +7,7 @@ import { auth } from "@clerk/nextjs";
 
 export const maxDuration = 60;
 
-const VALID_CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Others"];
+const VALID_CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
 
 // Normalize for dedup: lowercase, strip spaces/hyphens/dots/underscores
 // "React Native", "ReactNative", "react-native" → "reactnative"
