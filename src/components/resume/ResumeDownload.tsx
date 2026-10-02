@@ -1,44 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
 
 export default function ResumeDownload() {
   const [loading, setLoading] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const listenerRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (listenerRef.current) window.removeEventListener("afterprint", listenerRef.current);
+    };
+  }, []);
 
   const handleDownload = () => {
+    if (loading) return;
     setLoading(true);
 
-    const images = Array.from(document.querySelectorAll<HTMLImageElement>("img"));
-    const pending = images.filter((img) => !img.complete);
-
-    const doPrint = () => {
-      window.print();
-      // Reset spinner after the print dialog closes (afterprint fires when dialog dismisses)
-      const onAfterPrint = () => {
-        setLoading(false);
-        window.removeEventListener("afterprint", onAfterPrint);
-      };
-      window.addEventListener("afterprint", onAfterPrint);
-      // Fallback in case afterprint never fires (some browsers)
-      setTimeout(() => setLoading(false), 10000);
+    const cleanup = () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (listenerRef.current) window.removeEventListener("afterprint", listenerRef.current);
+      listenerRef.current = null;
+      setLoading(false);
     };
 
-    if (pending.length === 0) {
-      doPrint();
-      return;
-    }
+    listenerRef.current = cleanup;
+    window.addEventListener("afterprint", cleanup, { once: true });
+    timerRef.current = setTimeout(cleanup, 15000);
 
-    let loaded = 0;
-    const onLoad = () => {
-      loaded++;
-      if (loaded === pending.length) doPrint();
-    };
-    pending.forEach((img) => {
-      img.addEventListener("load", onLoad, { once: true });
-      img.addEventListener("error", onLoad, { once: true });
-    });
+    window.print();
   };
 
   return (
