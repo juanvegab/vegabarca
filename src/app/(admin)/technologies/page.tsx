@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import TechnologyCard from "@/components/TechnologyCard";
 import AddTechnologyButton from "@/components/AddTechnologyButton";
+import SyncButton from "./SyncButton";
 
 export const metadata: Metadata = {
   title: "Vegabarca - Technologies",
@@ -36,7 +37,10 @@ const TechnologiesPage = async () => {
     <main className="space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Technologies</h1>
-        <AddTechnologyButton />
+        <div className="flex items-center gap-3">
+          <SyncButton />
+          <AddTechnologyButton />
+        </div>
       </div>
 
       {technologies.length === 0 && (

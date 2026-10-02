@@ -73,10 +73,12 @@ const NavBar = () => {
         <div className="mt-2 flex flex-wrap gap-1 border-t pt-2">
           {[
             { href: "/experiences", label: "Experiences" },
-            { href: "/contractor-companies", label: "Contractor Companies" },
+            { href: "/contractor-companies", label: "Contractors" },
             { href: "/technologies", label: "Technologies" },
             { href: "/education", label: "Education" },
             { href: "/notes", label: "Notes" },
+            { href: "/tailor", label: "Tailor" },
+            { href: "/reindex", label: "Reindex" },
           ].map(({ href, label }) => (
             <Link
               key={href}
