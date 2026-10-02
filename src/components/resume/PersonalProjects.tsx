@@ -37,8 +37,8 @@ function ProjectCard({ project }: { project: Experience }) {
   const bullets = (summary?.split("\n") ?? []).filter((b) => b.trim() !== "");
 
   const wrapClass = project.isFeatured
-    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:shadow-none"
-    : "print:break-inside-avoid flex items-start gap-3";
+    ? "flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none"
+    : "flex items-start gap-3";
 
   const nameEl = project.link ? (
     <a

@@ -221,8 +221,10 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
   const liClass = [
-    "col-span-1 sm:col-span-2 print:break-inside-avoid",
-    exp.isFeatured ? "rounded-lg border bg-card px-4 py-3 shadow-sm print:shadow-none" : "",
+    "col-span-1 sm:col-span-2",
+    exp.isFeatured
+      ? "rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none"
+      : "",
   ].join(" ");
 
   const title = exp.link ? (
@@ -300,8 +302,8 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
   );
 
   const wrapClass = exp.isFeatured
-    ? "print:break-inside-avoid flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:shadow-none"
-    : "print:break-inside-avoid flex items-start gap-3";
+    ? "flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none"
+    : "flex items-start gap-3";
 
   return (
     <div className={wrapClass}>
@@ -383,7 +385,7 @@ export default function ContractorGroupedExperience({
         Experience
       </h2>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-3 items-start">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-1 items-start">
         {renderItems.map((item) => {
           if (item.kind === "single") {
             if (item.exp.isCompact) {
@@ -428,7 +430,7 @@ export default function ContractorGroupedExperience({
           return (
             <div
               key={item.key}
-              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:p-3 print:shadow-none print:break-inside-avoid"
+              className="col-span-1 sm:col-span-2 rounded-lg border bg-card p-5 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none"
             >
               {/* Umbrella header */}
               <div className="mb-4 flex items-center gap-3 print:mb-1 print:gap-2">
