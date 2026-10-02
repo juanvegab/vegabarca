@@ -5,7 +5,7 @@ interface SkillsGridProps {
   technologies: Technology[];
 }
 
-const CATEGORY_ORDER = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
+const CATEGORY_ORDER = ["Languages", "Frontend", "Mobile", "Backend & Data", "AI / LLM", "Agentic Coding", "Tools & Platforms", "UI/UX", "Others"];
 
 const FALLBACK_SKILLS: Record<string, string[]> = {
   "AI/ML": [
@@ -38,6 +38,7 @@ const FALLBACK_SKILLS: Record<string, string[]> = {
 function groupByCategory(technologies: Technology[]): Record<string, string[]> {
   const grouped: Record<string, string[]> = {};
   for (const tech of technologies) {
+    if (tech.isHidden) continue;
     for (const cat of tech.categories) {
       if (!grouped[cat]) grouped[cat] = [];
       grouped[cat].push(tech.name);
@@ -69,14 +70,14 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
           <div
             key={category}
             className={
-              category === "AI/ML"
+              category === "AI / LLM" || category === "Agentic Coding"
                 ? "rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950/20"
                 : "rounded-lg border p-4"
             }
           >
             <h3
               className={`mb-2 text-sm font-bold uppercase tracking-wide ${
-                category === "AI/ML"
+                category === "AI / LLM" || category === "Agentic Coding"
                   ? "text-blue-700 dark:text-blue-300"
                   : "text-muted-foreground"
               }`}
@@ -87,9 +88,9 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
               {grouped[category].map((skill) => (
                 <Badge
                   key={skill}
-                  variant={category === "AI/ML" ? "default" : "secondary"}
+                  variant={category === "AI / LLM" || category === "Agentic Coding" ? "default" : "secondary"}
                   className={
-                    category === "AI/ML"
+                    category === "AI / LLM" || category === "Agentic Coding"
                       ? "bg-blue-600 hover:bg-blue-700"
                       : ""
                   }

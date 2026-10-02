@@ -7,6 +7,7 @@ export const createTechnologySchema = z.object({
     .array(z.string())
     .min(1, { message: "Categories are required" }),
   isFeatured: z.boolean().optional(),
+  isHidden: z.boolean().optional(),
 });
 
 export type CreateTechnologySchema = z.infer<typeof createTechnologySchema>;

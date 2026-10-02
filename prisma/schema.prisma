@@ -67,6 +67,7 @@ model Technology {
   logo      String?
   categories String[]
   isFeatured Boolean  @default(false)
+  isHidden   Boolean  @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   experiences TechnologiesOnExperiences[]

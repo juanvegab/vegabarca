@@ -28,7 +28,7 @@ import {
   createTechnologySchema,
 } from "@/lib/validation/technology";
 
-const CATEGORIES = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
+const CATEGORIES = ["Languages", "Frontend", "Mobile", "Backend & Data", "AI / LLM", "Agentic Coding", "Tools & Platforms", "UI/UX", "Others"];
 
 interface Props {
   open: boolean;
@@ -47,6 +47,7 @@ const AddEditTechnologyDialog = ({ open, setOpen, technologyToEdit }: Props) => 
       logo: technologyToEdit?.logo || "",
       categories: technologyToEdit?.categories || [],
       isFeatured: technologyToEdit?.isFeatured || false,
+      isHidden: technologyToEdit?.isHidden ?? false,
     },
   });
 
@@ -191,24 +192,44 @@ const AddEditTechnologyDialog = ({ open, setOpen, technologyToEdit }: Props) => 
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="isFeatured"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2 space-y-0">
-                  <FormControl>
-                    <input
-                      type="checkbox"
-                      checked={field.value ?? false}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                      className="h-4 w-4 cursor-pointer"
-                    />
-                  </FormControl>
-                  <FormLabel className="cursor-pointer">Featured</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-6">
+              <FormField
+                control={form.control}
+                name="isFeatured"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2 space-y-0">
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={field.value ?? false}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                        className="h-4 w-4 cursor-pointer accent-blue-600"
+                      />
+                    </FormControl>
+                    <FormLabel className="cursor-pointer">Featured</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isHidden"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2 space-y-0">
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={field.value ?? false}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                        className="h-4 w-4 cursor-pointer accent-red-600"
+                      />
+                    </FormControl>
+                    <FormLabel className="cursor-pointer">Hidden from resume</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter className="gap-1 sm:gap-0">
               {technologyToEdit && (
                 <LoadingButton

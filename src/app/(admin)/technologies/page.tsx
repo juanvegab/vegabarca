@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Vegabarca - Technologies",
 };
 
-const CATEGORY_ORDER = ["AI/ML", "Frontend", "Mobile", "Backend", "Databases", "Tools & Platforms", "UI/UX", "Others"];
+const CATEGORY_ORDER = ["Languages", "Frontend", "Mobile", "Backend & Data", "AI / LLM", "Agentic Coding", "Tools & Platforms", "UI/UX", "Others"];
 
 const TechnologiesPage = async () => {
   const { userId } = auth();

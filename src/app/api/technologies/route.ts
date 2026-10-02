@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { name, isFeatured, logo, categories } = parseResult.data;
+    const { name, isFeatured, isHidden, logo, categories } = parseResult.data;
     const { userId } = auth();
 
     if (!userId) {
@@ -31,6 +31,7 @@ export const POST = async (req: Request) => {
         data: {
           name,
           isFeatured,
+          isHidden: isHidden ?? false,
           logo,
           categories,
         },
@@ -64,7 +65,7 @@ export const PUT = async (req: Request) => {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { name, isFeatured, logo, categories, id } = parseResult.data;
+    const { name, isFeatured, isHidden, logo, categories, id } = parseResult.data;
 
     const technology = await prisma.technology.findUnique({ where: { id } });
     if (!technology)
@@ -75,7 +76,7 @@ export const PUT = async (req: Request) => {
     const updatedTechnology = await prisma.$transaction(async (tx) => {
       const updatedTechnology = await tx.technology.update({
         where: { id },
-        data: { name, isFeatured, logo, categories },
+        data: { name, isFeatured, isHidden: isHidden ?? false, logo, categories },
       });
 
       await technologiesIndex.upsert([
