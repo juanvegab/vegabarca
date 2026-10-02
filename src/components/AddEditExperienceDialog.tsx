@@ -65,6 +65,7 @@ const AddEditExperienceDialog = ({
       isCompact: experienceToEdit?.isCompact ?? false,
       isHidden: experienceToEdit?.isHidden ?? false,
       isCondensed: experienceToEdit?.isCondensed ?? false,
+      isPersonalProject: experienceToEdit?.isPersonalProject ?? false,
       engagementType: (experienceToEdit?.engagementType as "full-time" | "part-time" | "contract" | "freelance" | undefined) ?? undefined,
       content: experienceToEdit?.content || "",
       visibleSummary: experienceToEdit?.visibleSummary || "",
@@ -326,6 +327,26 @@ const AddEditExperienceDialog = ({
                           />
                         </FormControl>
                         <FormLabel className="mb-0 cursor-pointer">Earlier engagement</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="isPersonalProject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value ?? false}
+                            onChange={(e) => field.onChange(e.target.checked)}
+                            className="h-4 w-4 rounded border-input accent-green-600"
+                          />
+                        </FormControl>
+                        <FormLabel className="mb-0 cursor-pointer">Personal project</FormLabel>
                       </div>
                       <FormMessage />
                     </FormItem>

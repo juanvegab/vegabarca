@@ -46,11 +46,12 @@ model Experience {
   order     Int       @default(0)
   content   String?
   dates     String
-  isFeatured      Boolean  @default(false)
-  isCompact       Boolean  @default(false)
-  isHidden        Boolean  @default(false)
-  isCondensed     Boolean  @default(false)
-  engagementType  String?
+  isFeatured         Boolean  @default(false)
+  isCompact          Boolean  @default(false)
+  isHidden           Boolean  @default(false)
+  isCondensed        Boolean  @default(false)
+  isPersonalProject  Boolean  @default(false)
+  engagementType     String?
   visibleSummary String?
   contractorCompany   ContractorCompany? @relation(fields: [contractorCompanyId], references: [id])
   contractorCompanyId String?            @db.ObjectId
