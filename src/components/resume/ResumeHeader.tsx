@@ -53,16 +53,16 @@ export default function ResumeHeader() {
       </address>
 
       <div className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">
+        <p className="mb-1">
+          <span className="font-medium text-foreground">Languages:</span>{" "}
+          English (Fluent) · Italian (B1) · Spanish (Native)
+        </p>
         <p>
           Senior Full-Stack Engineer with 15+ years building web and mobile
           applications with React, Next.js, React Native, TypeScript and Node.js.
           Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
           applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
           Looking for remote Senior roles on AI products.
-        </p>
-        <p className="mt-1">
-          <span className="font-medium text-foreground">Languages:</span>{" "}
-          English (Fluent) · Italian (B1) · Spanish (Native)
         </p>
       </div>
     </header>
