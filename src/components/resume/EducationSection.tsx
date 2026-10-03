@@ -9,7 +9,7 @@ export default async function EducationSection() {
   if (educationItems.length === 0) return null;
 
   return (
-    <section aria-labelledby="education-heading" className="mb-8 print:mt-8 print:break-before-avoid">
+    <section aria-labelledby="education-heading" className="mb-8 print:mt-7 print:break-before-avoid">
       <h2
         id="education-heading"
         className="mb-4 text-xl font-bold tracking-tight print:mb-2"
