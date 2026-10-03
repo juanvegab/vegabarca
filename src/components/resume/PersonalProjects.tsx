@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Experience } from "@prisma/client";
 
 interface PersonalProjectsProps {
@@ -71,13 +70,7 @@ function ProjectCard({ project }: { project: Experience }) {
           <p className="text-xs text-muted-foreground">{project.dates.replace(/ - /g, " – ")}</p>
         </div>
         {project.techStack.length > 0 && (
-          <div className="mb-2 flex flex-wrap gap-1">
-            {project.techStack.map((tech) => (
-              <Badge key={tech} variant="secondary">
-                {tech}
-              </Badge>
-            ))}
-          </div>
+          <p className="mt-1 mb-2 text-xs text-muted-foreground">{project.techStack.join(", ")}</p>
         )}
         {bullets.length > 0 && (
           <ul className="list-disc space-y-0.5 pl-4 text-sm">
@@ -100,7 +93,7 @@ export default function PersonalProjects({ projects }: PersonalProjectsProps) {
     <section aria-labelledby="projects-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="projects-heading"
-        className="mb-6 text-xl font-bold tracking-tight print:mb-2 print:break-after-avoid"
+        className="mb-6 text-xl font-bold tracking-tight print:text-sm print:mb-2 print:break-after-avoid"
       >
         Personal Projects
       </h2>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { ExperienceWithContractor } from "@/components/SortableExperienceGrid";
 
 interface ContractorGroupedExperienceProps {
@@ -99,13 +98,7 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
       </div>
 
       {exp.techStack.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {exp.techStack.map((tech) => (
-            <Badge key={`${exp.id}_${tech}`} variant="secondary">
-              {tech}
-            </Badge>
-          ))}
-        </div>
+        <p className="mt-1 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
 
       {bullets.length > 0 && (
@@ -187,13 +180,7 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
         </div>
       </div>
       {exp.techStack.length > 0 && (
-        <div className="ml-7 flex flex-wrap gap-1">
-          {exp.techStack.map((tech) => (
-            <Badge key={`${exp.id}_${tech}`} variant="secondary">
-              {tech}
-            </Badge>
-          ))}
-        </div>
+        <p className="mt-1 ml-7 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
       {bullets.length > 0 && (
         <>
@@ -260,13 +247,7 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
             {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
           </div>
           {exp.techStack.length > 0 && (
-            <div className="mb-2 flex flex-wrap gap-1">
-              {exp.techStack.map((tech) => (
-                <Badge key={`${exp.id}_${tech}`} variant="secondary">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
+            <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
           )}
           {bullets.length > 0 && (
             <ul className="list-disc space-y-0.5 pl-4 text-sm">
@@ -321,13 +302,7 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
           {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
         </div>
         {exp.techStack.length > 0 && (
-          <div className="mb-2 flex flex-wrap gap-1">
-            {exp.techStack.map((tech) => (
-              <Badge key={`${exp.id}_${tech}`} variant="secondary">
-                {tech}
-              </Badge>
-            ))}
-          </div>
+          <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
         )}
         {bullets.length > 0 && (
           <ul className="list-disc space-y-0.5 pl-4 text-sm">
@@ -380,7 +355,7 @@ export default function ContractorGroupedExperience({
     <section aria-labelledby="experience-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="experience-heading"
-        className="mb-6 text-xl font-bold tracking-tight print:mb-2 print:break-after-avoid"
+        className="mb-6 text-xl font-bold tracking-tight print:text-sm print:mb-2 print:break-after-avoid"
       >
         Experience
       </h2>

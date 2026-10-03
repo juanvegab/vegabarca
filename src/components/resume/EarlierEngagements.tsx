@@ -51,10 +51,10 @@ function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
             <InlineLogo src={exp.companyLogo} company={exp.company} />
           )}
           <span className="font-medium text-foreground">{exp.company}</span>
-          <span className="text-muted-foreground">
+          <span className="text-foreground/80">
             — {exp.position}
             {exp.contractorCompany && (
-              <span className="text-muted-foreground/70"> at {exp.contractorCompany.name}</span>
+              <span className="text-foreground/60"> at {exp.contractorCompany.name}</span>
             )}
           </span>
           {bullets.length > 0 && (
@@ -66,7 +66,7 @@ function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
             </button>
           )}
         </span>
-        <span className="shrink-0 tabular-nums text-muted-foreground">
+        <span className="shrink-0 tabular-nums text-foreground/70">
           {extractYears(exp.dates)}
         </span>
       </div>
@@ -95,7 +95,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
     <section aria-labelledby="earlier-heading" className="mb-8 print:mt-8 print:break-before-avoid">
       <h2
         id="earlier-heading"
-        className="mb-3 text-xl font-bold tracking-tight print:break-after-avoid"
+        className="mb-3 text-xl font-bold tracking-tight print:text-sm print:break-after-avoid"
       >
         Previous Experience
       </h2>
