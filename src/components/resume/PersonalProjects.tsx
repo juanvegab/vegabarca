@@ -97,7 +97,7 @@ export default function PersonalProjects({ projects }: PersonalProjectsProps) {
   const sorted = [...projects].sort((a, b) => b.order - a.order);
 
   return (
-    <section aria-labelledby="projects-heading" className="mb-8 print:mb-3 print:mt-7 print:break-before-avoid">
+    <section aria-labelledby="projects-heading" className="mb-8 print:mb-3 print:mt-4 print:break-before-avoid">
       <h2
         id="projects-heading"
         className="mb-6 text-xl font-bold tracking-tight print:mb-2 print:break-after-avoid"
