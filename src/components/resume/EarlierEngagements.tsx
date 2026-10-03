@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { ExperienceWithContractor } from "@/components/SortableExperienceGrid";
 
 interface EarlierEngagementsProps {
@@ -72,13 +71,9 @@ function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
         </span>
       </div>
       {exp.techStack.length > 0 && (
-        <div className="mt-1 flex flex-wrap gap-1 pl-5">
-          {exp.techStack.map((tech) => (
-            <Badge key={tech} variant="secondary" className="text-[10px] px-1.5 py-0 print:text-[7pt]">
-              {tech}
-            </Badge>
-          ))}
-        </div>
+        <p className="mt-0.5 pl-5 text-xs text-muted-foreground">
+          {exp.techStack.join(", ")}
+        </p>
       )}
       {expanded && bullets.length > 0 && (
         <ul className="print:hidden mt-2 list-disc space-y-0.5 pl-9 text-sm text-muted-foreground">
