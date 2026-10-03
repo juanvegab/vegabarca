@@ -380,7 +380,7 @@ export default function ContractorGroupedExperience({
     <section aria-labelledby="experience-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="experience-heading"
-        className="mb-6 text-xl font-bold tracking-tight print:mb-2"
+        className="mb-6 text-xl font-bold tracking-tight print:mb-2 print:break-after-avoid"
       >
         Experience
       </h2>

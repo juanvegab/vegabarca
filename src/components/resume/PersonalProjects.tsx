@@ -100,7 +100,7 @@ export default function PersonalProjects({ projects }: PersonalProjectsProps) {
     <section aria-labelledby="projects-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="projects-heading"
-        className="mb-6 text-xl font-bold tracking-tight print:mb-2"
+        className="mb-6 text-xl font-bold tracking-tight print:mb-2 print:break-after-avoid"
       >
         Personal Projects
       </h2>

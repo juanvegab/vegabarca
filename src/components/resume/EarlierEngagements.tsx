@@ -100,7 +100,7 @@ export default function EarlierEngagements({ experiences }: EarlierEngagementsPr
     <section aria-labelledby="earlier-heading" className="mb-8 print:mt-8 print:break-before-avoid">
       <h2
         id="earlier-heading"
-        className="mb-3 text-xl font-bold tracking-tight"
+        className="mb-3 text-xl font-bold tracking-tight print:break-after-avoid"
       >
         Previous Experience
       </h2>
