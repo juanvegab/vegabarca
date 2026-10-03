@@ -92,7 +92,7 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
             {title}
           </div>
           <div className="flex items-center gap-1.5">
-          <p className="text-xs text-muted-foreground">{exp.dates}</p>
+          <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
           {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
         </div>
         </div>
@@ -181,7 +181,7 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
             {title}
           </div>
           <div className="flex items-center gap-1.5">
-            <p className="text-xs text-muted-foreground">{exp.dates}</p>
+            <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
             {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
           </div>
         </div>
@@ -256,7 +256,7 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
             {title}
           </div>
           <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
-            <p className="text-xs text-muted-foreground">{exp.dates}</p>
+            <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
             {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
           </div>
           {exp.techStack.length > 0 && (
@@ -317,7 +317,7 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
           {title}
         </div>
         <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
-          <p className="text-sm text-muted-foreground">{exp.dates}</p>
+          <p className="text-sm text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
           {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
         </div>
         {exp.techStack.length > 0 && (
