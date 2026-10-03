@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ResumeHeader() {
   return (
-    <header className="mb-8 border-b pb-8 print:mb-3 print:pb-3">
+    <header className="mb-8 border-b pb-8 print:mb-3 print:pb-3 print:border-b-0">
       <h1 className="text-4xl font-bold tracking-tight print:text-3xl">
         Juan Carlos Vega Abarca
       </h1>
