@@ -91,7 +91,7 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
       <div className="hidden print:block space-y-0.5 text-[8.5pt]">
         {orderedCategories.map((category) => (
           <p key={category}>
-            <span className="font-bold uppercase tracking-wide text-blue-700">{CATEGORY_LABEL[category] ?? category}:</span>{" "}
+            <span className="font-bold uppercase tracking-wide !text-blue-700">{CATEGORY_LABEL[category] ?? category}:</span>{" "}
             {grouped[category].join(", ")}
           </p>
         ))}

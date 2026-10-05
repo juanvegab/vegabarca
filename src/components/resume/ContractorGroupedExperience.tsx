@@ -89,14 +89,14 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold text-sm hover:underline"
     >
-      <span className="print:text-blue-600">{exp.company}</span>
-      {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
+      <span className="print:!text-blue-600">{exp.company}</span>
+      {" "}<span className="print:!text-blue-600 print:font-normal">— {exp.position}</span>
       <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold text-sm">
-      <span className="print:text-blue-600">{exp.company}</span>
-      {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
+      <span className="print:!text-blue-600">{exp.company}</span>
+      {" "}<span className="print:!text-blue-600 print:font-normal">— {exp.position}</span>
     </span>
   );
 
@@ -160,13 +160,13 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline print:text-blue-600"
+      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline print:!text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
-    <span className="font-semibold text-sm print:text-blue-600 print:font-normal">
+    <span className="font-semibold text-sm print:!text-blue-600 print:font-normal">
       {exp.company} — {exp.position}
     </span>
   );
@@ -235,13 +235,13 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline print:text-blue-600"
+      className="inline-flex items-center gap-1 font-semibold hover:underline print:!text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
-    <span className="font-semibold print:text-blue-600 print:font-normal">
+    <span className="font-semibold print:!text-blue-600 print:font-normal">
       {exp.company} — {exp.position}
     </span>
   );
@@ -293,15 +293,15 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline print:text-blue-600"
+      className="inline-flex items-center gap-1 font-semibold hover:underline print:!text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={12} className="shrink-0 opacity-60" />
     </a>
   ) : (
     <span className="font-semibold">
-      <span className="print:text-blue-600">{exp.company}</span>
-      {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
+      <span className="print:!text-blue-600">{exp.company}</span>
+      {" "}<span className="print:!text-blue-600 print:font-normal">— {exp.position}</span>
     </span>
   );
 
@@ -415,13 +415,13 @@ export default function ContractorGroupedExperience({
               href={company.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-bold hover:underline print:text-blue-600"
+              className="inline-flex items-center gap-1 font-bold hover:underline print:!text-blue-600"
             >
               {company.name}
               <ExternalLink size={13} className="shrink-0 opacity-60 print:hidden" />
             </a>
           ) : (
-            <span className="font-bold print:text-blue-600">{company.name}</span>
+            <span className="font-bold print:!text-blue-600">{company.name}</span>
           );
 
           return (
