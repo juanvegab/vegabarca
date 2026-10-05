@@ -19,6 +19,15 @@ function engagementLabel(type: string): string {
   return ENGAGEMENT_LABELS[type] ?? type;
 }
 
+function EngagementTypeBadge({ type }: { type: string }) {
+  const label = engagementLabel(type);
+  return (
+    <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground print:hidden">
+      {label}
+    </span>
+  );
+}
+
 // ---------- sub-components ----------
 
 function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
@@ -31,21 +40,24 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
       <div className="flex flex-wrap items-center gap-1 text-sm font-semibold">
         {exp.link ? (
           <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
-            <span className="text-blue-600">{exp.company}</span>
-            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
             <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
           </a>
         ) : (
           <>
-            <span className="text-blue-600">{exp.company}</span>
-            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
           </>
         )}
         {exp.engagementType && (
-          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+          <span className="font-normal hidden print:inline"> — {engagementLabel(exp.engagementType)}</span>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+      <div className="mt-0.5 flex items-center gap-1.5">
+        <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+      </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
@@ -79,18 +91,25 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
     <li className="col-span-1 flex flex-col gap-1">
       <div className="flex flex-wrap items-center gap-1 text-sm font-semibold">
         {exp.link ? (
-          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:underline">
-            {exp.company} — {exp.position}
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
             <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
           </a>
         ) : (
-          <span className="text-blue-600 font-normal">{exp.company} — {exp.position}</span>
+          <>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
+          </>
         )}
         {exp.engagementType && (
-          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+          <span className="font-normal hidden print:inline"> — {engagementLabel(exp.engagementType)}</span>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+      <div className="flex items-center gap-1.5">
+        <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
+      </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
@@ -130,19 +149,24 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
     <li className={liClass}>
       <div className="flex flex-wrap items-center gap-2 font-semibold">
         {exp.link ? (
-          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:underline">
-            {exp.company} — {exp.position}
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
             <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
           </a>
         ) : (
-          <span className="text-blue-600 font-normal">{exp.company} — {exp.position}</span>
+          <>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
+          </>
         )}
         {exp.engagementType && (
-          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+          <span className="font-normal hidden print:inline"> — {engagementLabel(exp.engagementType)}</span>
         )}
       </div>
       <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
         <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
       </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
@@ -171,22 +195,23 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
       <div className="flex flex-wrap items-center gap-2 font-semibold">
         {exp.link ? (
           <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
-            <span className="text-blue-600">{exp.company}</span>
-            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
             <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
           </a>
         ) : (
           <>
-            <span className="text-blue-600">{exp.company}</span>
-            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <span className="print:text-blue-600">{exp.company}</span>
+            <span className="font-normal print:text-blue-600"> — {exp.position}</span>
           </>
         )}
         {exp.engagementType && (
-          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+          <span className="font-normal hidden print:inline"> — {engagementLabel(exp.engagementType)}</span>
         )}
       </div>
       <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
         <p className="text-sm text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
+        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
       </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
@@ -272,13 +297,13 @@ export default function ContractorGroupedExperience({
               href={company.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-bold text-blue-600 hover:underline"
+              className="inline-flex items-center gap-1 font-bold hover:underline print:text-blue-600"
             >
               {company.name}
               <ExternalLink size={13} className="shrink-0 opacity-60 print:hidden" />
             </a>
           ) : (
-            <span className="font-bold text-blue-600">{company.name}</span>
+            <span className="font-bold print:text-blue-600">{company.name}</span>
           );
 
           return (
