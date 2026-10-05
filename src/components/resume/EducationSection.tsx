@@ -12,7 +12,7 @@ export default async function EducationSection() {
     <section aria-labelledby="education-heading" className="mb-8 print:mt-40 print:break-before-avoid">
       <h2
         id="education-heading"
-        className="mb-4 text-xl font-bold tracking-tight print:text-sm print:mb-2 print:break-after-avoid"
+        className="mb-4 text-xl font-bold tracking-tight print:text-sm print:uppercase print:tracking-wide print:border-b print:border-gray-400 print:pb-0.5 print:mb-2 print:break-after-avoid"
       >
         Education
       </h2>

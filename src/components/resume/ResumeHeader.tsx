@@ -3,18 +3,19 @@ import Link from "next/link";
 
 export default function ResumeHeader() {
   return (
-    <header className="mb-8 border-b pb-8 print:mb-3 print:pb-3 print:border-b-0">
+    <header className="mb-8 border-b pb-8 print:mb-3 print:pb-2 print:border-b-0">
       <h1 className="text-4xl font-bold tracking-tight print:text-3xl">
         Juan Carlos Vega Abarca
       </h1>
       <p className="mt-1 text-xl font-medium text-blue-600 dark:text-blue-400 print:text-base print:mt-0">
         Senior Full-Stack Engineer | AI/LLM Applications
       </p>
-      <p className="mt-0.5 text-sm text-muted-foreground">
+      <p className="mt-0.5 text-sm text-muted-foreground print:hidden">
         San José, Costa Rica (UTC-6) · Remote
       </p>
 
-      <address className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm not-italic print:mt-1.5 print:gap-x-3 print:text-xs">
+      {/* Web: icons layout */}
+      <address className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm not-italic print:hidden">
         <Link href="mailto:juancarlos@vegabarca.com" className="flex items-center gap-1.5 hover:text-blue-600">
           <Mail size={13} className="shrink-0" />
           juancarlos@vegabarca.com
@@ -52,12 +53,36 @@ export default function ResumeHeader() {
         </Link>
       </address>
 
+      {/* Print: single-line contact */}
+      <address className="hidden print:block mt-1 text-[8.5pt] not-italic text-foreground">
+        San José, Costa Rica (UTC-6) · Remote ·{" "}
+        juancarlos@vegabarca.com · (+506) 7012-3940 · linkedin.com/in/juanvegab · github.com/juanvegab · www.vegabarca.com
+      </address>
+
       <div className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">
-        <p className="mb-1">
+        <p className="mb-1 print:hidden">
           <span className="font-medium text-foreground">Languages:</span>{" "}
           English (Fluent) · Italian (B1) · Spanish (Native)
         </p>
-        <p>
+        <p className="print:hidden">
+          Senior Full-Stack Engineer with 15+ years building web and mobile
+          applications with React, Next.js, React Native, TypeScript and Node.js.
+          Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
+          applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
+          Looking for remote Senior roles on AI products.
+        </p>
+      </div>
+
+      {/* Print: SUMMARY section */}
+      <div className="hidden print:block mt-3">
+        <h2 className="text-sm font-bold uppercase tracking-wide border-b border-gray-400 pb-0.5 mb-1.5 print:break-after-avoid">
+          Summary
+        </h2>
+        <p className="mb-1 text-[8.5pt]">
+          <span className="font-semibold">Languages:</span>{" "}
+          English (Fluent) · Italian (B1) · Spanish (Native)
+        </p>
+        <p className="text-[8.5pt] leading-snug">
           Senior Full-Stack Engineer with 15+ years building web and mobile
           applications with React, Next.js, React Native, TypeScript and Node.js.
           Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
@@ -68,4 +93,3 @@ export default function ResumeHeader() {
     </header>
   );
 }
-

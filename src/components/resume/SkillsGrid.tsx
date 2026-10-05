@@ -64,7 +64,7 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
     <section aria-labelledby="skills-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="skills-heading"
-        className="mb-4 text-xl font-bold tracking-tight print:text-sm print:mb-1 print:break-after-avoid"
+        className="mb-4 text-xl font-bold tracking-tight print:text-sm print:uppercase print:tracking-wide print:border-b print:border-gray-400 print:pb-0.5 print:mb-1 print:break-after-avoid"
       >
         Skills &amp; Technologies
       </h2>
@@ -91,7 +91,7 @@ export default function SkillsGrid({ technologies }: SkillsGridProps) {
       <div className="hidden print:block space-y-0.5 text-[8.5pt]">
         {orderedCategories.map((category) => (
           <p key={category}>
-            <span className="font-bold uppercase tracking-wide">{CATEGORY_LABEL[category] ?? category}:</span>{" "}
+            <span className="font-bold uppercase tracking-wide text-blue-700">{CATEGORY_LABEL[category] ?? category}:</span>{" "}
             {grouped[category].join(", ")}
           </p>
         ))}

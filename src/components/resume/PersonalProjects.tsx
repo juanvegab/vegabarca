@@ -46,12 +46,14 @@ function ProjectCard({ project }: { project: Experience }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold hover:underline"
     >
-      {project.company} — {project.position}
-      <ExternalLink size={12} className="shrink-0 opacity-60" />
+      <span>{project.company}</span>
+      {" "}<span className="print:text-blue-700 print:font-normal">— {project.position}</span>
+      <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold">
-      {project.company} — {project.position}
+      <span>{project.company}</span>
+      {" "}<span className="print:text-blue-700 print:font-normal">— {project.position}</span>
     </span>
   );
 
@@ -93,7 +95,7 @@ export default function PersonalProjects({ projects }: PersonalProjectsProps) {
     <section aria-labelledby="projects-heading" className="mb-8 print:mb-3 print:mt-8 print:break-before-avoid">
       <h2
         id="projects-heading"
-        className="mb-6 text-xl font-bold tracking-tight print:text-sm print:mb-2 print:break-after-avoid"
+        className="mb-6 text-xl font-bold tracking-tight print:text-sm print:uppercase print:tracking-wide print:border-b print:border-gray-400 print:pb-0.5 print:mb-2 print:break-after-avoid"
       >
         Personal Projects
       </h2>
