@@ -69,7 +69,6 @@ export default function ResumeHeader() {
           applications with React, Next.js, React Native, TypeScript and Node.js.
           Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
           applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
-          Looking for remote Senior roles on AI products.
         </p>
       </div>
 
@@ -87,7 +86,6 @@ export default function ResumeHeader() {
           applications with React, Next.js, React Native, TypeScript and Node.js.
           Experienced in agentic coding workflows (Claude Code, Cursor) and in building LLM
           applications with the Claude and OpenAI APIs, Vercel AI SDK and RAG.
-          Looking for remote Senior roles on AI products.
         </p>
       </div>
     </header>
