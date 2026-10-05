@@ -1,4 +1,5 @@
 import prisma from "@/lib/db/prisma";
+import EducationLogoImage from "./EducationLogoImage";
 
 export default async function EducationSection() {
   const educationItems = await prisma.education.findMany({
@@ -20,12 +21,22 @@ export default async function EducationSection() {
         {educationItems.map((item) => (
           <div
             key={`${item.institution}_${item.degree}`}
-            className={`flex items-start gap-3 rounded-lg border px-4 py-3 print:border-0 print:bg-transparent print:px-0 print:py-0.5 print:shadow-none ${
+            className={`flex items-center gap-4 rounded-lg border px-4 py-3 print:border-0 print:bg-transparent print:px-0 print:py-0.5 print:shadow-none print:gap-0 ${
               item.highlight
                 ? "border-amber-300 bg-amber-50 dark:border-amber-700 dark:bg-amber-950/20"
                 : ""
             }`}
           >
+            {/* Logo: web only */}
+            <span className="print:hidden shrink-0">
+              {item.logo ? (
+                <EducationLogoImage src={item.logo} institution={item.institution} />
+              ) : (
+                <div className="flex h-9 w-9 items-center justify-center rounded bg-muted text-xs font-bold text-muted-foreground">
+                  {item.institution[0]}
+                </div>
+              )}
+            </span>
             <div className="flex-1 min-w-0 print:text-[8.5pt]">
               <div className="flex flex-wrap items-baseline justify-between gap-2 print:gap-1">
                 <h3 className="font-semibold">{item.institution}</h3>
