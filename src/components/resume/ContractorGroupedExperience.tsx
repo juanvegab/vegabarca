@@ -8,55 +8,44 @@ interface ContractorGroupedExperienceProps {
   experiences: ExperienceWithContractor[];
 }
 
-// ---------- sub-components ----------
+const ENGAGEMENT_LABELS: Record<string, string> = {
+  "full-time": "Full-time",
+  "part-time": "Part-time",
+  contract: "Contract",
+  freelance: "Freelance",
+};
 
-function EngagementTypeBadge({ type }: { type: string }) {
-  const labels: Record<string, string> = {
-    "full-time": "Full-time",
-    "part-time": "Part-time",
-    contract: "Contract",
-    freelance: "Freelance",
-  };
-  const label = labels[type] ?? type;
-  return (
-    <span className="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium text-muted-foreground print:text-[7pt]">
-      {label}
-    </span>
-  );
+function engagementLabel(type: string): string {
+  return ENGAGEMENT_LABELS[type] ?? type;
 }
+
+// ---------- sub-components ----------
 
 function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
   const [expanded, setExpanded] = useState(false);
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const title = exp.link ? (
-    <a
-      href={exp.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline"
-    >
-      <span className="text-blue-600">{exp.company}</span>
-      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
-      <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
-    </a>
-  ) : (
-    <span className="font-semibold text-sm">
-      <span className="text-blue-600">{exp.company}</span>
-      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
-    </span>
-  );
-
   return (
     <div className="flex flex-col rounded-lg border bg-card p-4 shadow-sm print:p-0 print:shadow-none print:border-0">
-      <div className="flex flex-wrap items-center gap-1">
-        {title}
+      <div className="flex flex-wrap items-center gap-1 text-sm font-semibold">
+        {exp.link ? (
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+            <span className="text-blue-600">{exp.company}</span>
+            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
+          </a>
+        ) : (
+          <>
+            <span className="text-blue-600">{exp.company}</span>
+            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+          </>
+        )}
+        {exp.engagementType && (
+          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+        )}
       </div>
-      <div className="flex items-center gap-1.5">
-        <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
-        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
-      </div>
+      <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
       {exp.techStack.length > 0 && (
         <p className="mt-1 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
@@ -86,31 +75,22 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const title = exp.link ? (
-    <a
-      href={exp.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline text-blue-600"
-    >
-      {exp.company} — {exp.position}
-      <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
-    </a>
-  ) : (
-    <span className="font-semibold text-sm text-blue-600 font-normal">
-      {exp.company} — {exp.position}
-    </span>
-  );
-
   return (
     <li className="col-span-1 flex flex-col gap-1">
-      <div className="flex flex-wrap items-center gap-1">
-        {title}
+      <div className="flex flex-wrap items-center gap-1 text-sm font-semibold">
+        {exp.link ? (
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:underline">
+            {exp.company} — {exp.position}
+            <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
+          </a>
+        ) : (
+          <span className="text-blue-600 font-normal">{exp.company} — {exp.position}</span>
+        )}
+        {exp.engagementType && (
+          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+        )}
       </div>
-      <div className="flex items-center gap-1.5">
-        <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
-        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
-      </div>
+      <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
       {exp.techStack.length > 0 && (
         <p className="mt-1 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
       )}
@@ -146,30 +126,23 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
       : "",
   ].join(" ");
 
-  const title = exp.link ? (
-    <a
-      href={exp.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline text-blue-600"
-    >
-      {exp.company} — {exp.position}
-      <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
-    </a>
-  ) : (
-    <span className="font-semibold text-blue-600 font-normal">
-      {exp.company} — {exp.position}
-    </span>
-  );
-
   return (
     <li className={liClass}>
-      <div className="flex flex-wrap items-center gap-2">
-        {title}
+      <div className="flex flex-wrap items-center gap-2 font-semibold">
+        {exp.link ? (
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-600 hover:underline">
+            {exp.company} — {exp.position}
+            <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
+          </a>
+        ) : (
+          <span className="text-blue-600 font-normal">{exp.company} — {exp.position}</span>
+        )}
+        {exp.engagementType && (
+          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+        )}
       </div>
       <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
         <p className="text-xs text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
-        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
       </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
@@ -189,36 +162,31 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
   const summary = exp.visibleSummary ?? exp.content;
   const bullets = (summary?.split("\n") ?? []).filter((p) => p.trim() !== "");
 
-  const title = exp.link ? (
-    <a
-      href={exp.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline"
-    >
-      <span className="text-blue-600">{exp.company}</span>
-      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
-      <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
-    </a>
-  ) : (
-    <span className="font-semibold">
-      <span className="text-blue-600">{exp.company}</span>
-      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
-    </span>
-  );
-
   const wrapClass = exp.isFeatured
     ? "rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none"
     : "";
 
   return (
     <div className={wrapClass}>
-      <div className="flex flex-wrap items-center gap-2">
-        {title}
+      <div className="flex flex-wrap items-center gap-2 font-semibold">
+        {exp.link ? (
+          <a href={exp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+            <span className="text-blue-600">{exp.company}</span>
+            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+            <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
+          </a>
+        ) : (
+          <>
+            <span className="text-blue-600">{exp.company}</span>
+            <span className="text-blue-600 font-normal"> — {exp.position}</span>
+          </>
+        )}
+        {exp.engagementType && (
+          <span className="font-normal text-foreground"> — {engagementLabel(exp.engagementType)}</span>
+        )}
       </div>
       <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
         <p className="text-sm text-muted-foreground">{exp.dates.replace(/ - /g, " – ")}</p>
-        {exp.engagementType && <EngagementTypeBadge type={exp.engagementType} />}
       </div>
       {exp.techStack.length > 0 && (
         <p className="mt-1 mb-2 text-xs text-muted-foreground">{exp.techStack.join(", ")}</p>
