@@ -89,13 +89,13 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold text-sm hover:underline"
     >
-      <span>{exp.company}</span>
+      <span className="print:text-blue-600">{exp.company}</span>
       {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
       <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold text-sm">
-      <span>{exp.company}</span>
+      <span className="print:text-blue-600">{exp.company}</span>
       {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
     </span>
   );
@@ -293,14 +293,14 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline"
+      className="inline-flex items-center gap-1 font-semibold hover:underline print:text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={12} className="shrink-0 opacity-60" />
     </a>
   ) : (
     <span className="font-semibold">
-      <span>{exp.company}</span>
+      <span className="print:text-blue-600">{exp.company}</span>
       {" "}<span className="print:text-blue-600 print:font-normal">— {exp.position}</span>
     </span>
   );
