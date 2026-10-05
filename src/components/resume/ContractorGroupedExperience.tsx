@@ -37,14 +37,14 @@ function CompactExperienceCard({ exp }: { exp: ExperienceWithContractor }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold text-sm hover:underline"
     >
-      <span>{exp.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {exp.position}</span>
+      <span className="text-blue-600">{exp.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
       <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold text-sm">
-      <span>{exp.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {exp.position}</span>
+      <span className="text-blue-600">{exp.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
     </span>
   );
 
@@ -91,13 +91,13 @@ function CompactSubProject({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline print:text-blue-700"
+      className="inline-flex items-center gap-1 font-semibold text-sm hover:underline text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={11} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
-    <span className="font-semibold text-sm print:text-blue-700 print:font-normal">
+    <span className="font-semibold text-sm text-blue-600 font-normal">
       {exp.company} — {exp.position}
     </span>
   );
@@ -151,13 +151,13 @@ function SubProject({ exp }: { exp: ExperienceWithContractor }) {
       href={exp.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold hover:underline print:text-blue-700"
+      className="inline-flex items-center gap-1 font-semibold hover:underline text-blue-600"
     >
       {exp.company} — {exp.position}
       <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
-    <span className="font-semibold print:text-blue-700 print:font-normal">
+    <span className="font-semibold text-blue-600 font-normal">
       {exp.company} — {exp.position}
     </span>
   );
@@ -196,14 +196,14 @@ function UngroupedItem({ exp }: { exp: ExperienceWithContractor }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold hover:underline"
     >
-      <span>{exp.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {exp.position}</span>
+      <span className="text-blue-600">{exp.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
       <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold">
-      <span>{exp.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {exp.position}</span>
+      <span className="text-blue-600">{exp.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {exp.position}</span>
     </span>
   );
 
@@ -304,13 +304,13 @@ export default function ContractorGroupedExperience({
               href={company.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-bold hover:underline"
+              className="inline-flex items-center gap-1 font-bold text-blue-600 hover:underline"
             >
               {company.name}
               <ExternalLink size={13} className="shrink-0 opacity-60 print:hidden" />
             </a>
           ) : (
-            <span className="font-bold">{company.name}</span>
+            <span className="font-bold text-blue-600">{company.name}</span>
           );
 
           return (

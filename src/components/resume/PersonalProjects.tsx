@@ -22,14 +22,14 @@ function ProjectCard({ project }: { project: Experience }) {
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1 font-semibold hover:underline"
     >
-      <span>{project.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {project.position}</span>
+      <span className="text-blue-600">{project.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {project.position}</span>
       <ExternalLink size={12} className="shrink-0 opacity-60 print:hidden" />
     </a>
   ) : (
     <span className="font-semibold">
-      <span>{project.company}</span>
-      {" "}<span className="print:text-blue-700 print:font-normal">— {project.position}</span>
+      <span className="text-blue-600">{project.company}</span>
+      {" "}<span className="text-blue-600 font-normal">— {project.position}</span>
     </span>
   );
 
