@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { ExperienceWithContractor } from "@/components/SortableExperienceGrid";
 
@@ -16,28 +15,6 @@ function extractYears(dates: string): string {
   return first === last ? first : `${first} – ${last}`;
 }
 
-function InlineLogo({ src, company }: { src: string; company: string }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return (
-      <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded bg-muted text-[8px] font-bold text-muted-foreground">
-        {company[0]}
-      </span>
-    );
-  }
-  return (
-    <Image
-      src={src}
-      alt={`${company} logo`}
-      width={16}
-      height={16}
-      className="inline-block h-4 w-4 shrink-0 rounded object-contain"
-      loading="eager"
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
 function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
   const [expanded, setExpanded] = useState(false);
   const summary = exp.visibleSummary ?? exp.content;
@@ -47,9 +24,6 @@ function EngagementRow({ exp }: { exp: ExperienceWithContractor }) {
     <li className="text-sm print:text-[8.5pt]">
       <div className="flex items-center justify-between gap-4">
         <span className="flex items-center gap-1.5">
-          {exp.companyLogo && (
-            <InlineLogo src={exp.companyLogo} company={exp.company} />
-          )}
           <span className="font-medium text-foreground">{exp.company}</span>
           <span className="text-foreground/80">
             — {exp.position}

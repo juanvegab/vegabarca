@@ -1,4 +1,3 @@
-import { Github, Linkedin, Mail, Phone, Globe } from "lucide-react";
 import Link from "next/link";
 
 export default function ResumeHeader() {
@@ -10,53 +9,49 @@ export default function ResumeHeader() {
       <p className="mt-1 text-xl font-medium text-blue-600 dark:text-blue-400 print:text-base print:mt-0">
         Senior Full-Stack Engineer | AI/LLM Applications
       </p>
-      <p className="mt-0.5 text-sm text-muted-foreground print:hidden">
+      <p className="mt-0.5 text-sm text-muted-foreground">
         San José, Costa Rica (UTC-6) · Remote
       </p>
 
-      {/* Web: icons layout */}
-      <address className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm not-italic print:hidden">
-        <Link href="mailto:juancarlos@vegabarca.com" className="flex items-center gap-1.5 hover:text-blue-600">
-          <Mail size={13} className="shrink-0" />
+      <address className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm not-italic print:mt-1 print:block print:text-[8.5pt]">
+        <Link href="mailto:juancarlos@vegabarca.com" className="hover:text-blue-600 print:text-foreground">
           juancarlos@vegabarca.com
         </Link>
-        <Link href="tel:+50670123940" className="flex items-center gap-1.5 hover:text-blue-600">
-          <Phone size={13} className="shrink-0" />
+        <span className="print:hidden"> </span>
+        <span className="hidden print:inline"> · </span>
+        <Link href="tel:+50670123940" className="hover:text-blue-600 print:text-foreground">
           (+506) 7012-3940
         </Link>
+        <span className="print:hidden"> </span>
+        <span className="hidden print:inline"> · </span>
         <Link
           href="https://www.linkedin.com/in/juanvegab"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-blue-600"
+          className="hover:text-blue-600 print:text-foreground"
         >
-          <Linkedin size={13} className="shrink-0" />
           linkedin.com/in/juanvegab
         </Link>
+        <span className="print:hidden"> </span>
+        <span className="hidden print:inline"> · </span>
         <Link
           href="https://github.com/juanvegab"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-blue-600"
+          className="hover:text-blue-600 print:text-foreground"
         >
-          <Github size={13} className="shrink-0" />
           github.com/juanvegab
         </Link>
+        <span className="print:hidden"> </span>
+        <span className="hidden print:inline"> · </span>
         <Link
           href="https://www.vegabarca.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-blue-600"
+          className="hover:text-blue-600 print:text-foreground"
         >
-          <Globe size={13} className="shrink-0" />
           www.vegabarca.com
         </Link>
-      </address>
-
-      {/* Print: single-line contact */}
-      <address className="hidden print:block mt-1 text-[8.5pt] not-italic text-foreground">
-        San José, Costa Rica (UTC-6) · Remote ·{" "}
-        juancarlos@vegabarca.com · (+506) 7012-3940 · linkedin.com/in/juanvegab · github.com/juanvegab · www.vegabarca.com
       </address>
 
       <div className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground print:mt-2">

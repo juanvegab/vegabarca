@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import { Experience } from "@prisma/client";
 
@@ -9,35 +7,13 @@ interface PersonalProjectsProps {
   projects: Experience[];
 }
 
-function ProjectLogo({ src, name }: { src: string; name: string }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return (
-      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[10px] font-bold text-muted-foreground">
-        {name[0]}
-      </div>
-    );
-  }
-  return (
-    <Image
-      src={src}
-      alt={`${name} logo`}
-      width={20}
-      height={20}
-      className="mt-0.5 h-5 w-5 shrink-0 rounded object-contain"
-      loading="eager"
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
 function ProjectCard({ project }: { project: Experience }) {
   const summary = project.visibleSummary ?? project.content;
   const bullets = (summary?.split("\n") ?? []).filter((b) => b.trim() !== "");
 
   const wrapClass = project.isFeatured
-    ? "flex items-start gap-3 rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none print:break-inside-avoid"
-    : "flex items-start gap-3 print:break-inside-avoid";
+    ? "rounded-lg border bg-card px-4 py-3 shadow-sm print:border-0 print:bg-transparent print:p-0 print:shadow-none print:break-inside-avoid"
+    : "print:break-inside-avoid";
 
   const nameEl = project.link ? (
     <a
@@ -59,29 +35,22 @@ function ProjectCard({ project }: { project: Experience }) {
 
   return (
     <div className={wrapClass}>
-      {project.companyLogo ? (
-        <ProjectLogo src={project.companyLogo} name={project.company} />
-      ) : (
-        <div className="h-5 w-5 shrink-0" />
-      )}
-      <div className="flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          {nameEl}
-        </div>
-        <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
-          <p className="text-xs text-muted-foreground">{project.dates.replace(/ - /g, " – ")}</p>
-        </div>
-        {project.techStack.length > 0 && (
-          <p className="mt-1 mb-2 text-xs text-muted-foreground">{project.techStack.join(", ")}</p>
-        )}
-        {bullets.length > 0 && (
-          <ul className="list-disc space-y-0.5 pl-4 text-sm">
-            {bullets.map((b, i) => (
-              <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
-            ))}
-          </ul>
-        )}
+      <div className="flex flex-wrap items-center gap-2">
+        {nameEl}
       </div>
+      <div className="mb-1.5 flex items-center gap-1.5 print:mb-0.5">
+        <p className="text-xs text-muted-foreground">{project.dates.replace(/ - /g, " – ")}</p>
+      </div>
+      {project.techStack.length > 0 && (
+        <p className="mt-1 mb-2 text-xs text-muted-foreground">{project.techStack.join(", ")}</p>
+      )}
+      {bullets.length > 0 && (
+        <ul className="list-disc space-y-0.5 pl-4 text-sm">
+          {bullets.map((b, i) => (
+            <li key={i}>{b.replace(/^[-•*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
