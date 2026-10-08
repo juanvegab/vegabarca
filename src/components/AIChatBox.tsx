@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
-import { UIMessage } from "ai";
+import { UIMessage, TextStreamChatTransport } from "ai";
+import ReactMarkdown from "react-markdown";
 import { Bot, User, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -16,7 +17,9 @@ const AIChatBox: React.FC = () => {
   const { chatOpen, closeChat, pendingMessage, clearPendingMessage } =
     useChatContext();
 
-  const { messages, sendMessage, status, error } = useChat();
+  const { messages, sendMessage, status, error } = useChat({
+    transport: new TextStreamChatTransport({ api: "/api/chat" }),
+  });
 
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -140,7 +143,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message: { role, parts } }) =
         <span className="text-sm font-medium">
           {isAiMessage ? "Juanca" : "You"}:
         </span>
-        <span className="text-base font-light">{content}</span>
+        {isAiMessage ? (
+          <div className="prose prose-invert prose-sm max-w-none text-white font-light [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </div>
+        ) : (
+          <span className="text-base font-light">{content}</span>
+        )}
       </div>
     </div>
   );
