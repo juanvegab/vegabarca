@@ -7,6 +7,7 @@ import "./globals.css";
 import prisma from "@/lib/db/prisma";
 import { ChatProvider } from "@/contexts/ChatContext";
 import AIChatBox from "@/components/AIChatBox";
+import AIChatFAB from "@/components/AIChatFAB";
 import {
   DEFAULT_SITE_DESCRIPTION,
   DEFAULT_TITLE_VALUES,
@@ -42,6 +43,7 @@ export default function RootLayout({
             <ChatProvider>
               {children}
               <AIChatBox />
+              <AIChatFAB />
             </ChatProvider>
           </ThemeProvider>
           <Analytics />

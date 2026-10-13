@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, FileText } from "lucide-react";
+import { Mail, Linkedin, Github, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function ContactCTA() {
@@ -28,6 +28,16 @@ export default function ContactCTA() {
             >
               <Linkedin className="mr-2 h-4 w-4" />
               LinkedIn
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link
+              href="https://github.com/juanvegab"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="mr-2 h-4 w-4" />
+              GitHub
             </Link>
           </Button>
           <Button asChild size="lg">

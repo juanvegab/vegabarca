@@ -24,29 +24,23 @@ const Home = async () => {
   return (
     <main>
       <HeroSection />
-      <AIShowcase />
-      <WhatIBuild />
-
-      <section className="mx-auto max-w-4xl px-4 py-8">
-        <MITCertSpotlight />
-      </section>
 
       {featuredExperiences.length > 0 && (
-        <section className="mx-auto max-w-5xl px-4 py-12">
-          <h2 className="mb-2 text-2xl font-bold tracking-tight">
+        <section className="mx-auto max-w-5xl px-4 py-16">
+          <h2 className="mb-2 text-3xl font-bold tracking-tight">
             Selected Work
           </h2>
-          <p className="mb-6 text-muted-foreground">
+          <p className="mb-8 text-muted-foreground">
             A few highlights — see the full timeline on my resume.
           </p>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {featuredExperiences.map((experience) => (
               <ExperienceCard key={experience.id} experience={experience} />
             ))}
           </div>
-          <div className="mt-8 text-center">
-            <Button asChild variant="outline">
-              <Link href="/resume">View All Experience →</Link>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg">
+              <Link href="/resume">View Full Resume →</Link>
             </Button>
           </div>
         </section>
@@ -55,6 +49,14 @@ const Home = async () => {
       <section className="mx-auto max-w-5xl px-4 py-12">
         <SkillsGrid technologies={technologies} />
       </section>
+
+      <AIShowcase />
+
+      <section className="mx-auto max-w-4xl px-4 py-8">
+        <MITCertSpotlight />
+      </section>
+
+      <WhatIBuild />
 
       <ContactCTA />
     </main>

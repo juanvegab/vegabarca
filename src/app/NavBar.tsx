@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
-import AIChatButton from "@/components/AIChatButton";
 import LogoMark from "@/components/LogoMark";
 
 const NavBar = () => {
@@ -20,7 +19,6 @@ const NavBar = () => {
             >
               Resume
             </Link>
-            <AIChatButton />
             <ThemeToggleButton />
           </div>
         </div>
